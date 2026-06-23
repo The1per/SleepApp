@@ -28,6 +28,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pyinstaller
+        pip uninstall -y pathlib pathlib2
 
     - name: Inject Google Drive Credentials
       env:
