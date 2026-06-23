@@ -1,0 +1,76 @@
+Created At: 2026-06-09T19:16:43Z
+Completed At: 2026-06-09T19:16:43Z
+File Path: `file:///c:/Users/ynirmfa/Desktop/app/patient_report.py`
+Total Lines: 856
+Total Bytes: 42344
+Showing lines 580 to 650
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+580:     # ══ 3 — RDI Gauge ════════════════════════════════════════════════════════
+581:     ax3 = fig.add_subplot(gs[2, c_left])
+582:     _panel(ax3); ax3.axis("off")
+583:     _section_title(ax3, "Respiratory Disturbance Index (pAHI)", 3, y_frac=1.55, lang=lang)
+584: 
+585:     if rdi_v is not None:
+586:         ax3g = ax3.inset_axes([-0.15, -0.45, 1.30, 1.80])
+587:         _gauge(ax3g, rdi_v, lang=lang)
+588:     else:
+589:         ax3.text(0.5, 0.48, _t("Not measured", lang),
+590:                  transform=ax3.transAxes, ha="center",
+591:                  fontsize=11, color=TEXT_L, style="italic", va="center")
+592: 
+593:     # ══ 4 — Additional Metrics ═══════════════════════════════════════════════
+594:     ax4 = fig.add_subplot(gs[2, c_right])
+595:     _panel(ax4); ax4.axis("off")
+596:     _section_title(ax4, "Additional Metrics", 4, y_frac=1.55, lang=lang)
+597: 
+598:     rows = []
+599:     if spo2_stats:
+600:         avg_val = spo2_stats.get('avg', 0)
+601:         min_val = spo2_stats.get('min', 0)
+602:         t90_val = spo2_stats.get('t_under90', 0)
+603:         
+604:         if lang == "he":
+605:             rows += [
+606:                 ("SpO2 Average",  f"{avg_val:.1f} %"),
+607:                 ("SpO2 Minimum",  f"{min_val:.1f} %"),
+608:                 ("Time < 90%",    f"{get_display('דקות')} {t90_val:.1f}"),
+609:         
+<truncated 214 bytes>
+  f"{t90_val:.1f} min"),
+615:             ]
+616:     if plm_metrics:
+617:         plmi = plm_metrics.get("PLMI") or plm_metrics.get("plmi")
+618:         if plmi is not None:
+619:             rows.append(("Limb Movements (PLMI)", f"{plmi:.1f} / hr"))
+620: 
+621:     if not rows:
+622:         ax4.text(0.5, 0.50, _t("No additional data", lang),
+623:                  transform=ax4.transAxes, ha="center",
+624:                  fontsize=10, color=TEXT_L, style="italic", va="center")
+625:     else:
+626:         step = 0.28
+627:         for i, (k, v) in enumerate(rows):
+628:             y = 1.00 - i * step
+629:             if i > 0:
+630:                 ax4.plot([0.04, 0.96], [y + step*0.5, y + step*0.5],
+631:                          color=BORDER, lw=0.5, transform=ax4.transAxes)
+632:             
+633:             k_x = _x(0.06, lang)
+634:             v_x = _x(0.94, lang)
+635:             ax4.text(k_x, y, _t(k, lang), transform=ax4.transAxes,
+636:                      fontsize=12, color=TEXT_M, va="center", ha=_ha("left", lang))
+637:             
+638:             val_txt = v
+639:             if lang == "he" and "hr" in v:
+640:                 val_txt = val_txt.replace("hr", "שעה")
+641:                 val_txt = get_display(val_txt)
+642:                 
+643:             ax4.text(v_x, y, val_txt, transform=ax4.transAxes,
+644:                      fontsize=13.5, color=TEXT_H, ha=_ha("right", lang), va="center",
+645:                      fontweight="bold")
+646: 
+647:     # ══ 5 — Cardiovascular Metrics ════════════════════════════════════════════
+648:     ax5 = fig.add_subplot(gs[3, c_left])
+649:     _panel(ax5); ax5.axis("off")
+650:     _section_title(ax5, "Cardiovascular Metrics", 5, y_frac=1.15, lang=lang)
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

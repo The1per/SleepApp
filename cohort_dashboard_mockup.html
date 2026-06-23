@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Snapshot</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0b1120;
+            --bg-secondary: #1e1b4b;
+            --sidebar-bg: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #0ea5e9;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-yellow: #fbbf24;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--card-border);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'Outfit';
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .filter-select option {
+            background: var(--sidebar-bg);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 32px 40px;
+            max-width: calc(100vw - 280px);
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .header-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 32px;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .action-btn {
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Outfit';
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-btn:hover { opacity: 0.9; }
+        .action-btn:active { transform: scale(0.98); }
+
+        .simulate-btn {
+            background: linear-gradient(to right, var(--accent-green), #059669);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .col-span-3 { grid-column: span 3; }
+        .col-span-4 { grid-column: span 4; }
+        .col-span-8 { grid-column: span 8; }
+        .col-span-12 { grid-column: span 12; }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* KPI Highlights */
+        .kpi-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+            display: inline-block;
+            padding: 0 8px;
+            margin-left: -8px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        @keyframes flashGreen {
+            0% { background-color: rgba(16, 185, 129, 0.8); transform: scale(1.1); }
+            100% { background-color: transparent; transform: scale(1); }
+        }
+        
+        .flash {
+            animation: flashGreen 1s ease-out;
+        }
+
+        .kpi-trend {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .trend-up { color: var(--accent-green); }
+        .trend-down { color: var(--accent-red); }
+
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            height: 280px;
+            width: 100%;
+        }
+
+        /* Data Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        
+        th {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            font-size: 15px;
+        }
+
+        @keyframes slideInFade {
+            0% { opacity: 0; transform: translateY(-15px); background: rgba(16, 185, 129, 0.3); }
+            100% { opacity: 1; transform: translateY(0); background: transparent; }
+        }
+
+        .new-row {
+            animation: slideInFade 1.5s ease-out forwards;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge.critical { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .badge.warning { background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); }
+        .badge.normal { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+        .badge.new { background: rgba(16, 185, 129, 0.3); color: #fff; border: 1px solid var(--accent-green); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Filters -->
+    <div class="sidebar">
+        <div class="logo"><i class="fa-solid fa-chart-pie"></i> Project Snapshot</div>
+        
+        <div class="filter-group" style="margin-top: 20px;">
+            <label>Age Group</label>
+            <select class="filter-select">
+                <option>All Ages</option>
+                <option>18 - 40 (Young)</option>
+                <option>41 - 65 (Middle)</option>
+                <option>65+ (Elderly)</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>Diagnosis (AHI)</label>
+            <select class="filter-select">
+                <option>All Severities</option>
+                <option>Normal (< 5)</option>
+                <option>Mild (5 - 15)</option>
+                <option>Moderate (15 - 30)</option>
+                <option>Severe (> 30)</option>
+            </select>
+        </div>
+
+        <div style="flex: 1;"></div>
+        
+        <div style="background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2); padding: 16px; border-radius: 12px; font-size: 13px; color: var(--accent-cyan);">
+            <i class="fa-solid fa-circle-info"></i> Currently viewing <b id="sidebarTotal">342</b> patients out of the database.
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        
+        <div class="header-title">
+            <div>
+                <h1>Population Statistics</h1>
+                <div style="color: var(--text-muted); margin-top: 8px;">Cumulative Database Analysis</div>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="action-btn simulate-btn" onclick="simulateNewPatient()">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> Simulate Incoming Patient
+                </button>
+                <button class="action-btn"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <!-- KPIs -->
+            <div class="card col-span-3">
+                <h2>Total Patients Processed</h2>
+                <div class="kpi-value" id="kpiTotal">0</div>
+                <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i> Live Tracking</div>
+            </div>
+            
+            <div class="card col-span-3">
+                <h2>Average AHI (Cohort)</h2>
+                <div class="kpi-value" id="kpiAhi">0</div>
+                <div class="kpi-trend trend-down"><i class="fa-solid fa-lungs"></i> Dynamic Average</div>
+            </div>
+
+            <div class="card col-span-3">
+                <h2>Mean Spindle Density</h2>
+                <div class="kpi-value"><span id="kpiSpindle">0</span> <span style="font-size: 16px; font-weight: normal; color: var(--text-muted);">/min</span></div>
+                <div class="kpi-trend"><i class="fa-solid fa-wave-square"></i> C4-RM channel</div>
+            </div>
+
+            <div class="card col-span-3">
+                <h2>High-Risk RBD Cases</h2>
+                <div class="kpi-value" id="kpiRbd" style="color: var(--accent-red);">0</div>
+                <div class="kpi-trend trend-up"><i class="fa-solid fa-triangle-exclamation"></i> RBD Index > 15%</div>
+            </div>
+
+            <!-- Interactive Exploratory Chart -->
+            <div class="card col-span-8">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 style="margin: 0;"><i class="fa-solid fa-flask"></i> Exploratory Correlations</h2>
+                    <select id="analysisSelector" class="filter-select" style="background: rgba(14, 165, 233, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); font-weight: 600; width: 400px;">
+                        <option value="1">Age vs. Spindle Density (Microarchitecture Aging)</option>
+                        <option value="2">pAHI vs. Slow Wave Amplitude (Apnea Impact on Deep Sleep)</option>
+                        <option value="3">PLM Index vs. RBD Index (Motor Instability)</option>
+                        <option value="4">Min SpO2 vs. Avg Heart Rate (Cardiovascular Stress)</option>
+                        <option value="5">Beta Power vs. Sleep Efficiency (Hyperarousal Marker)</option>
+                    </select>
+                </div>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar Chart: AHI Distribution -->
+            <div class="card col-span-4">
+                <h2><i class="fa-solid fa-chart-column"></i> Diagnosis Distribution</h2>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Patient Roster Table -->
+            <div class="card col-span-12">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fa-solid fa-users"></i> Patient Roster (Recent 10)</h2>
+                    <input type="text" placeholder="Search ID..." style="background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); color: white; padding: 8px 16px; border-radius: 20px; font-family: 'Outfit'; outline: none;">
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject ID</th>
+                                <th>Age / Sex</th>
+                                <th>pAHI</th>
+                                <th>Spindle Dens.</th>
+                                <th>SW Amp.</th>
+                                <th>RBD Index</th>
+                                <th>Clinical Flag</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rosterBody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Outfit', sans-serif";
+
+        // Global State
+        let patientsData = [];
+        let totalPatientsCount = 300;
+
+        // Generate coherent synthetic patient
+        function generatePatient(idStr, isNewlyAdded) {
+            let age = Math.round(Math.random() * 50 + 20); // 20 to 70
+            let isMale = Math.random() > 0.5;
+            let ahi = Math.max(0, Math.random() * 60 - 10); // 0 to 50
+            let plm = Math.max(0, Math.random() * 50 - 10);
+            let spo2 = Math.random() * 20 + 75; // 75 to 95
+            let beta = Math.random() * 15 + 2;
+
+            // Correlations
+            let spindle = Math.max(0.5, 6 - (age * 0.05) + (Math.random() * 2 - 1));
+            let sw_amp = Math.max(30, 120 - (ahi * 1.2) + (Math.random() * 20 - 10));
+            let rbd = Math.max(0, plm * 0.4 + (Math.random() * 10 - 5));
+            let hr = Math.max(50, 120 - ((spo2-75) * 2) + (Math.random() * 15 - 7.5));
+            let se = Math.min(98, Math.max(50, 95 - (beta * 2) + (Math.random() * 10 - 5)));
+
+            return { id: idStr, age, isMale, ahi, plm, spo2, beta, spindle, sw_amp, rbd, hr, se, isNew: isNewlyAdded };
+        }
+
+        // Initialize 300 historical patients
+        function initData() {
+            for(let i=0; i<300; i++) {
+                patientsData.push(generatePatient(`PT_${1000+i}`, false));
+            }
+        }
+        initData();
+
+        const scatterConfigs = {
+            '1': { xLabel: 'Age (Years)', yLabel: 'Spindle Density (/min)', color: '#0ea5e9' },
+            '2': { xLabel: 'pAHI (Events/hr)', yLabel: 'Slow Wave Amplitude (µV)', color: '#8b5cf6' },
+            '3': { xLabel: 'PLM Index (/hr)', yLabel: 'RBD Index (%)', color: '#ec4899' },
+            '4': { xLabel: 'Min SpO2 (%)', yLabel: 'Avg Heart Rate (bpm)', color: '#ef4444' },
+            '5': { xLabel: 'Beta Relative Power (%)', yLabel: 'Sleep Efficiency (%)', color: '#f59e0b' }
+        };
+
+        function getChartData(type) {
+            return patientsData.map(p => {
+                let x, y;
+                if(type === '1') { x = p.age; y = p.spindle; }
+                else if(type === '2') { x = p.ahi; y = p.sw_amp; }
+                else if(type === '3') { x = p.plm; y = p.rbd; }
+                else if(type === '4') { x = p.spo2; y = p.hr; }
+                else if(type === '5') { x = p.beta; y = p.se; }
+                return { x: x, y: y, _patient: p };
+            });
+        }
+
+        let scatterChart, barChart;
+
+        function updateScatterStyles(configColor) {
+            scatterChart.data.datasets[0].backgroundColor = patientsData.map(p => p.isNew ? '#fbbf24' : configColor + '99');
+            scatterChart.data.datasets[0].borderColor = patientsData.map(p => p.isNew ? '#fff' : configColor);
+            scatterChart.data.datasets[0].pointRadius = patientsData.map(p => p.isNew ? 10 : 4);
+            scatterChart.data.datasets[0].pointHoverRadius = patientsData.map(p => p.isNew ? 12 : 6);
+        }
+
+        // Compute metrics over ALL patients
+        function updateMetricsAndCharts() {
+            let totalAhi = 0, totalSpindle = 0, highRiskCount = 0;
+            let groups = { normal: 0, mild: 0, mod: 0, severe: 0 };
+            
+            patientsData.forEach(p => {
+                totalAhi += p.ahi;
+                totalSpindle += p.spindle;
+                if(p.rbd > 15) highRiskCount++;
+                
+                if(p.ahi < 5) groups.normal++;
+                else if(p.ahi < 15) groups.mild++;
+                else if(p.ahi <= 30) groups.mod++;
+                else groups.severe++;
+            });
+
+            // Update DOM KPIs
+            document.getElementById('sidebarTotal').innerText = patientsData.length;
+            document.getElementById('kpiTotal').innerText = patientsData.length;
+            document.getElementById('kpiAhi').innerText = (totalAhi / patientsData.length).toFixed(1);
+            document.getElementById('kpiSpindle').innerText = (totalSpindle / patientsData.length).toFixed(1);
+            document.getElementById('kpiRbd').innerText = highRiskCount;
+
+            // Update Bar Chart
+            if(barChart) {
+                barChart.data.datasets[0].data = [groups.normal, groups.mild, groups.mod, groups.severe];
+                barChart.update();
+            }
+
+            // Update Scatter
+            if(scatterChart) {
+                const currentType = document.getElementById('analysisSelector').value;
+                scatterChart.data.datasets[0].data = getChartData(currentType);
+                updateScatterStyles(scatterConfigs[currentType].color);
+                scatterChart.update();
+            }
+
+            // Update Roster (latest 10)
+            const tbody = document.getElementById('rosterBody');
+            tbody.innerHTML = '';
+            const recent = [...patientsData].reverse().slice(0, 10);
+            
+            recent.forEach(p => {
+                let diagnosis = 'Healthy';
+                let badgeClass = 'normal';
+                if(p.ahi >= 30) { diagnosis = 'Severe OSA'; badgeClass = 'critical'; }
+                else if(p.ahi >= 15) { diagnosis = 'Mod OSA'; badgeClass = 'critical'; }
+                else if(p.ahi >= 5) { diagnosis = 'Mild OSA'; badgeClass = 'warning'; }
+                
+                if(p.rbd > 15) { diagnosis += ' + RBD'; badgeClass = 'critical'; }
+
+                const tr = document.createElement('tr');
+                if(p.isNew) tr.className = 'new-row';
+                tr.innerHTML = `
+                    <td style="font-weight: 600;">${p.isNew ? '<span class="badge new">NEW</span> ' : ''}${p.id}</td>
+                    <td>${p.age} ${p.isMale ? 'M' : 'F'}</td>
+                    <td>${p.ahi.toFixed(1)}</td>
+                    <td>${p.spindle.toFixed(1)}</td>
+                    <td>${p.sw_amp.toFixed(1)} µV</td>
+                    <td style="${p.rbd > 15 ? 'color: var(--accent-red); font-weight: 600;' : ''}">${p.rbd.toFixed(1)}%</td>
+                    <td><span class="badge ${badgeClass}">${diagnosis}</span></td>
+                    <td style="color: var(--accent-cyan); cursor: pointer;"><i class="fa-solid fa-up-right-from-square"></i> Details</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Initial Chart Setup
+        window.onload = function() {
+            const scatterCtx = document.getElementById('scatterChart').getContext('2d');
+            scatterChart = new Chart(scatterCtx, {
+                type: 'scatter',
+                data: { datasets: [{ label: 'Patients', data: [] }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { title: { display: true, text: scatterConfigs['1'].xLabel, color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { title: { display: true, text: scatterConfigs['1'].yLabel, color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Normal', 'Mild', 'Mod', 'Severe'],
+                    datasets: [{
+                        label: 'Number of Patients',
+                        data: [0, 0, 0, 0],
+                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
+                }
+            });
+
+            updateMetricsAndCharts();
+        };
+
+        // Dropdown Event Listener
+        document.getElementById('analysisSelector').addEventListener('change', function(e) {
+            const val = e.target.value;
+            const config = scatterConfigs[val];
+            scatterChart.options.scales.x.title.text = config.xLabel;
+            scatterChart.options.scales.y.title.text = config.yLabel;
+            updateMetricsAndCharts(); // Re-render to apply new colors/axis
+        });
+
+        function triggerFlash(elementId) {
+            const el = document.getElementById(elementId);
+            el.classList.remove('flash');
+            void el.offsetWidth; // trigger reflow
+            el.classList.add('flash');
+        }
+
+        // SIMULATE INCOMING PATIENT
+        function simulateNewPatient() {
+            totalPatientsCount++;
+            
+            // Remove 'isNew' flag from existing patients
+            patientsData.forEach(p => p.isNew = false);
+            
+            // Add completely new random patient
+            let newPatient = generatePatient(`LIVE_${totalPatientsCount}`, true);
+            patientsData.push(newPatient);
+
+            // Recompute everything (bar chart, KPIs, table, scatter)
+            updateMetricsAndCharts();
+
+            // Flash KPI animations
+            triggerFlash('kpiTotal');
+            triggerFlash('kpiAhi');
+            triggerFlash('kpiSpindle');
+            if(newPatient.rbd > 15) triggerFlash('kpiRbd');
+        }
+    </script>
+</body>
+</html>

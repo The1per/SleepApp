@@ -1,0 +1,11 @@
+data/raw/*.edf
+data/*.h5
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+caisr_output/
+dockers/

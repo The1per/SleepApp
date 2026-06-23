@@ -1,0 +1,21 @@
+Line 50: # FontProperties objects — pass as `fontproperties=` to ax.text() for Hebrew strings.
+Line 109:     "events / hour": "אירועים / שעה",
+Line 161: def _section_title(ax, title: str, number: int, y_frac=0.96, lang="en"):
+Line 163:     ax.plot(_x(0.0, lang), y_frac, "o", color=ACCENT, markersize=7,
+Line 172:         ax.text(0.975, y_frac, display_str,
+Line 178:         ax.text(0.025, y_frac, full_title,
+Line 183:     ax.plot([0, 1], [y_frac - 0.06, y_frac - 0.06],
+Line 269: def _gauge(ax, val: float, lang="en", vmin=0, vmax=30):
+Line 296:     ax.text(-1.0, -0.05, f"{vmin}\n{_t('Normal', lang)}", ha="center", va="top", fontsize=10.5, fontweight="bold", color=palette[0], zorder=3, fontproperties=_he_fp(bold=True) if lang == "he" else None)
+Line 297:     ax.text(1.0, -0.05, f"{vmax}\n{_t('Severe', lang)}", ha="center", va="top", fontsize=10.5, fontweight="bold", color=palette[3], zorder=3, fontproperties=_he_fp(bold=True) if lang == "he" else None)
+Line 316:     ax.text(0, -0.10, f"{val:.1f}", ha="center", va="top", fontsize=20, fontweight="bold", color=TEXT_H, zorder=8, fontproperties=_he_fp(bold=True) if lang == "he" else None)
+Line 317:     ax.text(0, -0.40, _t("events / hour", lang), ha="center", va="center", fontsize=11, fontweight="bold", color=TEXT_L, zorder=8, fontproperties=_he_fp(bold=True) if lang == "he" else None)
+Line 321:     ax.text(0, -0.75, _t(sev, lang), ha="center", va="center", fontsize=13, fontweight="bold", color=sev_col, zorder=8, fontproperties=_he_fp(bold=True) if lang == "he" else None)
+Line 559:     _section_title(ax1, "Sleep Architecture", 1, y_frac=0.965, lang=lang)
+Line 603:     _section_title(ax2, "Stage Distribution", 2, y_frac=0.965, lang=lang)
+Line 641:     _section_title(ax3, "Respiratory Disturbance Index (pAHI)", 3, y_frac=1.55, lang=lang)
+Line 654:     _section_title(ax4, "Additional Metrics", 4, y_frac=1.55, lang=lang)
+Line 695:     # ══ 5 — Cardiovascular Metrics ════════════════════════════════════════════
+Line 698:     _section_title(ax5, "Cardiovascular Metrics", 5, y_frac=1.15, lang=lang)
+Line 726:     _section_title(ax5b, "Body Position Statistics", 6, y_frac=1.15, lang=lang)
+Line 746:     _section_title(ax6, "Summary", 7, y_frac=0.95, lang=lang)

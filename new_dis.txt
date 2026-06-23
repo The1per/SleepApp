@@ -1,0 +1,4496 @@
+
+--- get_display ---
+ 21           0 LOAD_FAST                0 (text)
+              2 RETURN_VALUE
+
+--- _bidi ---
+ 31           0 LOAD_GLOBAL              0 (get_display)
+              2 LOAD_FAST                0 (text)
+              4 CALL_FUNCTION            1
+              6 RETURN_VALUE
+
+--- _register_font ---
+ 44           0 LOAD_GLOBAL              0 (_os)
+              2 LOAD_ATTR                1 (path)
+              4 LOAD_METHOD              2 (exists)
+              6 LOAD_FAST                0 (path)
+              8 CALL_METHOD              1
+             10 POP_JUMP_IF_FALSE       14 (to 28)
+
+ 45          12 LOAD_GLOBAL              3 (_fm)
+             14 LOAD_ATTR                4 (fontManager)
+             16 LOAD_METHOD              5 (addfont)
+             18 LOAD_FAST                0 (path)
+             20 CALL_METHOD              1
+             22 POP_TOP
+             24 LOAD_CONST               0 (None)
+             26 RETURN_VALUE
+
+ 44     >>   28 LOAD_CONST               0 (None)
+             30 RETURN_VALUE
+
+--- _he_fp ---
+ 56           0 LOAD_FAST                0 (bold)
+              2 POP_JUMP_IF_FALSE        4 (to 8)
+              4 LOAD_GLOBAL              0 (HE_FONT_BOLD)
+              6 RETURN_VALUE
+        >>    8 LOAD_GLOBAL              1 (HE_FONT)
+             10 RETURN_VALUE
+
+--- _t ---
+127           0 LOAD_FAST                1 (lang)
+              2 LOAD_CONST               1 ('he')
+              4 COMPARE_OP               3 (!=)
+              6 POP_JUMP_IF_FALSE        6 (to 12)
+
+128           8 LOAD_FAST                0 (text)
+             10 RETURN_VALUE
+
+129     >>   12 LOAD_GLOBAL              0 (TRANSLATIONS)
+             14 LOAD_METHOD              1 (get)
+             16 LOAD_FAST                0 (text)
+             18 LOAD_FAST                0 (text)
+             20 CALL_METHOD              2
+             22 RETURN_VALUE
+
+--- _x ---
+132           0 LOAD_FAST                0 (val)
+              2 RETURN_VALUE
+
+--- _ha ---
+135           0 LOAD_FAST                0 (align)
+              2 RETURN_VALUE
+
+--- _fmt ---
+139           0 LOAD_GLOBAL              0 (int)
+              2 LOAD_FAST                0 (s)
+              4 LOAD_CONST               1 (3600)
+              6 BINARY_FLOOR_DIVIDE
+              8 CALL_FUNCTION            1
+             10 FORMAT_VALUE             0
+             12 LOAD_CONST               2 ('h ')
+             14 LOAD_GLOBAL              0 (int)
+             16 LOAD_FAST                0 (s)
+             18 LOAD_CONST               1 (3600)
+             20 BINARY_MODULO
+             22 LOAD_CONST               3 (60)
+             24 BINARY_FLOOR_DIVIDE
+             26 CALL_FUNCTION            1
+             28 LOAD_CONST               4 ('02d')
+             30 FORMAT_VALUE             4 (with format)
+             32 LOAD_CONST               5 ('m')
+             34 BUILD_STRING             4
+             36 RETURN_VALUE
+
+--- _qcol ---
+142           0 LOAD_FAST                0 (v)
+              2 LOAD_CONST               1 (80)
+              4 COMPARE_OP               5 (>=)
+              6 POP_JUMP_IF_FALSE        6 (to 12)
+              8 LOAD_GLOBAL              0 (C_GOOD)
+             10 RETURN_VALUE
+        >>   12 LOAD_FAST                0 (v)
+             14 LOAD_CONST               2 (60)
+             16 COMPARE_OP               5 (>=)
+             18 POP_JUMP_IF_FALSE       12 (to 24)
+             20 LOAD_GLOBAL              1 (C_WARN)
+             22 RETURN_VALUE
+        >>   24 LOAD_GLOBAL              2 (C_BAD)
+             26 RETURN_VALUE
+
+--- _stats ---
+145           0 LOAD_GLOBAL              0 (np)
+              2 LOAD_ATTR                1 (asarray)
+              4 LOAD_DEREF               0 (h)
+              6 LOAD_GLOBAL              2 (int)
+              8 LOAD_CONST               1 (('dtype',))
+             10 CALL_FUNCTION_KW         2
+             12 STORE_DEREF              0 (h)
+
+146          14 LOAD_GLOBAL              3 (len)
+             16 LOAD_DEREF               0 (h)
+             18 CALL_FUNCTION            1
+             20 STORE_FAST               1 (tib)
+
+147          22 LOAD_CLOSURE             0 (h)
+             24 BUILD_TUPLE              1
+             26 LOAD_CONST               2 (<code object <listcomp> at 0x000002B34DF48B30, file "patient_report.py", line 147>)
+             28 LOAD_CONST               3 ('_stats.<locals>.<listcomp>')
+             30 MAKE_FUNCTION            8 (closure)
+             32 LOAD_CONST               4 ((0, 1, 2, 3, 4))
+             34 GET_ITER
+             36 CALL_FUNCTION            1
+             38 UNPACK_SEQUENCE          5
+             40 STORE_FAST               2 (wake)
+             42 STORE_FAST               3 (n1)
+             44 STORE_FAST               4 (n2)
+             46 STORE_FAST               5 (n3)
+             48 STORE_FAST               6 (rem)
+
+148          50 LOAD_GLOBAL              2 (int)
+             52 LOAD_FAST                3 (n1)
+             54 LOAD_FAST                4 (n2)
+             56 BINARY_ADD
+             58 LOAD_FAST                5 (n3)
+             60 BINARY_ADD
+             62 LOAD_FAST                6 (rem)
+             64 BINARY_ADD
+             66 CALL_FUNCTION            1
+             68 STORE_FAST               7 (tst)
+
+149          70 LOAD_FAST                7 (tst)
+             72 LOAD_GLOBAL              4 (max)
+             74 LOAD_FAST                1 (tib)
+             76 LOAD_CONST               5 (1)
+             78 CALL_FUNCTION            2
+             80 BINARY_TRUE_DIVIDE
+             82 LOAD_CONST               6 (100)
+             84 BINARY_MULTIPLY
+             86 STORE_FAST               8 (se)
+
+150          88 LOAD_GLOBAL              0 (np)
+             90 LOAD_METHOD              5 (where)
+             92 LOAD_DEREF               0 (h)
+             94 LOAD_CONST               7 (0)
+             96 COMPARE_OP               4 (>)
+             98 CALL_METHOD              1
+            100 LOAD_CONST               7 (0)
+            102 BINARY_SUBSCR
+            104 STORE_FAST               9 (nw)
+
+151         106 LOAD_GLOBAL              3 (len)
+            108 LOAD_FAST                9 (nw)
+            110 CALL_FUNCTION            1
+            112 POP_JUMP_IF_FALSE       63 (to 126)
+            114 LOAD_GLOBAL              2 (int)
+            116 LOAD_FAST                9 (nw)
+            118 LOAD_CONST               7 (0)
+            120 BINARY_SUBSCR
+            122 CALL_FUNCTION            1
+            124 JUMP_FORWARD             1 (to 128)
+        >>  126 LOAD_FAST                1 (tib)
+        >>  128 STORE_FAST              10 (sol)
+
+152         130 LOAD_GLOBAL              2 (int)
+            132 LOAD_DEREF               0 (h)
+            134 LOAD_FAST               10 (sol)
+            136 LOAD_CONST               0 (None)
+            138 BUILD_SLICE              2
+            140 BINARY_SUBSCR
+            142 LOAD_CONST               7 (0)
+            144 COMPARE_OP               2 (==)
+            146 LOAD_METHOD              6 (sum)
+            148 CALL_METHOD              0
+            150 CALL_FUNCTION            1
+            152 STORE_FAST              11 (waso)
+
+153         154 LOAD_GLOBAL              4 (max)
+            156 LOAD_FAST                7 (tst)
+            158 LOAD_CONST               5 (1)
+            160 CALL_FUNCTION            2
+            162 STORE_FAST              12 (d)
+
+154         164 LOAD_GLOBAL              7 (dict)
+            166 LOAD_FAST                1 (tib)
+            168 LOAD_FAST                7 (tst)
+            170 LOAD_FAST                8 (se)
+            172 LOAD_FAST               10 (sol)
+            174 LOAD_FAST               11 (waso)
+
+155         176 LOAD_FAST                3 (n1)
+            178 LOAD_FAST               12 (d)
+            180 BINARY_TRUE_DIVIDE
+            182 LOAD_CONST               6 (100)
+            184 BINARY_MULTIPLY
+            186 LOAD_FAST                4 (n2)
+            188 LOAD_FAST               12 (d)
+            190 BINARY_TRUE_DIVIDE
+            192 LOAD_CONST               6 (100)
+            194 BINARY_MULTIPLY
+            196 LOAD_FAST                5 (n3)
+            198 LOAD_FAST               12 (d)
+            200 BINARY_TRUE_DIVIDE
+            202 LOAD_CONST               6 (100)
+            204 BINARY_MULTIPLY
+            206 LOAD_FAST                6 (rem)
+            208 LOAD_FAST               12 (d)
+            210 BINARY_TRUE_DIVIDE
+            212 LOAD_CONST               6 (100)
+            214 BINARY_MULTIPLY
+
+156         216 LOAD_FAST                2 (wake)
+            218 LOAD_GLOBAL              4 (max)
+            220 LOAD_FAST                1 (tib)
+            222 LOAD_CONST               5 (1)
+            224 CALL_FUNCTION            2
+            226 BINARY_TRUE_DIVIDE
+            228 LOAD_CONST               6 (100)
+            230 BINARY_MULTIPLY
+
+154         232 LOAD_CONST               8 (('TIB', 'TST', 'SE', 'SOL', 'WASO', 'N1', 'N2', 'N3', 'REM', 'Wake'))
+            234 CALL_FUNCTION_KW        10
+            236 RETURN_VALUE
+
+Disassembly of <code object <listcomp> at 0x000002B34DF48B30, file "patient_report.py", line 147>:
+147           0 BUILD_LIST               0
+              2 LOAD_FAST                0 (.0)
+        >>    4 FOR_ITER                 8 (to 22)
+              6 STORE_FAST               1 (i)
+              8 LOAD_DEREF               0 (h)
+             10 LOAD_FAST                1 (i)
+             12 COMPARE_OP               2 (==)
+             14 LOAD_METHOD              0 (sum)
+             16 CALL_METHOD              0
+             18 LIST_APPEND              2
+             20 JUMP_ABSOLUTE            2 (to 4)
+        >>   22 RETURN_VALUE
+
+--- _section_title ---
+160           0 LOAD_FAST                0 (ax)
+              2 LOAD_ATTR                0 (plot)
+              4 LOAD_GLOBAL              1 (_x)
+              6 LOAD_CONST               1 (0.0)
+              8 LOAD_FAST                4 (lang)
+             10 CALL_FUNCTION            2
+             12 LOAD_FAST                3 (y_frac)
+             14 LOAD_CONST               2 ('o')
+             16 LOAD_GLOBAL              2 (ACCENT)
+             18 LOAD_CONST               3 (7)
+
+161          20 LOAD_FAST                0 (ax)
+             22 LOAD_ATTR                3 (transAxes)
+             24 LOAD_CONST               4 (False)
+             26 LOAD_CONST               5 (6)
+
+160          28 LOAD_CONST               6 (('color', 'markersize', 'transform', 'clip_on', 'zorder'))
+             30 CALL_FUNCTION_KW         8
+             32 POP_TOP
+
+163          34 LOAD_FAST                4 (lang)
+             36 LOAD_CONST               7 ('he')
+             38 COMPARE_OP               2 (==)
+             40 POP_JUMP_IF_FALSE       57 (to 114)
+
+166          42 LOAD_GLOBAL              4 (TRANSLATIONS)
+             44 LOAD_METHOD              5 (get)
+             46 LOAD_FAST                1 (title)
+             48 LOAD_FAST                1 (title)
+             50 CALL_METHOD              2
+             52 STORE_FAST               5 (he_title)
+
+167          54 LOAD_GLOBAL              6 (_bidi)
+             56 LOAD_FAST                2 (number)
+             58 FORMAT_VALUE             0
+             60 LOAD_CONST               8 ('. ')
+             62 LOAD_FAST                5 (he_title)
+             64 FORMAT_VALUE             0
+             66 BUILD_STRING             3
+             68 CALL_FUNCTION            1
+             70 STORE_FAST               6 (display_str)
+
+169          72 LOAD_FAST                0 (ax)
+             74 LOAD_ATTR                7 (text)
+             76 LOAD_CONST               9 (0.975)
+             78 LOAD_FAST                3 (y_frac)
+             80 LOAD_FAST                6 (display_str)
+
+170          82 LOAD_FAST                0 (ax)
+             84 LOAD_ATTR                3 (transAxes)
+             86 LOAD_CONST              10 (13)
+             88 LOAD_CONST              11 ('bold')
+
+171          90 LOAD_GLOBAL              8 (TEXT_H)
+             92 LOAD_CONST              12 ('center')
+             94 LOAD_CONST              13 ('right')
+             96 LOAD_CONST               5 (6)
+
+172          98 LOAD_GLOBAL              9 (_he_fp)
+            100 LOAD_CONST              14 (True)
+            102 LOAD_CONST              15 (('bold',))
+            104 CALL_FUNCTION_KW         1
+
+169         106 LOAD_CONST              16 (('transform', 'fontsize', 'fontweight', 'color', 'va', 'ha', 'zorder', 'fontproperties'))
+            108 CALL_FUNCTION_KW        11
+            110 POP_TOP
+            112 JUMP_FORWARD            23 (to 160)
+
+174     >>  114 LOAD_FAST                2 (number)
+            116 FORMAT_VALUE             0
+            118 LOAD_CONST              17 ('.  ')
+            120 LOAD_FAST                1 (title)
+            122 FORMAT_VALUE             0
+            124 BUILD_STRING             3
+            126 STORE_FAST               7 (full_title)
+
+175         128 LOAD_FAST                0 (ax)
+            130 LOAD_ATTR                7 (text)
+            132 LOAD_CONST              18 (0.025)
+            134 LOAD_FAST                3 (y_frac)
+            136 LOAD_FAST                7 (full_title)
+
+176         138 LOAD_FAST                0 (ax)
+            140 LOAD_ATTR                3 (transAxes)
+            142 LOAD_CONST              10 (13)
+            144 LOAD_CONST              11 ('bold')
+
+177         146 LOAD_GLOBAL              8 (TEXT_H)
+            148 LOAD_CONST              12 ('center')
+            150 LOAD_CONST              19 ('left')
+            152 LOAD_CONST               5 (6)
+
+175         154 LOAD_CONST              20 (('transform', 'fontsize', 'fontweight', 'color', 'va', 'ha', 'zorder'))
+            156 CALL_FUNCTION_KW        10
+            158 POP_TOP
+
+180     >>  160 LOAD_FAST                0 (ax)
+            162 LOAD_ATTR                0 (plot)
+            164 LOAD_CONST              21 (0)
+            166 LOAD_CONST              22 (1)
+            168 BUILD_LIST               2
+            170 LOAD_FAST                3 (y_frac)
+            172 LOAD_CONST              23 (0.06)
+            174 BINARY_SUBTRACT
+            176 LOAD_FAST                3 (y_frac)
+            178 LOAD_CONST              23 (0.06)
+            180 BINARY_SUBTRACT
+            182 BUILD_LIST               2
+
+181         184 LOAD_GLOBAL             10 (BORDER)
+            186 LOAD_CONST              24 (0.8)
+            188 LOAD_FAST                0 (ax)
+            190 LOAD_ATTR                3 (transAxes)
+            192 LOAD_CONST               4 (False)
+
+180         194 LOAD_CONST              25 (('color', 'lw', 'transform', 'clip_on'))
+            196 CALL_FUNCTION_KW         6
+            198 POP_TOP
+            200 LOAD_CONST               0 (None)
+            202 RETURN_VALUE
+
+--- _panel ---
+185           0 LOAD_FAST                0 (ax)
+              2 LOAD_METHOD              0 (set_facecolor)
+              4 LOAD_GLOBAL              1 (PANEL)
+              6 CALL_METHOD              1
+              8 POP_TOP
+
+186          10 LOAD_FAST                0 (ax)
+             12 LOAD_ATTR                2 (spines)
+             14 LOAD_METHOD              3 (values)
+             16 CALL_METHOD              0
+             18 GET_ITER
+        >>   20 FOR_ITER                12 (to 46)
+             22 STORE_FAST               1 (sp)
+
+187          24 LOAD_FAST                1 (sp)
+             26 LOAD_METHOD              4 (set_color)
+             28 LOAD_GLOBAL              5 (BORDER)
+             30 CALL_METHOD              1
+             32 POP_TOP
+             34 LOAD_FAST                1 (sp)
+             36 LOAD_METHOD              6 (set_linewidth)
+             38 LOAD_CONST               1 (0.8)
+             40 CALL_METHOD              1
+             42 POP_TOP
+             44 JUMP_ABSOLUTE           10 (to 20)
+
+186     >>   46 LOAD_CONST               0 (None)
+             48 RETURN_VALUE
+
+--- _pill ---
+193           0 LOAD_FAST                0 (ax)
+              2 LOAD_METHOD              0 (add_patch)
+              4 LOAD_GLOBAL              1 (FancyBboxPatch)
+              6 LOAD_FAST                1 (x)
+              8 LOAD_FAST                2 (y)
+             10 BUILD_TUPLE              2
+             12 LOAD_FAST                3 (w)
+             14 LOAD_FAST                4 (h)
+
+194          16 LOAD_CONST               1 ('round,pad=0,rounding_size=0.015')
+
+195          18 LOAD_FAST                5 (color)
+             20 LOAD_CONST               2 ('none')
+             22 LOAD_FAST                6 (alpha)
+
+196          24 LOAD_FAST                0 (ax)
+             26 LOAD_ATTR                2 (transAxes)
+             28 LOAD_CONST               3 (False)
+             30 LOAD_CONST               4 (2)
+
+193          32 LOAD_CONST               5 (('boxstyle', 'facecolor', 'edgecolor', 'alpha', 'transform', 'clip_on', 'zorder'))
+             34 CALL_FUNCTION_KW        10
+             36 CALL_METHOD              1
+             38 POP_TOP
+             40 LOAD_CONST               0 (None)
+             42 RETURN_VALUE
+
+--- _hypno ---
+201           0 LOAD_GLOBAL              0 (np)
+              2 LOAD_ATTR                1 (asarray)
+              4 LOAD_FAST                1 (h)
+              6 LOAD_GLOBAL              2 (int)
+              8 LOAD_CONST               1 (('dtype',))
+             10 CALL_FUNCTION_KW         2
+             12 STORE_FAST               1 (h)
+
+202          14 LOAD_CONST               2 (4)
+             16 LOAD_CONST               3 (3)
+             18 LOAD_CONST               4 (2)
+             20 LOAD_CONST               5 (1)
+             22 LOAD_CONST               6 (5)
+             24 LOAD_CONST               7 (0)
+             26 LOAD_CONST               8 ((0, 1, 2, 3, 4, -1))
+             28 BUILD_CONST_KEY_MAP      6
+             30 STORE_DEREF              0 (ym)
+
+203          32 LOAD_GLOBAL              3 (STAGE_COLORS)
+             34 LOAD_CONST               9 ('Wake')
+             36 BINARY_SUBSCR
+             38 LOAD_GLOBAL              3 (STAGE_COLORS)
+             40 LOAD_CONST              10 ('N1')
+             42 BINARY_SUBSCR
+
+204          44 LOAD_GLOBAL              3 (STAGE_COLORS)
+             46 LOAD_CONST              11 ('N2')
+             48 BINARY_SUBSCR
+             50 LOAD_GLOBAL              3 (STAGE_COLORS)
+             52 LOAD_CONST              12 ('N3')
+             54 BINARY_SUBSCR
+
+205          56 LOAD_GLOBAL              3 (STAGE_COLORS)
+             58 LOAD_CONST              13 ('REM')
+             60 BINARY_SUBSCR
+             62 LOAD_CONST              14 ('#CBD5E1')
+
+203          64 LOAD_CONST               8 ((0, 1, 2, 3, 4, -1))
+             66 BUILD_CONST_KEY_MAP      6
+             68 STORE_FAST               3 (cm)
+
+206          70 LOAD_GLOBAL              0 (np)
+             72 LOAD_METHOD              4 (arange)
+             74 LOAD_GLOBAL              5 (len)
+             76 LOAD_FAST                1 (h)
+             78 CALL_FUNCTION            1
+             80 CALL_METHOD              1
+             82 LOAD_CONST              15 (3600)
+             84 BINARY_TRUE_DIVIDE
+             86 STORE_FAST               4 (xs)
+
+207          88 LOAD_CONST               7 (0)
+             90 STORE_FAST               5 (i)
+
+208          92 LOAD_FAST                5 (i)
+             94 LOAD_GLOBAL              5 (len)
+             96 LOAD_FAST                1 (h)
+             98 CALL_FUNCTION            1
+            100 COMPARE_OP               0 (<)
+            102 POP_JUMP_IF_FALSE      129 (to 258)
+
+209     >>  104 LOAD_FAST                1 (h)
+            106 LOAD_FAST                5 (i)
+            108 BINARY_SUBSCR
+            110 STORE_FAST               6 (s)
+            112 LOAD_FAST                5 (i)
+            114 LOAD_CONST               5 (1)
+            116 BINARY_ADD
+            118 STORE_FAST               7 (j)
+
+210         120 LOAD_FAST                7 (j)
+            122 LOAD_GLOBAL              5 (len)
+            124 LOAD_FAST                1 (h)
+            126 CALL_FUNCTION            1
+            128 COMPARE_OP               0 (<)
+            130 POP_JUMP_IF_FALSE       88 (to 176)
+            132 LOAD_FAST                1 (h)
+            134 LOAD_FAST                7 (j)
+            136 BINARY_SUBSCR
+            138 LOAD_FAST                6 (s)
+            140 COMPARE_OP               2 (==)
+            142 POP_JUMP_IF_FALSE       88 (to 176)
+        >>  144 LOAD_FAST                7 (j)
+            146 LOAD_CONST               5 (1)
+            148 INPLACE_ADD
+            150 STORE_FAST               7 (j)
+            152 LOAD_FAST                7 (j)
+            154 LOAD_GLOBAL              5 (len)
+            156 LOAD_FAST                1 (h)
+            158 CALL_FUNCTION            1
+            160 COMPARE_OP               0 (<)
+            162 POP_JUMP_IF_FALSE       88 (to 176)
+            164 LOAD_FAST                1 (h)
+            166 LOAD_FAST                7 (j)
+            168 BINARY_SUBSCR
+            170 LOAD_FAST                6 (s)
+            172 COMPARE_OP               2 (==)
+            174 POP_JUMP_IF_TRUE        72 (to 144)
+
+211     >>  176 LOAD_FAST                0 (ax)
+            178 LOAD_ATTR                6 (fill_between)
+            180 LOAD_FAST                4 (xs)
+            182 LOAD_FAST                5 (i)
+            184 LOAD_FAST                7 (j)
+            186 BUILD_SLICE              2
+            188 BINARY_SUBSCR
+            190 LOAD_CONST               7 (0)
+            192 LOAD_GLOBAL              0 (np)
+            194 LOAD_METHOD              7 (full)
+            196 LOAD_FAST                7 (j)
+            198 LOAD_FAST                5 (i)
+            200 BINARY_SUBTRACT
+            202 LOAD_DEREF               0 (ym)
+            204 LOAD_METHOD              8 (get)
+            206 LOAD_GLOBAL              2 (int)
+            208 LOAD_FAST                6 (s)
+            210 CALL_FUNCTION            1
+            212 LOAD_CONST               7 (0)
+            214 CALL_METHOD              2
+            216 CALL_METHOD              2
+
+212         218 LOAD_FAST                3 (cm)
+            220 LOAD_METHOD              8 (get)
+            222 LOAD_GLOBAL              2 (int)
+            224 LOAD_FAST                6 (s)
+            226 CALL_FUNCTION            1
+            228 LOAD_CONST              14 ('#CBD5E1')
+            230 CALL_METHOD              2
+            232 LOAD_CONST              16 (0.9)
+            234 LOAD_CONST               7 (0)
+
+211         236 LOAD_CONST              17 (('color', 'alpha', 'lw'))
+            238 CALL_FUNCTION_KW         6
+            240 POP_TOP
+
+213         242 LOAD_FAST                7 (j)
+            244 STORE_FAST               5 (i)
+
+208         246 LOAD_FAST                5 (i)
+            248 LOAD_GLOBAL              5 (len)
+            250 LOAD_FAST                1 (h)
+            252 CALL_FUNCTION            1
+            254 COMPARE_OP               0 (<)
+            256 POP_JUMP_IF_TRUE        52 (to 104)
+
+216     >>  258 LOAD_GLOBAL              0 (np)
+            260 LOAD_METHOD              9 (array)
+            262 LOAD_CLOSURE             0 (ym)
+            264 BUILD_TUPLE              1
+            266 LOAD_CONST              18 (<code object <listcomp> at 0x000002B34DF48EA0, file "patient_report.py", line 216>)
+            268 LOAD_CONST              19 ('_hypno.<locals>.<listcomp>')
+            270 MAKE_FUNCTION            8 (closure)
+            272 LOAD_FAST                1 (h)
+            274 GET_ITER
+            276 CALL_FUNCTION            1
+            278 CALL_METHOD              1
+            280 STORE_FAST               8 (y_vals)
+
+217         282 LOAD_FAST                0 (ax)
+            284 LOAD_ATTR               10 (step)
+            286 LOAD_FAST                4 (xs)
+            288 LOAD_FAST                8 (y_vals)
+            290 LOAD_CONST              20 ('post')
+            292 LOAD_GLOBAL             11 (TEXT_H)
+            294 LOAD_CONST              21 (1.2)
+            296 LOAD_CONST              22 (0.8)
+            298 LOAD_CONST              23 (('where', 'color', 'linewidth', 'alpha'))
+            300 CALL_FUNCTION_KW         6
+            302 POP_TOP
+
+219         304 LOAD_GLOBAL              5 (len)
+            306 LOAD_FAST                4 (xs)
+            308 CALL_FUNCTION            1
+            310 POP_JUMP_IF_FALSE      160 (to 320)
+            312 LOAD_FAST                4 (xs)
+            314 LOAD_CONST              24 (-1)
+            316 BINARY_SUBSCR
+            318 JUMP_FORWARD             1 (to 322)
+        >>  320 LOAD_CONST               5 (1)
+        >>  322 STORE_FAST               9 (mh)
+
+221         324 LOAD_FAST                0 (ax)
+            326 LOAD_METHOD             12 (set_ylim)
+            328 LOAD_CONST               7 (0)
+            330 LOAD_CONST              25 (6)
+            332 CALL_METHOD              2
+            334 POP_TOP
+
+222         336 LOAD_FAST                0 (ax)
+            338 LOAD_METHOD             13 (set_yticks)
+            340 BUILD_LIST               0
+            342 LOAD_CONST              26 ((1, 2, 3, 4, 5))
+            344 LIST_EXTEND              1
+            346 CALL_METHOD              1
+            348 POP_TOP
+
+223         350 LOAD_GLOBAL             14 (_t)
+            352 LOAD_CONST              12 ('N3')
+            354 LOAD_FAST                2 (lang)
+            356 CALL_FUNCTION            2
+            358 LOAD_GLOBAL             14 (_t)
+            360 LOAD_CONST              11 ('N2')
+            362 LOAD_FAST                2 (lang)
+            364 CALL_FUNCTION            2
+            366 LOAD_GLOBAL             14 (_t)
+            368 LOAD_CONST              10 ('N1')
+            370 LOAD_FAST                2 (lang)
+            372 CALL_FUNCTION            2
+            374 LOAD_GLOBAL             14 (_t)
+            376 LOAD_CONST               9 ('Wake')
+            378 LOAD_FAST                2 (lang)
+            380 CALL_FUNCTION            2
+            382 LOAD_GLOBAL             14 (_t)
+            384 LOAD_CONST              13 ('REM')
+            386 LOAD_FAST                2 (lang)
+            388 CALL_FUNCTION            2
+            390 BUILD_LIST               5
+            392 STORE_FAST              10 (yticklabels)
+
+224         394 LOAD_FAST                0 (ax)
+            396 LOAD_ATTR               15 (set_yticklabels)
+            398 LOAD_FAST               10 (yticklabels)
+            400 LOAD_CONST              27 (7)
+            402 LOAD_GLOBAL             16 (TEXT_M)
+            404 LOAD_CONST              28 (('fontsize', 'color'))
+            406 CALL_FUNCTION_KW         3
+            408 POP_TOP
+
+225         410 LOAD_FAST                0 (ax)
+            412 LOAD_ATTR               17 (tick_params)
+            414 LOAD_CONST              29 ('x')
+            416 LOAD_CONST              27 (7)
+            418 LOAD_GLOBAL             16 (TEXT_M)
+            420 LOAD_CONST               4 (2)
+            422 LOAD_CONST              30 (('axis', 'labelsize', 'colors', 'length'))
+            424 CALL_FUNCTION_KW         4
+            426 POP_TOP
+
+226         428 LOAD_FAST                0 (ax)
+            430 LOAD_ATTR               18 (set_xlabel)
+            432 LOAD_GLOBAL             14 (_t)
+            434 LOAD_CONST              31 ('Hours')
+            436 LOAD_FAST                2 (lang)
+            438 CALL_FUNCTION            2
+            440 LOAD_CONST              27 (7)
+            442 LOAD_GLOBAL             19 (TEXT_L)
+            444 LOAD_CONST              28 (('fontsize', 'color'))
+            446 CALL_FUNCTION_KW         3
+            448 POP_TOP
+
+227         450 LOAD_FAST                0 (ax)
+            452 LOAD_METHOD             20 (set_facecolor)
+            454 LOAD_GLOBAL             21 (PANEL)
+            456 CALL_METHOD              1
+            458 POP_TOP
+
+229         460 LOAD_FAST                2 (lang)
+            462 LOAD_CONST              32 ('he')
+            464 COMPARE_OP               2 (==)
+            466 EXTENDED_ARG             1
+            468 POP_JUMP_IF_FALSE      277 (to 554)
+
+230         470 LOAD_FAST                0 (ax)
+            472 LOAD_METHOD             22 (set_xlim)
+            474 LOAD_FAST                9 (mh)
+            476 LOAD_CONST              33 (-1.2)
+            478 CALL_METHOD              2
+            480 POP_TOP
+
+231         482 LOAD_FAST                0 (ax)
+            484 LOAD_ATTR               23 (yaxis)
+            486 LOAD_METHOD             24 (tick_right)
+            488 CALL_METHOD              0
+            490 POP_TOP
+
+232         492 LOAD_FAST                0 (ax)
+            494 LOAD_ATTR               23 (yaxis)
+            496 LOAD_METHOD             25 (set_label_position)
+            498 LOAD_CONST              34 ('right')
+            500 CALL_METHOD              1
+            502 POP_TOP
+
+233         504 LOAD_FAST                0 (ax)
+            506 LOAD_ATTR               26 (spines)
+            508 LOAD_CONST              35 ('left')
+            510 BINARY_SUBSCR
+            512 LOAD_METHOD             27 (set_visible)
+            514 LOAD_CONST              36 (False)
+            516 CALL_METHOD              1
+            518 POP_TOP
+
+234         520 LOAD_FAST                0 (ax)
+            522 LOAD_ATTR               26 (spines)
+            524 LOAD_CONST              34 ('right')
+            526 BINARY_SUBSCR
+            528 LOAD_METHOD             28 (set_color)
+            530 LOAD_GLOBAL             29 (BORDER)
+            532 CALL_METHOD              1
+            534 POP_TOP
+
+235         536 LOAD_FAST                0 (ax)
+            538 LOAD_ATTR               26 (spines)
+            540 LOAD_CONST              34 ('right')
+            542 BINARY_SUBSCR
+            544 LOAD_METHOD             30 (set_position)
+            546 LOAD_CONST              37 (('data', 0))
+            548 CALL_METHOD              1
+            550 POP_TOP
+            552 JUMP_FORWARD            30 (to 614)
+
+237     >>  554 LOAD_FAST                0 (ax)
+            556 LOAD_METHOD             22 (set_xlim)
+            558 LOAD_CONST              33 (-1.2)
+            560 LOAD_FAST                9 (mh)
+            562 CALL_METHOD              2
+            564 POP_TOP
+
+238         566 LOAD_FAST                0 (ax)
+            568 LOAD_ATTR               26 (spines)
+            570 LOAD_CONST              34 ('right')
+            572 BINARY_SUBSCR
+            574 LOAD_METHOD             27 (set_visible)
+            576 LOAD_CONST              36 (False)
+            578 CALL_METHOD              1
+            580 POP_TOP
+
+239         582 LOAD_FAST                0 (ax)
+            584 LOAD_ATTR               26 (spines)
+            586 LOAD_CONST              35 ('left')
+            588 BINARY_SUBSCR
+            590 LOAD_METHOD             28 (set_color)
+            592 LOAD_GLOBAL             29 (BORDER)
+            594 CALL_METHOD              1
+            596 POP_TOP
+
+240         598 LOAD_FAST                0 (ax)
+            600 LOAD_ATTR               26 (spines)
+            602 LOAD_CONST              35 ('left')
+            604 BINARY_SUBSCR
+            606 LOAD_METHOD             30 (set_position)
+            608 LOAD_CONST              37 (('data', 0))
+            610 CALL_METHOD              1
+            612 POP_TOP
+
+242     >>  614 LOAD_FAST                0 (ax)
+            616 LOAD_ATTR               26 (spines)
+            618 LOAD_CONST              38 ('top')
+            620 BINARY_SUBSCR
+            622 LOAD_METHOD             27 (set_visible)
+            624 LOAD_CONST              36 (False)
+            626 CALL_METHOD              1
+            628 POP_TOP
+
+243         630 LOAD_FAST                0 (ax)
+            632 LOAD_ATTR               26 (spines)
+            634 LOAD_CONST              39 ('bottom')
+            636 BINARY_SUBSCR
+            638 LOAD_METHOD             31 (set_bounds)
+            640 LOAD_CONST               7 (0)
+            642 LOAD_FAST                9 (mh)
+            644 CALL_METHOD              2
+            646 POP_TOP
+
+244         648 LOAD_FAST                0 (ax)
+            650 LOAD_ATTR               26 (spines)
+            652 LOAD_CONST              39 ('bottom')
+            654 BINARY_SUBSCR
+            656 LOAD_METHOD             28 (set_color)
+            658 LOAD_GLOBAL             29 (BORDER)
+            660 CALL_METHOD              1
+            662 POP_TOP
+
+245         664 LOAD_FAST                0 (ax)
+            666 LOAD_ATTR               32 (grid)
+            668 LOAD_CONST              29 ('x')
+            670 LOAD_GLOBAL             29 (BORDER)
+            672 LOAD_CONST              40 (0.5)
+            674 LOAD_CONST              41 (':')
+            676 LOAD_CONST              42 (('axis', 'color', 'lw', 'linestyle'))
+            678 CALL_FUNCTION_KW         4
+            680 POP_TOP
+
+246         682 LOAD_FAST                0 (ax)
+            684 LOAD_ATTR               17 (tick_params)
+            686 LOAD_GLOBAL             16 (TEXT_M)
+            688 LOAD_CONST              43 (('colors',))
+            690 CALL_FUNCTION_KW         1
+            692 POP_TOP
+            694 LOAD_CONST               0 (None)
+            696 RETURN_VALUE
+
+Disassembly of <code object <listcomp> at 0x000002B34DF48EA0, file "patient_report.py", line 216>:
+216           0 BUILD_LIST               0
+              2 LOAD_FAST                0 (.0)
+        >>    4 FOR_ITER                10 (to 26)
+              6 STORE_FAST               1 (s)
+              8 LOAD_DEREF               0 (ym)
+             10 LOAD_METHOD              0 (get)
+             12 LOAD_GLOBAL              1 (int)
+             14 LOAD_FAST                1 (s)
+             16 CALL_FUNCTION            1
+             18 LOAD_CONST               0 (0)
+             20 CALL_METHOD              2
+             22 LIST_APPEND              2
+             24 JUMP_ABSOLUTE            2 (to 4)
+        >>   26 RETURN_VALUE
+
+--- _donut ---
+251           0 BUILD_LIST               0
+              2 LOAD_CONST               1 (('N1', 'N2', 'N3', 'REM', 'Wake'))
+              4 LIST_EXTEND              1
+              6 STORE_FAST               3 (lbls)
+
+252           8 LOAD_FAST                1 (s)
+             10 LOAD_CONST               2 ('N1')
+             12 BINARY_SUBSCR
+             14 LOAD_FAST                1 (s)
+             16 LOAD_CONST               3 ('N2')
+             18 BINARY_SUBSCR
+             20 LOAD_FAST                1 (s)
+             22 LOAD_CONST               4 ('N3')
+             24 BINARY_SUBSCR
+             26 LOAD_FAST                1 (s)
+             28 LOAD_CONST               5 ('REM')
+             30 BINARY_SUBSCR
+             32 LOAD_FAST                1 (s)
+             34 LOAD_CONST               6 ('Wake')
+             36 BINARY_SUBSCR
+             38 BUILD_LIST               5
+             40 STORE_FAST               4 (vals)
+
+253          42 LOAD_CONST               7 (<code object <listcomp> at 0x000002B34DF49000, file "patient_report.py", line 253>)
+             44 LOAD_CONST               8 ('_donut.<locals>.<listcomp>')
+             46 MAKE_FUNCTION            0
+             48 LOAD_FAST                3 (lbls)
+             50 GET_ITER
+             52 CALL_FUNCTION            1
+             54 STORE_FAST               5 (colors)
+
+254          56 LOAD_FAST                0 (ax)
+             58 LOAD_ATTR                0 (pie)
+
+255          60 LOAD_FAST                4 (vals)
+             62 LOAD_FAST                5 (colors)
+
+256          64 LOAD_CONST               9 (<code object <lambda> at 0x000002B34DF490B0, file "patient_report.py", line 256>)
+             66 LOAD_CONST              10 ('_donut.<locals>.<lambda>')
+             68 MAKE_FUNCTION            0
+
+257          70 LOAD_GLOBAL              1 (dict)
+             72 LOAD_CONST              11 (0.5)
+             74 LOAD_CONST              12 ('white')
+             76 LOAD_CONST              13 (1.8)
+             78 LOAD_CONST              14 (('width', 'edgecolor', 'linewidth'))
+             80 CALL_FUNCTION_KW         3
+
+258          82 LOAD_CONST              15 (90)
+             84 LOAD_CONST              16 (0.75)
+
+254          86 LOAD_CONST              17 (('colors', 'autopct', 'wedgeprops', 'startangle', 'pctdistance'))
+             88 CALL_FUNCTION_KW         6
+             90 UNPACK_SEQUENCE          3
+             92 STORE_FAST               6 (_)
+             94 STORE_FAST               6 (_)
+             96 STORE_FAST               7 (auts)
+
+260          98 LOAD_FAST                7 (auts)
+            100 GET_ITER
+        >>  102 FOR_ITER                17 (to 138)
+            104 STORE_FAST               8 (at)
+
+261         106 LOAD_FAST                8 (at)
+            108 LOAD_METHOD              2 (set_color)
+            110 LOAD_CONST              12 ('white')
+            112 CALL_METHOD              1
+            114 POP_TOP
+            116 LOAD_FAST                8 (at)
+            118 LOAD_METHOD              3 (set_fontsize)
+            120 LOAD_CONST              18 (11)
+            122 CALL_METHOD              1
+            124 POP_TOP
+            126 LOAD_FAST                8 (at)
+            128 LOAD_METHOD              4 (set_fontweight)
+            130 LOAD_CONST              19 ('bold')
+            132 CALL_METHOD              1
+            134 POP_TOP
+            136 JUMP_ABSOLUTE           51 (to 102)
+
+262     >>  138 LOAD_FAST                0 (ax)
+            140 LOAD_METHOD              5 (set_facecolor)
+            142 LOAD_GLOBAL              6 (PANEL)
+            144 CALL_METHOD              1
+            146 POP_TOP
+            148 LOAD_CONST               0 (None)
+            150 RETURN_VALUE
+
+Disassembly of <code object <listcomp> at 0x000002B34DF49000, file "patient_report.py", line 253>:
+253           0 BUILD_LIST               0
+              2 LOAD_FAST                0 (.0)
+        >>    4 FOR_ITER                 6 (to 18)
+              6 STORE_FAST               1 (l)
+              8 LOAD_GLOBAL              0 (STAGE_COLORS)
+             10 LOAD_FAST                1 (l)
+             12 BINARY_SUBSCR
+             14 LIST_APPEND              2
+             16 JUMP_ABSOLUTE            2 (to 4)
+        >>   18 RETURN_VALUE
+
+Disassembly of <code object <lambda> at 0x000002B34DF490B0, file "patient_report.py", line 256>:
+256           0 LOAD_FAST                0 (p)
+              2 LOAD_CONST               1 (5)
+              4 COMPARE_OP               4 (>)
+              6 POP_JUMP_IF_FALSE       10 (to 20)
+              8 LOAD_FAST                0 (p)
+             10 LOAD_CONST               2 ('.0f')
+             12 FORMAT_VALUE             4 (with format)
+             14 LOAD_CONST               3 ('%')
+             16 BUILD_STRING             2
+             18 RETURN_VALUE
+        >>   20 LOAD_CONST               4 ('')
+             22 RETURN_VALUE
+
+--- _gauge ---
+267           0 LOAD_FAST                0 (ax)
+              2 LOAD_ATTR                0 (set_aspect)
+              4 LOAD_CONST               1 ('equal')
+              6 LOAD_CONST               2 ('box')
+              8 LOAD_CONST               3 (('adjustable',))
+             10 CALL_FUNCTION_KW         2
+             12 POP_TOP
+
+268          14 LOAD_FAST                0 (ax)
+             16 LOAD_METHOD              1 (set_xlim)
+             18 LOAD_CONST               4 (-1.15)
+             20 LOAD_CONST               5 (1.15)
+             22 CALL_METHOD              2
+             24 POP_TOP
+
+270          26 LOAD_CONST               6 (1.0)
+             28 STORE_FAST               5 (y_scale)
+
+271          30 LOAD_FAST                0 (ax)
+             32 LOAD_METHOD              2 (set_ylim)
+             34 LOAD_CONST               7 (-0.95)
+             36 LOAD_CONST               5 (1.15)
+             38 CALL_METHOD              2
+             40 POP_TOP
+
+272          42 LOAD_FAST                0 (ax)
+             44 LOAD_METHOD              3 (axis)
+             46 LOAD_CONST               8 ('off')
+             48 CALL_METHOD              1
+             50 POP_TOP
+
+274          52 BUILD_LIST               0
+             54 LOAD_CONST               9 (('#6EC2B5', '#97A8E5', '#B48EE5', '#E58EAA'))
+             56 LIST_EXTEND              1
+             58 STORE_FAST               6 (palette)
+
+275          60 LOAD_GLOBAL              4 (LinearSegmentedColormap)
+             62 LOAD_METHOD              5 (from_list)
+             64 LOAD_CONST              10 ('purples')
+             66 LOAD_FAST                6 (palette)
+             68 CALL_METHOD              2
+             70 STORE_FAST               7 (cmap)
+
+277          72 LOAD_CONST              11 (180)
+             74 STORE_FAST               8 (n)
+
+278          76 LOAD_CONST              12 ((1.0, 0.65))
+             78 UNPACK_SEQUENCE          2
+             80 STORE_FAST               9 (outer_r)
+             82 STORE_FAST              10 (inner_r)
+
+284          84 LOAD_GLOBAL              6 (np)
+             86 LOAD_METHOD              7 (linspace)
+             88 LOAD_GLOBAL              6 (np)
+             90 LOAD_ATTR                8 (pi)
+             92 LOAD_CONST              13 (0)
+             94 LOAD_FAST                8 (n)
+             96 CALL_METHOD              3
+             98 STORE_FAST              11 (th)
+
+285         100 LOAD_GLOBAL              9 (range)
+            102 LOAD_FAST                8 (n)
+            104 LOAD_CONST              14 (1)
+            106 BINARY_SUBTRACT
+            108 CALL_FUNCTION            1
+            110 GET_ITER
+        >>  112 FOR_ITER                88 (to 290)
+            114 STORE_FAST              12 (i)
+
+286         116 LOAD_FAST               11 (th)
+            118 LOAD_FAST               12 (i)
+            120 BINARY_SUBSCR
+            122 LOAD_FAST               11 (th)
+            124 LOAD_FAST               12 (i)
+            126 LOAD_CONST              14 (1)
+            128 BINARY_ADD
+            130 BINARY_SUBSCR
+            132 ROT_TWO
+            134 STORE_FAST              13 (t0)
+            136 STORE_FAST              14 (t1)
+
+287         138 LOAD_FAST               10 (inner_r)
+            140 LOAD_GLOBAL              6 (np)
+            142 LOAD_METHOD             10 (cos)
+            144 LOAD_FAST               13 (t0)
+            146 CALL_METHOD              1
+            148 BINARY_MULTIPLY
+            150 LOAD_FAST                9 (outer_r)
+            152 LOAD_GLOBAL              6 (np)
+            154 LOAD_METHOD             10 (cos)
+            156 LOAD_FAST               13 (t0)
+            158 CALL_METHOD              1
+            160 BINARY_MULTIPLY
+            162 LOAD_FAST                9 (outer_r)
+            164 LOAD_GLOBAL              6 (np)
+            166 LOAD_METHOD             10 (cos)
+            168 LOAD_FAST               14 (t1)
+            170 CALL_METHOD              1
+            172 BINARY_MULTIPLY
+            174 LOAD_FAST               10 (inner_r)
+            176 LOAD_GLOBAL              6 (np)
+            178 LOAD_METHOD             10 (cos)
+            180 LOAD_FAST               14 (t1)
+            182 CALL_METHOD              1
+            184 BINARY_MULTIPLY
+            186 BUILD_LIST               4
+            188 STORE_FAST              15 (xs)
+
+288         190 LOAD_FAST                5 (y_scale)
+            192 LOAD_FAST               10 (inner_r)
+            194 BINARY_MULTIPLY
+            196 LOAD_GLOBAL              6 (np)
+            198 LOAD_METHOD             11 (sin)
+            200 LOAD_FAST               13 (t0)
+            202 CALL_METHOD              1
+            204 BINARY_MULTIPLY
+            206 LOAD_FAST                5 (y_scale)
+            208 LOAD_FAST                9 (outer_r)
+            210 BINARY_MULTIPLY
+            212 LOAD_GLOBAL              6 (np)
+            214 LOAD_METHOD             11 (sin)
+            216 LOAD_FAST               13 (t0)
+            218 CALL_METHOD              1
+            220 BINARY_MULTIPLY
+
+289         222 LOAD_FAST                5 (y_scale)
+            224 LOAD_FAST                9 (outer_r)
+            226 BINARY_MULTIPLY
+            228 LOAD_GLOBAL              6 (np)
+            230 LOAD_METHOD             11 (sin)
+            232 LOAD_FAST               14 (t1)
+            234 CALL_METHOD              1
+            236 BINARY_MULTIPLY
+            238 LOAD_FAST                5 (y_scale)
+            240 LOAD_FAST               10 (inner_r)
+            242 BINARY_MULTIPLY
+            244 LOAD_GLOBAL              6 (np)
+            246 LOAD_METHOD             11 (sin)
+            248 LOAD_FAST               14 (t1)
+            250 CALL_METHOD              1
+            252 BINARY_MULTIPLY
+
+288         254 BUILD_LIST               4
+            256 STORE_FAST              16 (ys)
+
+290         258 LOAD_FAST                0 (ax)
+            260 LOAD_ATTR               12 (fill)
+            262 LOAD_FAST               15 (xs)
+            264 LOAD_FAST               16 (ys)
+            266 LOAD_FAST                7 (cmap)
+            268 LOAD_FAST               12 (i)
+            270 LOAD_FAST                8 (n)
+            272 BINARY_TRUE_DIVIDE
+            274 CALL_FUNCTION            1
+            276 LOAD_CONST              15 ('none')
+            278 LOAD_CONST              16 (2)
+            280 LOAD_CONST              17 (0.9)
+            282 LOAD_CONST              18 (('color', 'edgecolor', 'zorder', 'alpha'))
+            284 CALL_FUNCTION_KW         6
+            286 POP_TOP
+            288 JUMP_ABSOLUTE           56 (to 112)
+
+292     >>  290 LOAD_FAST                0 (ax)
+            292 LOAD_ATTR               13 (plot)
+            294 LOAD_CONST              19 (-1.1)
+            296 LOAD_CONST              20 (1.1)
+            298 BUILD_LIST               2
+            300 LOAD_CONST              13 (0)
+            302 LOAD_CONST              13 (0)
+            304 BUILD_LIST               2
+            306 LOAD_GLOBAL             14 (BORDER)
+            308 LOAD_CONST              21 (1.5)
+            310 LOAD_CONST              14 (1)
+            312 LOAD_CONST              22 (('color', 'lw', 'zorder'))
+            314 CALL_FUNCTION_KW         5
+            316 POP_TOP
+
+293         318 LOAD_FAST                0 (ax)
+            320 LOAD_ATTR               15 (text)
+            322 LOAD_CONST              23 (-1.0)
+            324 LOAD_CONST              24 (-0.05)
+            326 LOAD_FAST                3 (vmin)
+            328 FORMAT_VALUE             0
+            330 LOAD_CONST              25 ('\n')
+            332 LOAD_GLOBAL             16 (_t)
+            334 LOAD_CONST              26 ('Normal')
+            336 LOAD_FAST                2 (lang)
+            338 CALL_FUNCTION            2
+            340 FORMAT_VALUE             0
+            342 BUILD_STRING             3
+            344 LOAD_CONST              27 ('center')
+            346 LOAD_CONST              28 ('top')
+            348 LOAD_CONST              29 (10.5)
+            350 LOAD_CONST              30 ('bold')
+            352 LOAD_FAST                6 (palette)
+            354 LOAD_CONST              13 (0)
+            356 BINARY_SUBSCR
+            358 LOAD_CONST              31 (3)
+            360 LOAD_CONST              32 (('ha', 'va', 'fontsize', 'fontweight', 'color', 'zorder'))
+            362 CALL_FUNCTION_KW         9
+            364 POP_TOP
+
+294         366 LOAD_FAST                0 (ax)
+            368 LOAD_ATTR               15 (text)
+            370 LOAD_CONST               6 (1.0)
+            372 LOAD_CONST              24 (-0.05)
+            374 LOAD_FAST                4 (vmax)
+            376 FORMAT_VALUE             0
+            378 LOAD_CONST              25 ('\n')
+            380 LOAD_GLOBAL             16 (_t)
+            382 LOAD_CONST              33 ('Severe')
+            384 LOAD_FAST                2 (lang)
+            386 CALL_FUNCTION            2
+            388 FORMAT_VALUE             0
+            390 BUILD_STRING             3
+            392 LOAD_CONST              27 ('center')
+            394 LOAD_CONST              28 ('top')
+            396 LOAD_CONST              29 (10.5)
+            398 LOAD_CONST              30 ('bold')
+            400 LOAD_FAST                6 (palette)
+            402 LOAD_CONST              31 (3)
+            404 BINARY_SUBSCR
+            406 LOAD_CONST              31 (3)
+            408 LOAD_CONST              32 (('ha', 'va', 'fontsize', 'fontweight', 'color', 'zorder'))
+            410 CALL_FUNCTION_KW         9
+            412 POP_TOP
+
+296         414 LOAD_GLOBAL              6 (np)
+            416 LOAD_METHOD              7 (linspace)
+            418 LOAD_FAST                3 (vmin)
+            420 LOAD_FAST                4 (vmax)
+            422 LOAD_CONST              34 (7)
+            424 CALL_METHOD              3
+            426 GET_ITER
+        >>  428 FOR_ITER                62 (to 554)
+            430 STORE_FAST              17 (tv)
+
+297         432 LOAD_FAST               17 (tv)
+            434 LOAD_FAST                3 (vmin)
+            436 BINARY_SUBTRACT
+            438 LOAD_GLOBAL             17 (max)
+            440 LOAD_FAST                4 (vmax)
+            442 LOAD_FAST                3 (vmin)
+            444 BINARY_SUBTRACT
+            446 LOAD_CONST              14 (1)
+            448 CALL_FUNCTION            2
+            450 BINARY_TRUE_DIVIDE
+            452 STORE_FAST              18 (frac)
+
+298         454 LOAD_GLOBAL              6 (np)
+            456 LOAD_ATTR                8 (pi)
+            458 LOAD_CONST              14 (1)
+            460 LOAD_FAST               18 (frac)
+            462 BINARY_SUBTRACT
+            464 BINARY_MULTIPLY
+            466 STORE_FAST              19 (ang_rad)
+
+299         468 LOAD_FAST                0 (ax)
+            470 LOAD_ATTR               13 (plot)
+            472 LOAD_FAST               10 (inner_r)
+            474 LOAD_GLOBAL              6 (np)
+            476 LOAD_METHOD             10 (cos)
+            478 LOAD_FAST               19 (ang_rad)
+            480 CALL_METHOD              1
+            482 BINARY_MULTIPLY
+            484 LOAD_FAST               10 (inner_r)
+            486 LOAD_CONST              35 (0.05)
+            488 BINARY_ADD
+            490 LOAD_GLOBAL              6 (np)
+            492 LOAD_METHOD             10 (cos)
+            494 LOAD_FAST               19 (ang_rad)
+            496 CALL_METHOD              1
+            498 BINARY_MULTIPLY
+            500 BUILD_LIST               2
+
+300         502 LOAD_FAST                5 (y_scale)
+            504 LOAD_FAST               10 (inner_r)
+            506 BINARY_MULTIPLY
+            508 LOAD_GLOBAL              6 (np)
+            510 LOAD_METHOD             11 (sin)
+            512 LOAD_FAST               19 (ang_rad)
+            514 CALL_METHOD              1
+            516 BINARY_MULTIPLY
+            518 LOAD_FAST                5 (y_scale)
+            520 LOAD_FAST               10 (inner_r)
+            522 LOAD_CONST              35 (0.05)
+            524 BINARY_ADD
+            526 BINARY_MULTIPLY
+            528 LOAD_GLOBAL              6 (np)
+            530 LOAD_METHOD             11 (sin)
+            532 LOAD_FAST               19 (ang_rad)
+            534 CALL_METHOD              1
+            536 BINARY_MULTIPLY
+            538 BUILD_LIST               2
+
+301         540 LOAD_CONST              36 ('white')
+            542 LOAD_CONST              21 (1.5)
+            544 LOAD_CONST              37 (4)
+
+299         546 LOAD_CONST              22 (('color', 'lw', 'zorder'))
+            548 CALL_FUNCTION_KW         5
+            550 POP_TOP
+            552 JUMP_ABSOLUTE          214 (to 428)
+
+303     >>  554 LOAD_GLOBAL              6 (np)
+            556 LOAD_METHOD             18 (clip)
+            558 LOAD_FAST                1 (val)
+            560 LOAD_FAST                3 (vmin)
+            562 BINARY_SUBTRACT
+            564 LOAD_GLOBAL             17 (max)
+            566 LOAD_FAST                4 (vmax)
+            568 LOAD_FAST                3 (vmin)
+            570 BINARY_SUBTRACT
+            572 LOAD_CONST              14 (1)
+            574 CALL_FUNCTION            2
+            576 BINARY_TRUE_DIVIDE
+            578 LOAD_CONST              13 (0)
+            580 LOAD_CONST              14 (1)
+            582 CALL_METHOD              3
+            584 STORE_FAST              20 (frac_v)
+
+304         586 LOAD_GLOBAL              6 (np)
+            588 LOAD_ATTR                8 (pi)
+            590 LOAD_CONST              14 (1)
+            592 LOAD_FAST               20 (frac_v)
+            594 BINARY_SUBTRACT
+            596 BINARY_MULTIPLY
+            598 STORE_FAST              19 (ang_rad)
+
+305         600 LOAD_FAST               10 (inner_r)
+            602 LOAD_CONST              38 (0.06)
+            604 BINARY_SUBTRACT
+            606 STORE_FAST              21 (tip_r)
+
+306         608 LOAD_FAST               21 (tip_r)
+            610 LOAD_GLOBAL              6 (np)
+            612 LOAD_METHOD             10 (cos)
+            614 LOAD_FAST               19 (ang_rad)
+            616 CALL_METHOD              1
+            618 BINARY_MULTIPLY
+            620 LOAD_FAST                5 (y_scale)
+            622 LOAD_FAST               21 (tip_r)
+            624 BINARY_MULTIPLY
+            626 LOAD_GLOBAL              6 (np)
+            628 LOAD_METHOD             11 (sin)
+            630 LOAD_FAST               19 (ang_rad)
+            632 CALL_METHOD              1
+            634 BINARY_MULTIPLY
+            636 ROT_TWO
+            638 STORE_FAST              22 (nx)
+            640 STORE_FAST              23 (ny)
+
+308         642 LOAD_FAST                0 (ax)
+            644 LOAD_ATTR               19 (annotate)
+            646 LOAD_CONST              39 ('')
+            648 LOAD_FAST               22 (nx)
+            650 LOAD_FAST               23 (ny)
+            652 BUILD_TUPLE              2
+            654 LOAD_CONST              40 ((0, 0))
+
+309         656 LOAD_GLOBAL             20 (dict)
+            658 LOAD_CONST              41 ('-|>')
+            660 LOAD_GLOBAL             21 (TEXT_H)
+            662 LOAD_CONST              42 (2.5)
+            664 LOAD_CONST              43 (16)
+            666 LOAD_CONST              44 (('arrowstyle', 'color', 'lw', 'mutation_scale'))
+            668 CALL_FUNCTION_KW         4
+
+310         670 LOAD_CONST              45 (6)
+
+308         672 LOAD_CONST              46 (('xy', 'xytext', 'arrowprops', 'zorder'))
+            674 CALL_FUNCTION_KW         5
+            676 POP_TOP
+
+311         678 LOAD_FAST                0 (ax)
+            680 LOAD_ATTR               13 (plot)
+            682 LOAD_CONST              13 (0)
+            684 LOAD_CONST              13 (0)
+            686 LOAD_CONST              47 ('o')
+            688 LOAD_GLOBAL             21 (TEXT_H)
+            690 LOAD_CONST              48 (8)
+            692 LOAD_CONST              34 (7)
+            694 LOAD_CONST              49 (('color', 'markersize', 'zorder'))
+            696 CALL_FUNCTION_KW         6
+            698 POP_TOP
+
+313         700 LOAD_FAST                0 (ax)
+            702 LOAD_ATTR               15 (text)
+            704 LOAD_CONST              13 (0)
+            706 LOAD_CONST              50 (-0.1)
+            708 LOAD_FAST                1 (val)
+            710 LOAD_CONST              51 ('.1f')
+            712 FORMAT_VALUE             4 (with format)
+            714 LOAD_CONST              27 ('center')
+            716 LOAD_CONST              28 ('top')
+            718 LOAD_CONST              52 (20)
+            720 LOAD_CONST              30 ('bold')
+            722 LOAD_GLOBAL             21 (TEXT_H)
+            724 LOAD_CONST              48 (8)
+            726 LOAD_CONST              32 (('ha', 'va', 'fontsize', 'fontweight', 'color', 'zorder'))
+            728 CALL_FUNCTION_KW         9
+            730 POP_TOP
+
+314         732 LOAD_FAST                0 (ax)
+            734 LOAD_ATTR               15 (text)
+            736 LOAD_CONST              13 (0)
+            738 LOAD_CONST              53 (-0.75)
+            740 LOAD_GLOBAL             16 (_t)
+            742 LOAD_CONST              54 ('events / hour')
+            744 LOAD_FAST                2 (lang)
+            746 CALL_FUNCTION            2
+            748 LOAD_CONST              27 ('center')
+            750 LOAD_CONST              27 ('center')
+            752 LOAD_CONST              55 (11)
+            754 LOAD_CONST              30 ('bold')
+            756 LOAD_GLOBAL             22 (TEXT_L)
+            758 LOAD_CONST              48 (8)
+            760 LOAD_CONST              32 (('ha', 'va', 'fontsize', 'fontweight', 'color', 'zorder'))
+            762 CALL_FUNCTION_KW         9
+            764 POP_TOP
+
+316         766 LOAD_FAST                1 (val)
+            768 LOAD_CONST              56 (5)
+            770 COMPARE_OP               0 (<)
+            772 EXTENDED_ARG             1
+            774 POP_JUMP_IF_FALSE      390 (to 780)
+            776 LOAD_CONST              26 ('Normal')
+            778 JUMP_FORWARD            15 (to 810)
+        >>  780 LOAD_FAST                1 (val)
+            782 LOAD_CONST              57 (15)
+            784 COMPARE_OP               0 (<)
+            786 EXTENDED_ARG             1
+            788 POP_JUMP_IF_FALSE      397 (to 794)
+            790 LOAD_CONST              58 ('Mild')
+            792 JUMP_FORWARD             8 (to 810)
+        >>  794 LOAD_FAST                1 (val)
+            796 LOAD_CONST              59 (30)
+            798 COMPARE_OP               0 (<)
+            800 EXTENDED_ARG             1
+            802 POP_JUMP_IF_FALSE      404 (to 808)
+            804 LOAD_CONST              60 ('Moderate')
+            806 JUMP_FORWARD             1 (to 810)
+        >>  808 LOAD_CONST              33 ('Severe')
+        >>  810 STORE_FAST              24 (sev)
+
+317         812 LOAD_FAST                6 (palette)
+            814 LOAD_CONST              13 (0)
+            816 BINARY_SUBSCR
+            818 LOAD_FAST                6 (palette)
+            820 LOAD_CONST              14 (1)
+            822 BINARY_SUBSCR
+            824 LOAD_FAST                6 (palette)
+            826 LOAD_CONST              16 (2)
+            828 BINARY_SUBSCR
+            830 LOAD_FAST                6 (palette)
+            832 LOAD_CONST              31 (3)
+            834 BINARY_SUBSCR
+            836 LOAD_CONST              61 (('Normal', 'Mild', 'Moderate', 'Severe'))
+            838 BUILD_CONST_KEY_MAP      4
+            840 LOAD_METHOD             23 (get)
+            842 LOAD_FAST               24 (sev)
+            844 LOAD_GLOBAL             24 (TEXT_M)
+            846 CALL_METHOD              2
+            848 STORE_FAST              25 (sev_col)
+
+318         850 LOAD_FAST                0 (ax)
+            852 LOAD_ATTR               15 (text)
+            854 LOAD_CONST              13 (0)
+            856 LOAD_CONST              19 (-1.1)
+            858 LOAD_GLOBAL             16 (_t)
+            860 LOAD_FAST               24 (sev)
+            862 LOAD_FAST                2 (lang)
+            864 CALL_FUNCTION            2
+            866 LOAD_CONST              27 ('center')
+            868 LOAD_CONST              27 ('center')
+            870 LOAD_CONST              62 (13)
+            872 LOAD_CONST              30 ('bold')
+            874 LOAD_FAST               25 (sev_col)
+            876 LOAD_CONST              48 (8)
+            878 LOAD_CONST              32 (('ha', 'va', 'fontsize', 'fontweight', 'color', 'zorder'))
+            880 CALL_FUNCTION_KW         9
+            882 POP_TOP
+            884 LOAD_CONST               0 (None)
+            886 RETURN_VALUE
+
+--- _bullets ---
+324           0 BUILD_LIST               0
+              2 STORE_FAST               4 (b)
+
+325           4 LOAD_FAST                0 (s)
+              6 LOAD_CONST               1 ('SE')
+              8 BINARY_SUBSCR
+             10 STORE_FAST               5 (se)
+
+326          12 LOAD_FAST                3 (lang)
+             14 LOAD_CONST               2 ('he')
+             16 COMPARE_OP               2 (==)
+             18 POP_JUMP_IF_FALSE      241 (to 482)
+
+327          20 LOAD_FAST                5 (se)
+             22 LOAD_CONST               3 (85)
+             24 COMPARE_OP               5 (>=)
+             26 POP_JUMP_IF_FALSE       25 (to 50)
+             28 LOAD_FAST                4 (b)
+             30 LOAD_METHOD              0 (append)
+             32 LOAD_CONST               4 ('יעילות שינה טובה (')
+             34 LOAD_FAST                5 (se)
+             36 LOAD_CONST               5 ('.0f')
+             38 FORMAT_VALUE             4 (with format)
+             40 LOAD_CONST               6 ('%) — בטווח התקין.')
+             42 BUILD_STRING             3
+             44 CALL_METHOD              1
+             46 POP_TOP
+             48 JUMP_FORWARD            25 (to 100)
+
+328     >>   50 LOAD_FAST                5 (se)
+             52 LOAD_CONST               7 (70)
+             54 COMPARE_OP               5 (>=)
+             56 POP_JUMP_IF_FALSE       40 (to 80)
+             58 LOAD_FAST                4 (b)
+             60 LOAD_METHOD              0 (append)
+             62 LOAD_CONST               8 ('יעילות שינה מופחתת במידה מתונה (')
+             64 LOAD_FAST                5 (se)
+             66 LOAD_CONST               5 ('.0f')
+             68 FORMAT_VALUE             4 (with format)
+             70 LOAD_CONST               9 ('%).')
+             72 BUILD_STRING             3
+             74 CALL_METHOD              1
+             76 POP_TOP
+             78 JUMP_FORWARD            10 (to 100)
+
+329     >>   80 LOAD_FAST                4 (b)
+             82 LOAD_METHOD              0 (append)
+             84 LOAD_CONST              10 ('יעילות שינה נמוכה (')
+             86 LOAD_FAST                5 (se)
+             88 LOAD_CONST               5 ('.0f')
+             90 FORMAT_VALUE             4 (with format)
+             92 LOAD_CONST              11 ('%) — ערנות משמעותית במהלך הלילה.')
+             94 BUILD_STRING             3
+             96 CALL_METHOD              1
+             98 POP_TOP
+
+331     >>  100 LOAD_FAST                0 (s)
+            102 LOAD_CONST              12 ('N3')
+            104 BINARY_SUBSCR
+            106 LOAD_FAST                0 (s)
+            108 LOAD_CONST              13 ('REM')
+            110 BINARY_SUBSCR
+            112 ROT_TWO
+            114 STORE_FAST               6 (n3)
+            116 STORE_FAST               7 (rem)
+
+332         118 LOAD_FAST                6 (n3)
+            120 LOAD_CONST              14 (15)
+            122 COMPARE_OP               5 (>=)
+            124 POP_JUMP_IF_FALSE       73 (to 146)
+            126 LOAD_FAST                7 (rem)
+            128 LOAD_CONST              15 (18)
+            130 COMPARE_OP               5 (>=)
+            132 POP_JUMP_IF_FALSE       73 (to 146)
+
+333         134 LOAD_FAST                4 (b)
+            136 LOAD_METHOD              0 (append)
+            138 LOAD_CONST              16 ('ארכיטקטורת שינה שמורה היטב עם שנת חלום (REM) ושינה עמוקה (N3) מספקת.')
+            140 CALL_METHOD              1
+            142 POP_TOP
+            144 JUMP_FORWARD            29 (to 204)
+
+334     >>  146 LOAD_FAST                6 (n3)
+            148 LOAD_CONST              17 (10)
+            150 COMPARE_OP               0 (<)
+            152 POP_JUMP_IF_FALSE       88 (to 176)
+
+335         154 LOAD_FAST                4 (b)
+            156 LOAD_METHOD              0 (append)
+            158 LOAD_CONST              18 ('שינה עמוקה (N3) מופחתת (')
+            160 LOAD_FAST                6 (n3)
+            162 LOAD_CONST               5 ('.0f')
+            164 FORMAT_VALUE             4 (with format)
+            166 LOAD_CONST              19 ('%) — ייתכן שהשינה הייתה קלה מהרגיל.')
+            168 BUILD_STRING             3
+            170 CALL_METHOD              1
+            172 POP_TOP
+            174 JUMP_FORWARD            14 (to 204)
+
+336     >>  176 LOAD_FAST                7 (rem)
+            178 LOAD_CONST              14 (15)
+            180 COMPARE_OP               0 (<)
+            182 POP_JUMP_IF_FALSE      102 (to 204)
+
+337         184 LOAD_FAST                4 (b)
+            186 LOAD_METHOD              0 (append)
+            188 LOAD_CONST              20 ('שנת חלום (REM) נמוכה (')
+            190 LOAD_FAST                7 (rem)
+            192 LOAD_CONST               5 ('.0f')
+            194 FORMAT_VALUE             4 (with format)
+            196 LOAD_CONST              21 ('%) — עשוי להשפיע על התאוששות.')
+            198 BUILD_STRING             3
+            200 CALL_METHOD              1
+            202 POP_TOP
+
+339     >>  204 LOAD_FAST                1 (rdi)
+            206 LOAD_CONST               0 (None)
+            208 IS_OP                    1
+            210 POP_JUMP_IF_FALSE      146 (to 292)
+
+340         212 LOAD_FAST                1 (rdi)
+            214 LOAD_CONST              22 (5)
+            216 COMPARE_OP               0 (<)
+            218 POP_JUMP_IF_FALSE      121 (to 242)
+            220 LOAD_FAST                4 (b)
+            222 LOAD_METHOD              0 (append)
+            224 LOAD_CONST              23 ('לא זוהו הפרעות נשימה משמעותיות (pAHI ')
+            226 LOAD_FAST                1 (rdi)
+            228 LOAD_CONST              24 ('.1f')
+            230 FORMAT_VALUE             4 (with format)
+            232 LOAD_CONST              25 ('/hr).')
+            234 BUILD_STRING             3
+            236 CALL_METHOD              1
+            238 POP_TOP
+            240 JUMP_FORWARD            25 (to 292)
+
+341     >>  242 LOAD_FAST                1 (rdi)
+            244 LOAD_CONST              14 (15)
+            246 COMPARE_OP               0 (<)
+            248 POP_JUMP_IF_FALSE      136 (to 272)
+            250 LOAD_FAST                4 (b)
+            252 LOAD_METHOD              0 (append)
+            254 LOAD_CONST              26 ('נצפו הפרעות נשימה קלות (pAHI ')
+            256 LOAD_FAST                1 (rdi)
+            258 LOAD_CONST              24 ('.1f')
+            260 FORMAT_VALUE             4 (with format)
+            262 LOAD_CONST              27 ('/hr) — מומלץ מעקב.')
+            264 BUILD_STRING             3
+            266 CALL_METHOD              1
+            268 POP_TOP
+            270 JUMP_FORWARD            10 (to 292)
+
+342     >>  272 LOAD_FAST                4 (b)
+            274 LOAD_METHOD              0 (append)
+            276 LOAD_CONST              28 ('הפרעות נשימה משמעותיות (pAHI ')
+            278 LOAD_FAST                1 (rdi)
+            280 LOAD_CONST              24 ('.1f')
+            282 FORMAT_VALUE             4 (with format)
+            284 LOAD_CONST              29 ('/hr) — מומלץ ייעוץ רופא.')
+            286 BUILD_STRING             3
+            288 CALL_METHOD              1
+            290 POP_TOP
+
+344     >>  292 LOAD_FAST                2 (spo2)
+            294 POP_JUMP_IF_FALSE      189 (to 378)
+
+345         296 LOAD_FAST                2 (spo2)
+            298 LOAD_METHOD              1 (get)
+            300 LOAD_CONST              30 ('avg')
+            302 LOAD_CONST              31 (0)
+            304 CALL_METHOD              2
+            306 STORE_FAST               8 (avg)
+            308 LOAD_FAST                2 (spo2)
+            310 LOAD_METHOD              1 (get)
+            312 LOAD_CONST              32 ('t_under90')
+            314 LOAD_CONST              31 (0)
+            316 CALL_METHOD              2
+            318 STORE_FAST               9 (t90)
+
+346         320 LOAD_FAST                8 (avg)
+            322 LOAD_CONST              33 (95)
+            324 COMPARE_OP               5 (>=)
+            326 POP_JUMP_IF_FALSE      175 (to 350)
+            328 LOAD_FAST                4 (b)
+            330 LOAD_METHOD              0 (append)
+            332 LOAD_CONST              34 ('ריווי חמצן בדם תקין (ממוצע SpO2 ')
+            334 LOAD_FAST                8 (avg)
+            336 LOAD_CONST              24 ('.1f')
+            338 FORMAT_VALUE             4 (with format)
+            340 LOAD_CONST               9 ('%).')
+            342 BUILD_STRING             3
+            344 CALL_METHOD              1
+            346 POP_TOP
+            348 JUMP_FORWARD            14 (to 378)
+
+347     >>  350 LOAD_FAST                4 (b)
+            352 LOAD_METHOD              0 (append)
+            354 LOAD_CONST              35 ('ממוצע SpO2 ')
+            356 LOAD_FAST                8 (avg)
+            358 LOAD_CONST              24 ('.1f')
+            360 FORMAT_VALUE             4 (with format)
+            362 LOAD_CONST              36 ('% עם ')
+            364 LOAD_FAST                9 (t90)
+            366 LOAD_CONST               5 ('.0f')
+            368 FORMAT_VALUE             4 (with format)
+            370 LOAD_CONST              37 (' דקות מתחת ל-90% — מומלץ בירור רפואי.')
+            372 BUILD_STRING             5
+            374 CALL_METHOD              1
+            376 POP_TOP
+
+349     >>  378 LOAD_FAST                0 (s)
+            380 LOAD_CONST              38 ('WASO')
+            382 BINARY_SUBSCR
+            384 LOAD_CONST              39 (60)
+            386 BINARY_TRUE_DIVIDE
+            388 STORE_FAST              10 (wm)
+
+350         390 LOAD_FAST               10 (wm)
+            392 LOAD_CONST              40 (20)
+            394 COMPARE_OP               0 (<)
+            396 POP_JUMP_IF_FALSE      205 (to 410)
+            398 LOAD_FAST                4 (b)
+            400 LOAD_METHOD              0 (append)
+            402 LOAD_CONST              41 ('יקיצות מינימליות במהלך הלילה — רצף שינה טוב.')
+            404 CALL_METHOD              1
+            406 POP_TOP
+            408 JUMP_FORWARD            25 (to 460)
+
+351     >>  410 LOAD_FAST               10 (wm)
+            412 LOAD_CONST              42 (45)
+            414 COMPARE_OP               0 (<)
+            416 POP_JUMP_IF_FALSE      220 (to 440)
+            418 LOAD_FAST                4 (b)
+            420 LOAD_METHOD              0 (append)
+            422 LOAD_CONST              43 ('ערנות לילית מתונה (')
+            424 LOAD_FAST               10 (wm)
+            426 LOAD_CONST               5 ('.0f')
+            428 FORMAT_VALUE             4 (with format)
+            430 LOAD_CONST              44 (' דקות לאחר תחילת שינה).')
+            432 BUILD_STRING             3
+            434 CALL_METHOD              1
+            436 POP_TOP
+            438 JUMP_FORWARD            10 (to 460)
+
+352     >>  440 LOAD_FAST                4 (b)
+            442 LOAD_METHOD              0 (append)
+            444 LOAD_CONST              45 ('יקיצות מרובות (')
+            446 LOAD_FAST               10 (wm)
+            448 LOAD_CONST               5 ('.0f')
+            450 FORMAT_VALUE             4 (with format)
+            452 LOAD_CONST              46 (' דקות WASO) — זוהה קיטוע שינה.')
+            454 BUILD_STRING             3
+            456 CALL_METHOD              1
+            458 POP_TOP
+
+353     >>  460 LOAD_CONST              47 (<code object <listcomp> at 0x000002B34DF49420, file "patient_report.py", line 353>)
+            462 LOAD_CONST              48 ('_bullets.<locals>.<listcomp>')
+            464 MAKE_FUNCTION            0
+            466 LOAD_FAST                4 (b)
+            468 LOAD_CONST               0 (None)
+            470 LOAD_CONST              22 (5)
+            472 BUILD_SLICE              2
+            474 BINARY_SUBSCR
+            476 GET_ITER
+            478 CALL_FUNCTION            1
+            480 RETURN_VALUE
+
+356     >>  482 LOAD_FAST                5 (se)
+            484 LOAD_CONST               3 (85)
+            486 COMPARE_OP               5 (>=)
+            488 EXTENDED_ARG             1
+            490 POP_JUMP_IF_FALSE      257 (to 514)
+            492 LOAD_FAST                4 (b)
+            494 LOAD_METHOD              0 (append)
+            496 LOAD_CONST              49 ('Sleep efficiency is good (')
+            498 LOAD_FAST                5 (se)
+            500 LOAD_CONST               5 ('.0f')
+            502 FORMAT_VALUE             4 (with format)
+            504 LOAD_CONST              50 ('%) — within the normal range.')
+            506 BUILD_STRING             3
+            508 CALL_METHOD              1
+            510 POP_TOP
+            512 JUMP_FORWARD            26 (to 566)
+
+357     >>  514 LOAD_FAST                5 (se)
+            516 LOAD_CONST               7 (70)
+            518 COMPARE_OP               5 (>=)
+            520 EXTENDED_ARG             1
+            522 POP_JUMP_IF_FALSE      273 (to 546)
+            524 LOAD_FAST                4 (b)
+            526 LOAD_METHOD              0 (append)
+            528 LOAD_CONST              51 ('Sleep efficiency is moderately reduced (')
+            530 LOAD_FAST                5 (se)
+            532 LOAD_CONST               5 ('.0f')
+            534 FORMAT_VALUE             4 (with format)
+            536 LOAD_CONST               9 ('%).')
+            538 BUILD_STRING             3
+            540 CALL_METHOD              1
+            542 POP_TOP
+            544 JUMP_FORWARD            10 (to 566)
+
+358     >>  546 LOAD_FAST                4 (b)
+            548 LOAD_METHOD              0 (append)
+            550 LOAD_CONST              52 ('Sleep efficiency is low (')
+            552 LOAD_FAST                5 (se)
+            554 LOAD_CONST               5 ('.0f')
+            556 FORMAT_VALUE             4 (with format)
+            558 LOAD_CONST              53 ('%) — significant nighttime wakefulness.')
+            560 BUILD_STRING             3
+            562 CALL_METHOD              1
+            564 POP_TOP
+
+359     >>  566 LOAD_FAST                0 (s)
+            568 LOAD_CONST              12 ('N3')
+            570 BINARY_SUBSCR
+            572 LOAD_FAST                0 (s)
+            574 LOAD_CONST              13 ('REM')
+            576 BINARY_SUBSCR
+            578 ROT_TWO
+            580 STORE_FAST               6 (n3)
+            582 STORE_FAST               7 (rem)
+
+360         584 LOAD_FAST                6 (n3)
+            586 LOAD_CONST              14 (15)
+            588 COMPARE_OP               5 (>=)
+            590 EXTENDED_ARG             1
+            592 POP_JUMP_IF_FALSE      308 (to 616)
+            594 LOAD_FAST                7 (rem)
+            596 LOAD_CONST              15 (18)
+            598 COMPARE_OP               5 (>=)
+            600 EXTENDED_ARG             1
+            602 POP_JUMP_IF_FALSE      308 (to 616)
+
+361         604 LOAD_FAST                4 (b)
+            606 LOAD_METHOD              0 (append)
+            608 LOAD_CONST              54 ('Sleep architecture is well-preserved with adequate deep (N3) and REM sleep.')
+            610 CALL_METHOD              1
+            612 POP_TOP
+            614 JUMP_FORWARD            31 (to 678)
+
+362     >>  616 LOAD_FAST                6 (n3)
+            618 LOAD_CONST              17 (10)
+            620 COMPARE_OP               0 (<)
+            622 EXTENDED_ARG             1
+            624 POP_JUMP_IF_FALSE      324 (to 648)
+
+363         626 LOAD_FAST                4 (b)
+            628 LOAD_METHOD              0 (append)
+            630 LOAD_CONST              55 ('Deep sleep (N3) is reduced (')
+            632 LOAD_FAST                6 (n3)
+            634 LOAD_CONST               5 ('.0f')
+            636 FORMAT_VALUE             4 (with format)
+            638 LOAD_CONST              56 ('%) — sleep may be lighter than normal.')
+            640 BUILD_STRING             3
+            642 CALL_METHOD              1
+            644 POP_TOP
+            646 JUMP_FORWARD            15 (to 678)
+
+364     >>  648 LOAD_FAST                7 (rem)
+            650 LOAD_CONST              14 (15)
+            652 COMPARE_OP               0 (<)
+            654 EXTENDED_ARG             1
+            656 POP_JUMP_IF_FALSE      339 (to 678)
+
+365         658 LOAD_FAST                4 (b)
+            660 LOAD_METHOD              0 (append)
+            662 LOAD_CONST              57 ('REM sleep is low (')
+            664 LOAD_FAST                7 (rem)
+            666 LOAD_CONST               5 ('.0f')
+            668 FORMAT_VALUE             4 (with format)
+            670 LOAD_CONST              58 ('%) — may affect memory consolidation and recovery.')
+            672 BUILD_STRING             3
+            674 CALL_METHOD              1
+            676 POP_TOP
+
+366     >>  678 LOAD_FAST                1 (rdi)
+            680 LOAD_CONST               0 (None)
+            682 IS_OP                    1
+            684 EXTENDED_ARG             1
+            686 POP_JUMP_IF_FALSE      386 (to 772)
+
+367         688 LOAD_FAST                1 (rdi)
+            690 LOAD_CONST              22 (5)
+            692 COMPARE_OP               0 (<)
+            694 EXTENDED_ARG             1
+            696 POP_JUMP_IF_FALSE      360 (to 720)
+            698 LOAD_FAST                4 (b)
+            700 LOAD_METHOD              0 (append)
+            702 LOAD_CONST              59 ('No significant respiratory disturbances detected (pAHI ')
+            704 LOAD_FAST                1 (rdi)
+            706 LOAD_CONST              24 ('.1f')
+            708 FORMAT_VALUE             4 (with format)
+            710 LOAD_CONST              25 ('/hr).')
+            712 BUILD_STRING             3
+            714 CALL_METHOD              1
+            716 POP_TOP
+            718 JUMP_FORWARD            26 (to 772)
+
+368     >>  720 LOAD_FAST                1 (rdi)
+            722 LOAD_CONST              14 (15)
+            724 COMPARE_OP               0 (<)
+            726 EXTENDED_ARG             1
+            728 POP_JUMP_IF_FALSE      376 (to 752)
+            730 LOAD_FAST                4 (b)
+            732 LOAD_METHOD              0 (append)
+            734 LOAD_CONST              60 ('Mild respiratory disturbances noted (pAHI ')
+            736 LOAD_FAST                1 (rdi)
+            738 LOAD_CONST              24 ('.1f')
+            740 FORMAT_VALUE             4 (with format)
+            742 LOAD_CONST              61 ('/hr) — monitoring advised.')
+            744 BUILD_STRING             3
+            746 CALL_METHOD              1
+            748 POP_TOP
+            750 JUMP_FORWARD            10 (to 772)
+
+369     >>  752 LOAD_FAST                4 (b)
+            754 LOAD_METHOD              0 (append)
+            756 LOAD_CONST              62 ('Significant respiratory disturbances (pAHI ')
+            758 LOAD_FAST                1 (rdi)
+            760 LOAD_CONST              24 ('.1f')
+            762 FORMAT_VALUE             4 (with format)
+            764 LOAD_CONST              63 ('/hr) — follow-up recommended.')
+            766 BUILD_STRING             3
+            768 CALL_METHOD              1
+            770 POP_TOP
+
+370     >>  772 LOAD_FAST                2 (spo2)
+            774 EXTENDED_ARG             1
+            776 POP_JUMP_IF_FALSE      431 (to 862)
+
+371         778 LOAD_FAST                2 (spo2)
+            780 LOAD_METHOD              1 (get)
+            782 LOAD_CONST              30 ('avg')
+            784 LOAD_CONST              31 (0)
+            786 CALL_METHOD              2
+            788 STORE_FAST               8 (avg)
+            790 LOAD_FAST                2 (spo2)
+            792 LOAD_METHOD              1 (get)
+            794 LOAD_CONST              32 ('t_under90')
+            796 LOAD_CONST              31 (0)
+            798 CALL_METHOD              2
+            800 STORE_FAST               9 (t90)
+
+372         802 LOAD_FAST                8 (avg)
+            804 LOAD_CONST              33 (95)
+            806 COMPARE_OP               5 (>=)
+            808 EXTENDED_ARG             1
+            810 POP_JUMP_IF_FALSE      417 (to 834)
+            812 LOAD_FAST                4 (b)
+            814 LOAD_METHOD              0 (append)
+            816 LOAD_CONST              64 ('Blood oxygen saturation is normal (mean SpO2 ')
+            818 LOAD_FAST                8 (avg)
+            820 LOAD_CONST              24 ('.1f')
+            822 FORMAT_VALUE             4 (with format)
+            824 LOAD_CONST               9 ('%).')
+            826 BUILD_STRING             3
+            828 CALL_METHOD              1
+            830 POP_TOP
+            832 JUMP_FORWARD            14 (to 862)
+
+373     >>  834 LOAD_FAST                4 (b)
+            836 LOAD_METHOD              0 (append)
+            838 LOAD_CONST              65 ('Mean SpO2 ')
+            840 LOAD_FAST                8 (avg)
+            842 LOAD_CONST              24 ('.1f')
+            844 FORMAT_VALUE             4 (with format)
+            846 LOAD_CONST              66 ('% with ')
+            848 LOAD_FAST                9 (t90)
+            850 LOAD_CONST               5 ('.0f')
+            852 FORMAT_VALUE             4 (with format)
+            854 LOAD_CONST              67 (' min below 90% — oxygenation review advised.')
+            856 BUILD_STRING             5
+            858 CALL_METHOD              1
+            860 POP_TOP
+
+374     >>  862 LOAD_FAST                0 (s)
+            864 LOAD_CONST              38 ('WASO')
+            866 BINARY_SUBSCR
+            868 LOAD_CONST              39 (60)
+            870 BINARY_TRUE_DIVIDE
+            872 STORE_FAST              10 (wm)
+
+375         874 LOAD_FAST               10 (wm)
+            876 LOAD_CONST              40 (20)
+            878 COMPARE_OP               0 (<)
+            880 EXTENDED_ARG             1
+            882 POP_JUMP_IF_FALSE      448 (to 896)
+            884 LOAD_FAST                4 (b)
+            886 LOAD_METHOD              0 (append)
+            888 LOAD_CONST              68 ('Minimal nighttime awakenings — good sleep continuity.')
+            890 CALL_METHOD              1
+            892 POP_TOP
+            894 JUMP_FORWARD            26 (to 948)
+
+376     >>  896 LOAD_FAST               10 (wm)
+            898 LOAD_CONST              42 (45)
+            900 COMPARE_OP               0 (<)
+            902 EXTENDED_ARG             1
+            904 POP_JUMP_IF_FALSE      464 (to 928)
+            906 LOAD_FAST                4 (b)
+            908 LOAD_METHOD              0 (append)
+            910 LOAD_CONST              69 ('Moderate nighttime wakefulness (')
+            912 LOAD_FAST               10 (wm)
+            914 LOAD_CONST               5 ('.0f')
+            916 FORMAT_VALUE             4 (with format)
+            918 LOAD_CONST              70 (' min after sleep onset).')
+            920 BUILD_STRING             3
+            922 CALL_METHOD              1
+            924 POP_TOP
+            926 JUMP_FORWARD            10 (to 948)
+
+377     >>  928 LOAD_FAST                4 (b)
+            930 LOAD_METHOD              0 (append)
+            932 LOAD_CONST              71 ('Frequent awakenings (')
+            934 LOAD_FAST               10 (wm)
+            936 LOAD_CONST               5 ('.0f')
+            938 FORMAT_VALUE             4 (with format)
+            940 LOAD_CONST              72 (' min WASO) — sleep fragmentation detected.')
+            942 BUILD_STRING             3
+            944 CALL_METHOD              1
+            946 POP_TOP
+
+378     >>  948 LOAD_FAST                4 (b)
+            950 LOAD_CONST               0 (None)
+            952 LOAD_CONST              22 (5)
+            954 BUILD_SLICE              2
+            956 BINARY_SUBSCR
+            958 RETURN_VALUE
+
+Disassembly of <code object <listcomp> at 0x000002B34DF49420, file "patient_report.py", line 353>:
+353           0 BUILD_LIST               0
+              2 LOAD_FAST                0 (.0)
+        >>    4 FOR_ITER                 6 (to 18)
+              6 STORE_FAST               1 (line)
+              8 LOAD_GLOBAL              0 (_bidi)
+             10 LOAD_FAST                1 (line)
+             12 CALL_FUNCTION            1
+             14 LIST_APPEND              2
+             16 JUMP_ABSOLUTE            2 (to 4)
+        >>   18 RETURN_VALUE
+
+--- _generate_single_report ---
+402           0 LOAD_FAST                9 (rdi)
+              2 LOAD_CONST               0 (None)
+              4 IS_OP                    1
+              6 POP_JUMP_IF_FALSE        6 (to 12)
+              8 LOAD_FAST                9 (rdi)
+             10 JUMP_FORWARD             1 (to 14)
+        >>   12 LOAD_FAST               10 (ahi)
+        >>   14 STORE_FAST              17 (rdi_v)
+
+403          16 LOAD_GLOBAL              0 (_stats)
+             18 LOAD_FAST                0 (hypno_1hz_int)
+             20 CALL_FUNCTION            1
+             22 STORE_FAST              18 (st)
+
+406          24 LOAD_GLOBAL              1 (plt)
+             26 LOAD_ATTR                2 (figure)
+             28 LOAD_CONST               1 ((8.5, 11))
+             30 LOAD_GLOBAL              3 (BG)
+             32 LOAD_CONST               2 (('figsize', 'facecolor'))
+             34 CALL_FUNCTION_KW         2
+             36 STORE_FAST              19 (fig)
+
+409          38 SETUP_FINALLY           93 (to 226)
+
+410          40 LOAD_CONST               3 (0)
+             42 LOAD_CONST               0 (None)
+             44 IMPORT_NAME              4 (os)
+             46 STORE_DEREF              1 (os)
+             48 LOAD_CONST               3 (0)
+             50 LOAD_CONST               0 (None)
+             52 IMPORT_NAME              5 (sys)
+             54 STORE_DEREF              3 (sys)
+
+411          56 LOAD_CONST               3 (0)
+             58 LOAD_CONST               4 (('Image',))
+             60 IMPORT_NAME              6 (PIL)
+             62 IMPORT_FROM              7 (Image)
+             64 STORE_FAST              20 (Image)
+             66 POP_TOP
+
+412          68 LOAD_CLOSURE             1 (os)
+             70 LOAD_CLOSURE             3 (sys)
+             72 BUILD_TUPLE              2
+             74 LOAD_CONST               5 (<code object _resource_path at 0x000002B34DF496E0, file "patient_report.py", line 412>)
+             76 LOAD_CONST               6 ('_generate_single_report.<locals>._resource_path')
+             78 MAKE_FUNCTION            8 (closure)
+             80 STORE_FAST              21 (_resource_path)
+
+417          82 LOAD_FAST               21 (_resource_path)
+             84 LOAD_CONST               7 ('logo_up.png')
+             86 CALL_FUNCTION            1
+             88 STORE_FAST              22 (logo_up_path)
+
+418          90 LOAD_DEREF               1 (os)
+             92 LOAD_ATTR                8 (path)
+             94 LOAD_METHOD              9 (exists)
+             96 LOAD_FAST               22 (logo_up_path)
+             98 CALL_METHOD              1
+            100 POP_JUMP_IF_FALSE       76 (to 152)
+
+419         102 LOAD_FAST               20 (Image)
+            104 LOAD_METHOD             10 (open)
+            106 LOAD_FAST               22 (logo_up_path)
+            108 CALL_METHOD              1
+            110 STORE_FAST              23 (logo_up_img)
+
+421         112 LOAD_FAST               19 (fig)
+            114 LOAD_ATTR               11 (add_axes)
+            116 BUILD_LIST               0
+            118 LOAD_CONST               8 ((0.4, 0.92, 0.2, 0.07))
+            120 LIST_EXTEND              1
+            122 LOAD_CONST               9 ('N')
+            124 LOAD_CONST              10 (10)
+            126 LOAD_CONST              11 (('anchor', 'zorder'))
+            128 CALL_FUNCTION_KW         3
+            130 STORE_FAST              24 (ax_logo_up)
+
+422         132 LOAD_FAST               24 (ax_logo_up)
+            134 LOAD_METHOD             12 (imshow)
+            136 LOAD_FAST               23 (logo_up_img)
+            138 CALL_METHOD              1
+            140 POP_TOP
+
+423         142 LOAD_FAST               24 (ax_logo_up)
+            144 LOAD_METHOD             13 (axis)
+            146 LOAD_CONST              12 ('off')
+            148 CALL_METHOD              1
+            150 POP_TOP
+
+425     >>  152 LOAD_FAST               21 (_resource_path)
+            154 LOAD_CONST              13 ('logo_down.png')
+            156 CALL_FUNCTION            1
+            158 STORE_FAST              25 (logo_down_path)
+
+426         160 LOAD_DEREF               1 (os)
+            162 LOAD_ATTR                8 (path)
+            164 LOAD_METHOD              9 (exists)
+            166 LOAD_FAST               25 (logo_down_path)
+            168 CALL_METHOD              1
+            170 POP_JUMP_IF_FALSE      111 (to 222)
+
+427         172 LOAD_FAST               20 (Image)
+            174 LOAD_METHOD             10 (open)
+            176 LOAD_FAST               25 (logo_down_path)
+            178 CALL_METHOD              1
+            180 STORE_FAST              26 (logo_down_img)
+
+429         182 LOAD_FAST               19 (fig)
+            184 LOAD_ATTR               11 (add_axes)
+            186 BUILD_LIST               0
+            188 LOAD_CONST              14 ((0.05, 0.01, 0.9, 0.08))
+            190 LIST_EXTEND              1
+            192 LOAD_CONST              15 ('S')
+            194 LOAD_CONST              10 (10)
+            196 LOAD_CONST              11 (('anchor', 'zorder'))
+            198 CALL_FUNCTION_KW         3
+            200 STORE_FAST              27 (ax_logo_down)
+
+430         202 LOAD_FAST               27 (ax_logo_down)
+            204 LOAD_METHOD             12 (imshow)
+            206 LOAD_FAST               26 (logo_down_img)
+            208 CALL_METHOD              1
+            210 POP_TOP
+
+431         212 LOAD_FAST               27 (ax_logo_down)
+            214 LOAD_METHOD             13 (axis)
+            216 LOAD_CONST              12 ('off')
+            218 CALL_METHOD              1
+            220 POP_TOP
+        >>  222 POP_BLOCK
+            224 JUMP_FORWARD            25 (to 276)
+
+432     >>  226 DUP_TOP
+            228 LOAD_GLOBAL             14 (Exception)
+            230 JUMP_IF_NOT_EXC_MATCH   137 (to 274)
+            232 POP_TOP
+            234 STORE_FAST              28 (e)
+            236 POP_TOP
+            238 SETUP_FINALLY           13 (to 266)
+
+433         240 LOAD_GLOBAL             15 (print)
+            242 LOAD_CONST              16 ('Logo error: ')
+            244 LOAD_FAST               28 (e)
+            246 FORMAT_VALUE             0
+            248 BUILD_STRING             2
+            250 CALL_FUNCTION            1
+            252 POP_TOP
+            254 POP_BLOCK
+            256 POP_EXCEPT
+            258 LOAD_CONST               0 (None)
+            260 STORE_FAST              28 (e)
+            262 DELETE_FAST             28 (e)
+            264 JUMP_FORWARD             5 (to 276)
+        >>  266 LOAD_CONST               0 (None)
+            268 STORE_FAST              28 (e)
+            270 DELETE_FAST             28 (e)
+            272 RERAISE                  1
+
+432     >>  274 RERAISE                  0
+
+435     >>  276 LOAD_FAST               19 (fig)
+            278 LOAD_ATTR               16 (patch)
+            280 LOAD_METHOD             17 (set_facecolor)
+            282 LOAD_GLOBAL              3 (BG)
+            284 CALL_METHOD              1
+            286 POP_TOP
+
+438         288 LOAD_FAST               19 (fig)
+            290 LOAD_METHOD             11 (add_axes)
+            292 BUILD_LIST               0
+            294 LOAD_CONST              17 ((0.0, 0.88, 1.0, 0.04))
+            296 LIST_EXTEND              1
+            298 CALL_METHOD              1
+            300 STORE_FAST              29 (ax_title)
+
+439         302 LOAD_FAST               29 (ax_title)
+            304 LOAD_METHOD             13 (axis)
+            306 LOAD_CONST              12 ('off')
+            308 CALL_METHOD              1
+            310 POP_TOP
+
+440         312 LOAD_DEREF               0 (lang)
+            314 LOAD_CONST              18 ('he')
+            316 COMPARE_OP               2 (==)
+            318 POP_JUMP_IF_FALSE      182 (to 364)
+
+443         320 LOAD_GLOBAL             18 (TRANSLATIONS)
+            322 LOAD_METHOD             19 (get)
+            324 LOAD_CONST              19 ('Overnight Sleep Study Report')
+            326 LOAD_CONST              20 ('')
+            328 CALL_METHOD              2
+            330 STORE_FAST              30 (he_title)
+
+444         332 LOAD_FAST                4 (study_date)
+            334 POP_JUMP_IF_FALSE      175 (to 350)
+            336 LOAD_FAST               30 (he_title)
+            338 FORMAT_VALUE             0
+            340 LOAD_CONST              21 (' - ')
+            342 LOAD_FAST                4 (study_date)
+            344 FORMAT_VALUE             0
+            346 BUILD_STRING             3
+            348 JUMP_FORWARD             1 (to 352)
+        >>  350 LOAD_FAST               30 (he_title)
+        >>  352 STORE_FAST              31 (logical)
+
+445         354 LOAD_GLOBAL             20 (_bidi)
+            356 LOAD_FAST               31 (logical)
+            358 CALL_FUNCTION            1
+            360 STORE_FAST              32 (t_text)
+            362 JUMP_FORWARD            13 (to 390)
+
+447     >>  364 LOAD_CONST              19 ('Overnight Sleep Study Report')
+            366 STORE_FAST              30 (he_title)
+
+448         368 LOAD_FAST                4 (study_date)
+            370 POP_JUMP_IF_FALSE      193 (to 386)
+            372 LOAD_FAST               30 (he_title)
+            374 FORMAT_VALUE             0
+            376 LOAD_CONST              21 (' - ')
+            378 LOAD_FAST                4 (study_date)
+            380 FORMAT_VALUE             0
+            382 BUILD_STRING             3
+            384 JUMP_FORWARD             1 (to 388)
+        >>  386 LOAD_FAST               30 (he_title)
+        >>  388 STORE_FAST              32 (t_text)
+
+449     >>  390 LOAD_FAST               29 (ax_title)
+            392 LOAD_ATTR               21 (text)
+            394 LOAD_CONST              22 (0.5)
+            396 LOAD_CONST              22 (0.5)
+            398 LOAD_FAST               32 (t_text)
+
+450         400 LOAD_FAST               29 (ax_title)
+            402 LOAD_ATTR               22 (transAxes)
+
+451         404 LOAD_CONST              23 (24)
+            406 LOAD_CONST              24 ('bold')
+            408 LOAD_GLOBAL             23 (TEXT_H)
+            410 LOAD_CONST              25 ('center')
+            412 LOAD_CONST              25 ('center')
+
+452         414 LOAD_DEREF               0 (lang)
+            416 LOAD_CONST              18 ('he')
+            418 COMPARE_OP               2 (==)
+            420 POP_JUMP_IF_FALSE      216 (to 432)
+            422 LOAD_GLOBAL             24 (_he_fp)
+            424 LOAD_CONST              26 (True)
+            426 LOAD_CONST              27 (('bold',))
+            428 CALL_FUNCTION_KW         1
+            430 JUMP_FORWARD             1 (to 434)
+        >>  432 LOAD_CONST               0 (None)
+
+449     >>  434 LOAD_CONST              28 (('transform', 'fontsize', 'fontweight', 'color', 'va', 'ha', 'fontproperties'))
+            436 CALL_FUNCTION_KW        10
+            438 POP_TOP
+
+453         440 LOAD_FAST               29 (ax_title)
+            442 LOAD_ATTR               25 (plot)
+            444 LOAD_CONST               3 (0)
+            446 LOAD_CONST              29 (1)
+            448 BUILD_LIST               2
+            450 LOAD_CONST              30 (0.05)
+            452 LOAD_CONST              30 (0.05)
+            454 BUILD_LIST               2
+            456 LOAD_GLOBAL             26 (ACCENT)
+            458 LOAD_CONST              31 (2.5)
+
+454         460 LOAD_FAST               29 (ax_title)
+            462 LOAD_ATTR               22 (transAxes)
+
+453         464 LOAD_CONST              32 (('color', 'lw', 'transform'))
+            466 CALL_FUNCTION_KW         5
+            468 POP_TOP
+
+457         470 LOAD_FAST               19 (fig)
+            472 LOAD_METHOD             11 (add_axes)
+            474 BUILD_LIST               0
+            476 LOAD_CONST              33 ((0.0, 0.85, 1.0, 0.028))
+            478 LIST_EXTEND              1
+            480 CALL_METHOD              1
+            482 STORE_FAST              33 (ax_dem)
+
+458         484 LOAD_FAST               33 (ax_dem)
+            486 LOAD_METHOD             13 (axis)
+            488 LOAD_CONST              12 ('off')
+            490 CALL_METHOD              1
+            492 POP_TOP
+
+459         494 BUILD_LIST               0
+            496 STORE_FAST              34 (parts)
+
+460         498 LOAD_GLOBAL             27 (str)
+            500 LOAD_FAST                1 (subject_id)
+            502 CALL_FUNCTION            1
+            504 LOAD_METHOD             28 (split)
+            506 LOAD_CONST              34 ('_')
+            508 CALL_METHOD              1
+            510 LOAD_CONST               3 (0)
+            512 BINARY_SUBSCR
+            514 STORE_FAST              35 (sid)
+
+461         516 LOAD_DEREF               0 (lang)
+            518 LOAD_CONST              18 ('he')
+            520 COMPARE_OP               2 (==)
+            522 EXTENDED_ARG             1
+            524 POP_JUMP_IF_FALSE      342 (to 684)
+
+464         526 LOAD_FAST               35 (sid)
+            528 EXTENDED_ARG             1
+            530 POP_JUMP_IF_FALSE      274 (to 548)
+            532 LOAD_FAST               34 (parts)
+            534 LOAD_METHOD             29 (append)
+            536 LOAD_CONST              35 ('ת.ז: ')
+            538 LOAD_FAST               35 (sid)
+            540 FORMAT_VALUE             0
+            542 BUILD_STRING             2
+            544 CALL_METHOD              1
+            546 POP_TOP
+
+465     >>  548 LOAD_FAST                5 (subject_age)
+            550 EXTENDED_ARG             1
+            552 POP_JUMP_IF_FALSE      285 (to 570)
+            554 LOAD_FAST               34 (parts)
+            556 LOAD_METHOD             29 (append)
+            558 LOAD_CONST              36 ('גיל: ')
+            560 LOAD_FAST                5 (subject_age)
+            562 FORMAT_VALUE             0
+            564 BUILD_STRING             2
+            566 CALL_METHOD              1
+            568 POP_TOP
+
+466     >>  570 LOAD_FAST                6 (sex)
+            572 EXTENDED_ARG             1
+            574 POP_JUMP_IF_FALSE      304 (to 608)
+
+467         576 LOAD_FAST               34 (parts)
+            578 LOAD_METHOD             29 (append)
+            580 LOAD_GLOBAL             27 (str)
+            582 LOAD_FAST                6 (sex)
+            584 CALL_FUNCTION            1
+            586 LOAD_METHOD             30 (upper)
+            588 CALL_METHOD              0
+            590 LOAD_CONST              37 (('M', 'MALE'))
+            592 CONTAINS_OP              0
+            594 EXTENDED_ARG             1
+            596 POP_JUMP_IF_FALSE      301 (to 602)
+            598 LOAD_CONST              38 ('זכר')
+            600 JUMP_FORWARD             1 (to 604)
+        >>  602 LOAD_CONST              39 ('נקבה')
+        >>  604 CALL_METHOD              1
+            606 POP_TOP
+
+468     >>  608 LOAD_FAST               34 (parts)
+
+469         610 LOAD_CONST              40 ('זמן שינה כולל: ')
+            612 LOAD_GLOBAL             31 (_fmt)
+            614 LOAD_FAST               18 (st)
+            616 LOAD_CONST              41 ('TST')
+            618 BINARY_SUBSCR
+            620 CALL_FUNCTION            1
+            622 FORMAT_VALUE             0
+            624 BUILD_STRING             2
+
+470         626 LOAD_CONST              42 ('יעילות: ')
+            628 LOAD_FAST               18 (st)
+            630 LOAD_CONST              43 ('SE')
+            632 BINARY_SUBSCR
+            634 LOAD_CONST              44 ('.0f')
+            636 FORMAT_VALUE             4 (with format)
+            638 LOAD_CONST              45 ('%')
+            640 BUILD_STRING             3
+
+471         642 LOAD_CONST              46 ('WASO: ')
+            644 LOAD_GLOBAL             31 (_fmt)
+            646 LOAD_FAST               18 (st)
+            648 LOAD_CONST              47 ('WASO')
+            650 BINARY_SUBSCR
+            652 CALL_FUNCTION            1
+            654 FORMAT_VALUE             0
+            656 BUILD_STRING             2
+
+468         658 BUILD_LIST               3
+            660 INPLACE_ADD
+            662 STORE_FAST              34 (parts)
+
+473         664 LOAD_CONST              48 (' • ')
+            666 LOAD_METHOD             32 (join)
+            668 LOAD_FAST               34 (parts)
+            670 CALL_METHOD              1
+            672 STORE_FAST              36 (dem_line)
+
+474         674 LOAD_GLOBAL             20 (_bidi)
+            676 LOAD_FAST               36 (dem_line)
+            678 CALL_FUNCTION            1
+            680 STORE_FAST              37 (dem_display)
+            682 JUMP_FORWARD            74 (to 832)
+
+476     >>  684 LOAD_FAST               35 (sid)
+            686 EXTENDED_ARG             1
+            688 POP_JUMP_IF_FALSE      353 (to 706)
+            690 LOAD_FAST               34 (parts)
+            692 LOAD_METHOD             29 (append)
+            694 LOAD_CONST              49 ('ID: ')
+            696 LOAD_FAST               35 (sid)
+            698 FORMAT_VALUE             0
+            700 BUILD_STRING             2
+            702 CALL_METHOD              1
+            704 POP_TOP
+
+477     >>  706 LOAD_FAST                5 (subject_age)
+            708 EXTENDED_ARG             1
+            710 POP_JUMP_IF_FALSE      364 (to 728)
+            712 LOAD_FAST               34 (parts)
+            714 LOAD_METHOD             29 (append)
+            716 LOAD_CONST              50 ('Age: ')
+            718 LOAD_FAST                5 (subject_age)
+            720 FORMAT_VALUE             0
+            722 BUILD_STRING             2
+            724 CALL_METHOD              1
+            726 POP_TOP
+
+478     >>  728 LOAD_FAST                6 (sex)
+            730 EXTENDED_ARG             1
+            732 POP_JUMP_IF_FALSE      383 (to 766)
+
+479         734 LOAD_FAST               34 (parts)
+            736 LOAD_METHOD             29 (append)
+            738 LOAD_GLOBAL             27 (str)
+            740 LOAD_FAST                6 (sex)
+            742 CALL_FUNCTION            1
+            744 LOAD_METHOD             30 (upper)
+            746 CALL_METHOD              0
+            748 LOAD_CONST              37 (('M', 'MALE'))
+            750 CONTAINS_OP              0
+            752 EXTENDED_ARG             1
+            754 POP_JUMP_IF_FALSE      380 (to 760)
+            756 LOAD_CONST              51 ('Male')
+            758 JUMP_FORWARD             1 (to 762)
+        >>  760 LOAD_CONST              52 ('Female')
+        >>  762 CALL_METHOD              1
+            764 POP_TOP
+
+480     >>  766 LOAD_FAST               34 (parts)
+
+481         768 LOAD_CONST              53 ('Total Sleep: ')
+            770 LOAD_GLOBAL             31 (_fmt)
+            772 LOAD_FAST               18 (st)
+            774 LOAD_CONST              41 ('TST')
+            776 BINARY_SUBSCR
+            778 CALL_FUNCTION            1
+            780 FORMAT_VALUE             0
+            782 BUILD_STRING             2
+
+482         784 LOAD_CONST              54 ('Efficiency: ')
+            786 LOAD_FAST               18 (st)
+            788 LOAD_CONST              43 ('SE')
+            790 BINARY_SUBSCR
+            792 LOAD_CONST              44 ('.0f')
+            794 FORMAT_VALUE             4 (with format)
+            796 LOAD_CONST              45 ('%')
+            798 BUILD_STRING             3
+
+483         800 LOAD_CONST              46 ('WASO: ')
+            802 LOAD_GLOBAL             31 (_fmt)
+            804 LOAD_FAST               18 (st)
+            806 LOAD_CONST              47 ('WASO')
+            808 BINARY_SUBSCR
+            810 CALL_FUNCTION            1
+            812 FORMAT_VALUE             0
+            814 BUILD_STRING             2
+
+480         816 BUILD_LIST               3
+            818 INPLACE_ADD
+            820 STORE_FAST              34 (parts)
+
+485         822 LOAD_CONST              48 (' • ')
+            824 LOAD_METHOD             32 (join)
+            826 LOAD_FAST               34 (parts)
+            828 CALL_METHOD              1
+            830 STORE_FAST              37 (dem_display)
+
+487     >>  832 LOAD_FAST               33 (ax_dem)
+            834 LOAD_ATTR               21 (text)
+            836 LOAD_CONST              22 (0.5)
+            838 LOAD_CONST              22 (0.5)
+            840 LOAD_FAST               37 (dem_display)
+
+488         842 LOAD_FAST               33 (ax_dem)
+            844 LOAD_ATTR               22 (transAxes)
+            846 LOAD_CONST              55 (10.5)
+
+489         848 LOAD_GLOBAL             33 (TEXT_M)
+            850 LOAD_CONST              25 ('center')
+            852 LOAD_CONST              25 ('center')
+
+490         854 LOAD_DEREF               0 (lang)
+            856 LOAD_CONST              18 ('he')
+            858 COMPARE_OP               2 (==)
+            860 EXTENDED_ARG             1
+            862 POP_JUMP_IF_FALSE      435 (to 870)
+            864 LOAD_GLOBAL             24 (_he_fp)
+            866 CALL_FUNCTION            0
+            868 JUMP_FORWARD             1 (to 872)
+        >>  870 LOAD_CONST               0 (None)
+
+487     >>  872 LOAD_CONST              56 (('transform', 'fontsize', 'color', 'va', 'ha', 'fontproperties'))
+            874 CALL_FUNCTION_KW         9
+            876 POP_TOP
+
+494         878 LOAD_FAST               19 (fig)
+            880 LOAD_METHOD             11 (add_axes)
+            882 BUILD_LIST               0
+            884 LOAD_CONST              57 ((0.0, 0.92, 1.0, 0.003))
+            886 LIST_EXTEND              1
+            888 CALL_METHOD              1
+            890 STORE_FAST              38 (ax_sep)
+
+495         892 LOAD_FAST               38 (ax_sep)
+            894 LOAD_METHOD             13 (axis)
+            896 LOAD_CONST              12 ('off')
+            898 CALL_METHOD              1
+            900 POP_TOP
+
+496         902 LOAD_FAST               38 (ax_sep)
+            904 LOAD_ATTR               25 (plot)
+            906 LOAD_CONST               3 (0)
+            908 LOAD_CONST              29 (1)
+            910 BUILD_LIST               2
+            912 LOAD_CONST              22 (0.5)
+            914 LOAD_CONST              22 (0.5)
+            916 BUILD_LIST               2
+            918 LOAD_GLOBAL             34 (BORDER)
+            920 LOAD_CONST              58 (1.0)
+            922 LOAD_FAST               38 (ax_sep)
+            924 LOAD_ATTR               22 (transAxes)
+            926 LOAD_CONST              32 (('color', 'lw', 'transform'))
+            928 CALL_FUNCTION_KW         5
+            930 POP_TOP
+
+500         932 LOAD_GLOBAL             35 (GridSpec)
+            934 LOAD_CONST              59 (5)
+            936 LOAD_CONST              60 (2)
+            938 LOAD_FAST               19 (fig)
+
+501         940 LOAD_CONST              61 (0.8)
+            942 LOAD_CONST              62 (0.15)
+
+502         944 LOAD_CONST              63 (0.04)
+            946 LOAD_CONST              64 (0.97)
+
+503         948 LOAD_CONST              65 (0.55)
+            950 LOAD_CONST              66 (0.28)
+
+504         952 BUILD_LIST               0
+            954 LOAD_CONST              67 ((0.9, 1.4, 0.85, 1.75, 0.9))
+            956 LIST_EXTEND              1
+
+500         958 LOAD_CONST              68 (('figure', 'top', 'bottom', 'left', 'right', 'hspace', 'wspace', 'height_ratios'))
+            960 CALL_FUNCTION_KW        10
+            962 STORE_FAST              39 (gs)
+
+507         964 LOAD_DEREF               0 (lang)
+            966 LOAD_CONST              18 ('he')
+            968 COMPARE_OP               2 (==)
+            970 EXTENDED_ARG             1
+            972 POP_JUMP_IF_FALSE      489 (to 978)
+            974 LOAD_CONST              29 (1)
+            976 JUMP_FORWARD             1 (to 980)
+        >>  978 LOAD_CONST               3 (0)
+        >>  980 STORE_FAST              40 (c_left)
+
+508         982 LOAD_DEREF               0 (lang)
+            984 LOAD_CONST              18 ('he')
+            986 COMPARE_OP               2 (==)
+            988 EXTENDED_ARG             1
+            990 POP_JUMP_IF_FALSE      498 (to 996)
+            992 LOAD_CONST               3 (0)
+            994 JUMP_FORWARD             1 (to 998)
+        >>  996 LOAD_CONST              29 (1)
+        >>  998 STORE_FAST              41 (c_right)
+
+511        1000 LOAD_FAST               19 (fig)
+           1002 LOAD_METHOD             36 (add_subplot)
+           1004 LOAD_FAST               39 (gs)
+           1006 LOAD_CONST               3 (0)
+           1008 LOAD_CONST              60 (2)
+           1010 BUILD_SLICE              2
+           1012 LOAD_FAST               40 (c_left)
+           1014 BUILD_TUPLE              2
+           1016 BINARY_SUBSCR
+           1018 CALL_METHOD              1
+           1020 STORE_FAST              42 (ax1)
+
+512        1022 LOAD_GLOBAL             37 (_panel)
+           1024 LOAD_FAST               42 (ax1)
+           1026 CALL_FUNCTION            1
+           1028 POP_TOP
+           1030 LOAD_FAST               42 (ax1)
+           1032 LOAD_METHOD             13 (axis)
+           1034 LOAD_CONST              12 ('off')
+           1036 CALL_METHOD              1
+           1038 POP_TOP
+
+513        1040 LOAD_GLOBAL             38 (_section_title)
+           1042 LOAD_FAST               42 (ax1)
+           1044 LOAD_CONST              69 ('Sleep Architecture')
+           1046 LOAD_CONST              29 (1)
+           1048 LOAD_CONST              70 (0.965)
+           1050 LOAD_DEREF               0 (lang)
+           1052 LOAD_CONST              71 (('y_frac', 'lang'))
+           1054 CALL_FUNCTION_KW         5
+           1056 POP_TOP
+
+515        1058 LOAD_FAST               42 (ax1)
+           1060 LOAD_METHOD             39 (inset_axes)
+           1062 BUILD_LIST               0
+           1064 LOAD_CONST              72 ((0.04, 0.4, 0.92, 0.5))
+           1066 LIST_EXTEND              1
+           1068 CALL_METHOD              1
+           1070 STORE_FAST              43 (axi)
+
+516        1072 LOAD_GLOBAL             40 (_hypno)
+           1074 LOAD_FAST               43 (axi)
+           1076 LOAD_FAST                0 (hypno_1hz_int)
+           1078 LOAD_DEREF               0 (lang)
+           1080 LOAD_CONST              73 (('lang',))
+           1082 CALL_FUNCTION_KW         3
+           1084 POP_TOP
+
+518        1086 LOAD_CONST              74 ('N1')
+           1088 LOAD_FAST               18 (st)
+           1090 LOAD_CONST              74 ('N1')
+           1092 BINARY_SUBSCR
+           1094 LOAD_GLOBAL             41 (STAGE_COLORS)
+           1096 LOAD_CONST              74 ('N1')
+           1098 BINARY_SUBSCR
+           1100 BUILD_TUPLE              3
+
+519        1102 LOAD_CONST              75 ('N2')
+           1104 LOAD_FAST               18 (st)
+           1106 LOAD_CONST              75 ('N2')
+           1108 BINARY_SUBSCR
+           1110 LOAD_GLOBAL             41 (STAGE_COLORS)
+           1112 LOAD_CONST              75 ('N2')
+           1114 BINARY_SUBSCR
+           1116 BUILD_TUPLE              3
+
+520        1118 LOAD_CONST              76 ('N3')
+           1120 LOAD_FAST               18 (st)
+           1122 LOAD_CONST              76 ('N3')
+           1124 BINARY_SUBSCR
+           1126 LOAD_GLOBAL             41 (STAGE_COLORS)
+           1128 LOAD_CONST              76 ('N3')
+           1130 BINARY_SUBSCR
+           1132 BUILD_TUPLE              3
+
+521        1134 LOAD_CONST              77 ('REM')
+           1136 LOAD_FAST               18 (st)
+           1138 LOAD_CONST              77 ('REM')
+           1140 BINARY_SUBSCR
+           1142 LOAD_GLOBAL             41 (STAGE_COLORS)
+           1144 LOAD_CONST              77 ('REM')
+           1146 BINARY_SUBSCR
+           1148 BUILD_TUPLE              3
+
+518        1150 BUILD_LIST               4
+           1152 STORE_FAST              44 (items)
+
+523        1154 LOAD_DEREF               0 (lang)
+           1156 LOAD_CONST              18 ('he')
+           1158 COMPARE_OP               2 (==)
+           1160 EXTENDED_ARG             2
+           1162 POP_JUMP_IF_FALSE      589 (to 1178)
+           1164 LOAD_FAST               44 (items)
+           1166 LOAD_CONST               0 (None)
+           1168 LOAD_CONST               0 (None)
+           1170 LOAD_CONST              78 (-1)
+           1172 BUILD_SLICE              3
+           1174 BINARY_SUBSCR
+           1176 STORE_FAST              44 (items)
+
+525     >> 1178 LOAD_GLOBAL             42 (enumerate)
+           1180 LOAD_FAST               44 (items)
+           1182 CALL_FUNCTION            1
+           1184 GET_ITER
+        >> 1186 FOR_ITER                86 (to 1360)
+           1188 UNPACK_SEQUENCE          2
+           1190 STORE_FAST              45 (i)
+           1192 UNPACK_SEQUENCE          3
+           1194 STORE_FAST              46 (lbl)
+           1196 STORE_FAST              47 (pct)
+           1198 STORE_FAST              48 (col)
+
+526        1200 LOAD_CONST              79 (0.12)
+           1202 LOAD_FAST               45 (i)
+           1204 LOAD_CONST              80 (0.25)
+           1206 BINARY_MULTIPLY
+           1208 BINARY_ADD
+           1210 STORE_FAST              49 (cx)
+
+527        1212 LOAD_GLOBAL             43 (_x)
+           1214 LOAD_FAST               49 (cx)
+           1216 LOAD_DEREF               0 (lang)
+           1218 CALL_FUNCTION            2
+           1220 STORE_FAST              50 (actual_cx)
+
+529        1222 LOAD_CONST              81 ((0.18, 0.14))
+           1224 UNPACK_SEQUENCE          2
+           1226 STORE_FAST              51 (pill_w)
+           1228 STORE_FAST              52 (pill_h)
+
+530        1230 LOAD_GLOBAL             43 (_x)
+           1232 LOAD_FAST               49 (cx)
+           1234 LOAD_CONST              82 (0.09)
+           1236 BINARY_SUBTRACT
+           1238 LOAD_DEREF               0 (lang)
+           1240 CALL_FUNCTION            2
+           1242 STORE_FAST              53 (pill_x)
+
+531        1244 LOAD_DEREF               0 (lang)
+           1246 LOAD_CONST              18 ('he')
+           1248 COMPARE_OP               2 (==)
+           1250 EXTENDED_ARG             2
+           1252 POP_JUMP_IF_FALSE      631 (to 1262)
+           1254 LOAD_FAST               53 (pill_x)
+           1256 LOAD_FAST               51 (pill_w)
+           1258 INPLACE_SUBTRACT
+           1260 STORE_FAST              53 (pill_x)
+
+533     >> 1262 LOAD_GLOBAL             44 (_pill)
+           1264 LOAD_FAST               42 (ax1)
+           1266 LOAD_FAST               53 (pill_x)
+           1268 LOAD_CONST              83 (0.22)
+           1270 LOAD_FAST               51 (pill_w)
+           1272 LOAD_FAST               52 (pill_h)
+           1274 LOAD_FAST               48 (col)
+           1276 LOAD_CONST              79 (0.12)
+           1278 LOAD_CONST              84 (('alpha',))
+           1280 CALL_FUNCTION_KW         7
+           1282 POP_TOP
+
+534        1284 LOAD_FAST               42 (ax1)
+           1286 LOAD_ATTR               21 (text)
+           1288 LOAD_FAST               50 (actual_cx)
+           1290 LOAD_CONST              85 (0.32)
+           1292 LOAD_FAST               47 (pct)
+           1294 LOAD_CONST              44 ('.0f')
+           1296 FORMAT_VALUE             4 (with format)
+           1298 LOAD_CONST              45 ('%')
+           1300 BUILD_STRING             2
+
+535        1302 LOAD_FAST               42 (ax1)
+           1304 LOAD_ATTR               22 (transAxes)
+           1306 LOAD_CONST              86 (12)
+           1308 LOAD_CONST              24 ('bold')
+
+536        1310 LOAD_FAST               48 (col)
+           1312 LOAD_CONST              25 ('center')
+           1314 LOAD_CONST              25 ('center')
+
+534        1316 LOAD_CONST              87 (('transform', 'fontsize', 'fontweight', 'color', 'ha', 'va'))
+           1318 CALL_FUNCTION_KW         9
+           1320 POP_TOP
+
+537        1322 LOAD_FAST               42 (ax1)
+           1324 LOAD_ATTR               21 (text)
+           1326 LOAD_FAST               50 (actual_cx)
+           1328 LOAD_CONST              88 (0.24)
+           1330 LOAD_GLOBAL             45 (_t)
+           1332 LOAD_FAST               46 (lbl)
+           1334 LOAD_DEREF               0 (lang)
+           1336 CALL_FUNCTION            2
+
+538        1338 LOAD_FAST               42 (ax1)
+           1340 LOAD_ATTR               22 (transAxes)
+           1342 LOAD_CONST              89 (7.5)
+           1344 LOAD_GLOBAL             33 (TEXT_M)
+
+539        1346 LOAD_CONST              25 ('center')
+           1348 LOAD_CONST              25 ('center')
+
+537        1350 LOAD_CONST              90 (('transform', 'fontsize', 'color', 'ha', 'va'))
+           1352 CALL_FUNCTION_KW         8
+           1354 POP_TOP
+           1356 EXTENDED_ARG             2
+           1358 JUMP_ABSOLUTE          593 (to 1186)
+
+541     >> 1360 LOAD_FAST               42 (ax1)
+           1362 LOAD_ATTR               25 (plot)
+           1364 LOAD_CONST              30 (0.05)
+           1366 LOAD_CONST              91 (0.95)
+           1368 BUILD_LIST               2
+           1370 LOAD_CONST              92 (0.2)
+           1372 LOAD_CONST              92 (0.2)
+           1374 BUILD_LIST               2
+           1376 LOAD_GLOBAL             34 (BORDER)
+           1378 LOAD_CONST              93 (0.6)
+           1380 LOAD_FAST               42 (ax1)
+           1382 LOAD_ATTR               22 (transAxes)
+           1384 LOAD_CONST              32 (('color', 'lw', 'transform'))
+           1386 CALL_FUNCTION_KW         5
+           1388 POP_TOP
+
+543        1390 LOAD_GLOBAL             31 (_fmt)
+           1392 LOAD_FAST               18 (st)
+           1394 LOAD_CONST              94 ('SOL')
+           1396 BINARY_SUBSCR
+           1398 CALL_FUNCTION            1
+           1400 LOAD_CONST              95 ('Sleep Onset')
+           1402 BUILD_TUPLE              2
+           1404 LOAD_GLOBAL             31 (_fmt)
+           1406 LOAD_FAST               18 (st)
+           1408 LOAD_CONST              41 ('TST')
+           1410 BINARY_SUBSCR
+           1412 CALL_FUNCTION            1
+           1414 LOAD_CONST              96 ('Total Sleep')
+           1416 BUILD_TUPLE              2
+           1418 BUILD_LIST               2
+           1420 STORE_FAST              54 (kpis)
+
+544        1422 LOAD_DEREF               0 (lang)
+           1424 LOAD_CONST              18 ('he')
+           1426 COMPARE_OP               2 (==)
+           1428 EXTENDED_ARG             2
+           1430 POP_JUMP_IF_FALSE      723 (to 1446)
+           1432 LOAD_FAST               54 (kpis)
+           1434 LOAD_CONST               0 (None)
+           1436 LOAD_CONST               0 (None)
+           1438 LOAD_CONST              78 (-1)
+           1440 BUILD_SLICE              3
+           1442 BINARY_SUBSCR
+           1444 STORE_FAST              54 (kpis)
+
+546     >> 1446 LOAD_GLOBAL             42 (enumerate)
+           1448 LOAD_FAST               54 (kpis)
+           1450 CALL_FUNCTION            1
+           1452 GET_ITER
+        >> 1454 FOR_ITER                49 (to 1554)
+           1456 UNPACK_SEQUENCE          2
+           1458 STORE_FAST              45 (i)
+           1460 UNPACK_SEQUENCE          2
+           1462 STORE_FAST              55 (v)
+           1464 STORE_FAST              56 (k)
+
+547        1466 LOAD_CONST              80 (0.25)
+           1468 LOAD_FAST               45 (i)
+           1470 LOAD_CONST              22 (0.5)
+           1472 BINARY_MULTIPLY
+           1474 BINARY_ADD
+           1476 STORE_FAST              49 (cx)
+
+548        1478 LOAD_GLOBAL             43 (_x)
+           1480 LOAD_FAST               49 (cx)
+           1482 LOAD_DEREF               0 (lang)
+           1484 CALL_FUNCTION            2
+           1486 STORE_FAST              50 (actual_cx)
+
+549        1488 LOAD_FAST               42 (ax1)
+           1490 LOAD_ATTR               21 (text)
+           1492 LOAD_FAST               50 (actual_cx)
+           1494 LOAD_CONST              79 (0.12)
+           1496 LOAD_FAST               55 (v)
+           1498 LOAD_FAST               42 (ax1)
+           1500 LOAD_ATTR               22 (transAxes)
+
+550        1502 LOAD_CONST              97 (14)
+           1504 LOAD_CONST              24 ('bold')
+           1506 LOAD_GLOBAL             23 (TEXT_H)
+           1508 LOAD_CONST              25 ('center')
+
+549        1510 LOAD_CONST              98 (('transform', 'fontsize', 'fontweight', 'color', 'ha'))
+           1512 CALL_FUNCTION_KW         8
+           1514 POP_TOP
+
+551        1516 LOAD_FAST               42 (ax1)
+           1518 LOAD_ATTR               21 (text)
+           1520 LOAD_FAST               50 (actual_cx)
+           1522 LOAD_CONST              63 (0.04)
+           1524 LOAD_GLOBAL             45 (_t)
+           1526 LOAD_FAST               56 (k)
+           1528 LOAD_DEREF               0 (lang)
+           1530 CALL_FUNCTION            2
+           1532 LOAD_FAST               42 (ax1)
+           1534 LOAD_ATTR               22 (transAxes)
+
+552        1536 LOAD_CONST              99 (9)
+           1538 LOAD_CONST              24 ('bold')
+           1540 LOAD_GLOBAL             46 (TEXT_L)
+           1542 LOAD_CONST              25 ('center')
+
+551        1544 LOAD_CONST              98 (('transform', 'fontsize', 'fontweight', 'color', 'ha'))
+           1546 CALL_FUNCTION_KW         8
+           1548 POP_TOP
+           1550 EXTENDED_ARG             2
+           1552 JUMP_ABSOLUTE          727 (to 1454)
+
+555     >> 1554 LOAD_FAST               19 (fig)
+           1556 LOAD_METHOD             36 (add_subplot)
+           1558 LOAD_FAST               39 (gs)
+           1560 LOAD_CONST               3 (0)
+           1562 LOAD_CONST              60 (2)
+           1564 BUILD_SLICE              2
+           1566 LOAD_FAST               41 (c_right)
+           1568 BUILD_TUPLE              2
+           1570 BINARY_SUBSCR
+           1572 CALL_METHOD              1
+           1574 STORE_FAST              57 (ax2)
+
+556        1576 LOAD_GLOBAL             37 (_panel)
+           1578 LOAD_FAST               57 (ax2)
+           1580 CALL_FUNCTION            1
+           1582 POP_TOP
+           1584 LOAD_FAST               57 (ax2)
+           1586 LOAD_METHOD             13 (axis)
+           1588 LOAD_CONST              12 ('off')
+           1590 CALL_METHOD              1
+           1592 POP_TOP
+
+557        1594 LOAD_GLOBAL             38 (_section_title)
+           1596 LOAD_FAST               57 (ax2)
+           1598 LOAD_CONST             100 ('Stage Distribution')
+           1600 LOAD_CONST              60 (2)
+           1602 LOAD_CONST              70 (0.965)
+           1604 LOAD_DEREF               0 (lang)
+           1606 LOAD_CONST              71 (('y_frac', 'lang'))
+           1608 CALL_FUNCTION_KW         5
+           1610 POP_TOP
+
+559        1612 LOAD_FAST               57 (ax2)
+           1614 LOAD_METHOD             39 (inset_axes)
+           1616 BUILD_LIST               0
+           1618 LOAD_CONST             101 ((0.04, 0.14, 0.92, 0.76))
+           1620 LIST_EXTEND              1
+           1622 CALL_METHOD              1
+           1624 STORE_FAST              58 (ax2p)
+
+560        1626 LOAD_GLOBAL             47 (_donut)
+           1628 LOAD_FAST               58 (ax2p)
+           1630 LOAD_FAST               18 (st)
+           1632 LOAD_DEREF               0 (lang)
+           1634 LOAD_CONST              73 (('lang',))
+           1636 CALL_FUNCTION_KW         3
+           1638 POP_TOP
+
+562        1640 LOAD_GLOBAL             48 (_qcol)
+           1642 LOAD_FAST               18 (st)
+           1644 LOAD_CONST              43 ('SE')
+           1646 BINARY_SUBSCR
+           1648 CALL_FUNCTION            1
+           1650 STORE_FAST              59 (se_col)
+
+563        1652 LOAD_FAST               58 (ax2p)
+           1654 LOAD_ATTR               21 (text)
+           1656 LOAD_CONST              22 (0.5)
+           1658 LOAD_CONST             102 (0.52)
+           1660 LOAD_FAST               18 (st)
+           1662 LOAD_CONST              43 ('SE')
+           1664 BINARY_SUBSCR
+           1666 LOAD_CONST              44 ('.0f')
+           1668 FORMAT_VALUE             4 (with format)
+           1670 LOAD_CONST              45 ('%')
+           1672 BUILD_STRING             2
+
+564        1674 LOAD_CONST              25 ('center')
+           1676 LOAD_CONST              25 ('center')
+           1678 LOAD_CONST             103 (20)
+
+565        1680 LOAD_CONST              24 ('bold')
+           1682 LOAD_FAST               59 (se_col)
+           1684 LOAD_FAST               58 (ax2p)
+           1686 LOAD_ATTR               22 (transAxes)
+
+563        1688 LOAD_CONST             104 (('ha', 'va', 'fontsize', 'fontweight', 'color', 'transform'))
+           1690 CALL_FUNCTION_KW         9
+           1692 POP_TOP
+
+566        1694 LOAD_FAST               58 (ax2p)
+           1696 LOAD_ATTR               21 (text)
+           1698 LOAD_CONST              22 (0.5)
+           1700 LOAD_CONST             105 (0.38)
+           1702 LOAD_GLOBAL             45 (_t)
+           1704 LOAD_CONST             106 ('Efficiency')
+           1706 LOAD_DEREF               0 (lang)
+           1708 CALL_FUNCTION            2
+
+567        1710 LOAD_CONST              25 ('center')
+           1712 LOAD_CONST              25 ('center')
+           1714 LOAD_CONST             107 (9.5)
+           1716 LOAD_CONST              24 ('bold')
+
+568        1718 LOAD_GLOBAL             46 (TEXT_L)
+           1720 LOAD_FAST               58 (ax2p)
+           1722 LOAD_ATTR               22 (transAxes)
+
+566        1724 LOAD_CONST             104 (('ha', 'va', 'fontsize', 'fontweight', 'color', 'transform'))
+           1726 CALL_FUNCTION_KW         9
+           1728 POP_TOP
+
+570        1730 BUILD_LIST               0
+           1732 LOAD_CONST             108 (('N1', 'N2', 'N3', 'REM', 'Wake'))
+           1734 LIST_EXTEND              1
+           1736 STORE_FAST              60 (lbls)
+
+571        1738 LOAD_DEREF               0 (lang)
+           1740 LOAD_CONST              18 ('he')
+           1742 COMPARE_OP               2 (==)
+           1744 EXTENDED_ARG             3
+           1746 POP_JUMP_IF_FALSE      881 (to 1762)
+           1748 LOAD_FAST               60 (lbls)
+           1750 LOAD_CONST               0 (None)
+           1752 LOAD_CONST               0 (None)
+           1754 LOAD_CONST              78 (-1)
+           1756 BUILD_SLICE              3
+           1758 BINARY_SUBSCR
+           1760 STORE_FAST              60 (lbls)
+
+573     >> 1762 LOAD_CONST             109 ((0.14, 0.04))
+           1764 UNPACK_SEQUENCE          2
+           1766 STORE_FAST              61 (chip_w)
+           1768 STORE_FAST              62 (gap)
+
+574        1770 LOAD_GLOBAL             49 (len)
+           1772 LOAD_FAST               60 (lbls)
+           1774 CALL_FUNCTION            1
+           1776 LOAD_FAST               61 (chip_w)
+           1778 BINARY_MULTIPLY
+           1780 LOAD_GLOBAL             49 (len)
+           1782 LOAD_FAST               60 (lbls)
+           1784 CALL_FUNCTION            1
+           1786 LOAD_CONST              29 (1)
+           1788 BINARY_SUBTRACT
+           1790 LOAD_FAST               62 (gap)
+           1792 BINARY_MULTIPLY
+           1794 BINARY_ADD
+           1796 STORE_FAST              63 (total_w)
+
+575        1798 LOAD_CONST              58 (1.0)
+           1800 LOAD_FAST               63 (total_w)
+           1802 BINARY_SUBTRACT
+           1804 LOAD_CONST              60 (2)
+           1806 BINARY_TRUE_DIVIDE
+           1808 STORE_FAST              64 (x0)
+
+576        1810 LOAD_GLOBAL             42 (enumerate)
+           1812 LOAD_FAST               60 (lbls)
+           1814 CALL_FUNCTION            1
+           1816 GET_ITER
+        >> 1818 FOR_ITER                74 (to 1968)
+           1820 UNPACK_SEQUENCE          2
+           1822 STORE_FAST              45 (i)
+           1824 STORE_FAST              46 (lbl)
+
+577        1826 LOAD_FAST               64 (x0)
+           1828 LOAD_FAST               45 (i)
+           1830 LOAD_FAST               61 (chip_w)
+           1832 LOAD_FAST               62 (gap)
+           1834 BINARY_ADD
+           1836 BINARY_MULTIPLY
+           1838 BINARY_ADD
+           1840 STORE_FAST              49 (cx)
+
+578        1842 LOAD_GLOBAL             43 (_x)
+           1844 LOAD_FAST               49 (cx)
+           1846 LOAD_DEREF               0 (lang)
+           1848 CALL_FUNCTION            2
+           1850 STORE_FAST              50 (actual_cx)
+
+580        1852 LOAD_GLOBAL             43 (_x)
+           1854 LOAD_FAST               49 (cx)
+           1856 LOAD_DEREF               0 (lang)
+           1858 CALL_FUNCTION            2
+           1860 STORE_FAST              65 (box_x)
+
+581        1862 LOAD_DEREF               0 (lang)
+           1864 LOAD_CONST              18 ('he')
+           1866 COMPARE_OP               2 (==)
+           1868 EXTENDED_ARG             3
+           1870 POP_JUMP_IF_FALSE      940 (to 1880)
+           1872 LOAD_FAST               65 (box_x)
+           1874 LOAD_FAST               61 (chip_w)
+           1876 INPLACE_SUBTRACT
+           1878 STORE_FAST              65 (box_x)
+
+583     >> 1880 LOAD_FAST               57 (ax2)
+           1882 LOAD_METHOD             50 (add_patch)
+           1884 LOAD_GLOBAL             51 (FancyBboxPatch)
+           1886 LOAD_FAST               65 (box_x)
+           1888 LOAD_CONST             110 (0.03)
+           1890 BUILD_TUPLE              2
+           1892 LOAD_FAST               61 (chip_w)
+           1894 LOAD_CONST             111 (0.055)
+
+584        1896 LOAD_CONST             112 ('round,pad=0,rounding_size=0.01')
+
+585        1898 LOAD_GLOBAL             41 (STAGE_COLORS)
+           1900 LOAD_FAST               46 (lbl)
+           1902 BINARY_SUBSCR
+           1904 LOAD_CONST             113 ('none')
+
+586        1906 LOAD_CONST             114 (0.75)
+           1908 LOAD_FAST               57 (ax2)
+           1910 LOAD_ATTR               22 (transAxes)
+
+583        1912 LOAD_CONST             115 (('boxstyle', 'facecolor', 'edgecolor', 'alpha', 'transform'))
+           1914 CALL_FUNCTION_KW         8
+           1916 CALL_METHOD              1
+           1918 POP_TOP
+
+588        1920 LOAD_FAST               57 (ax2)
+           1922 LOAD_ATTR               21 (text)
+           1924 LOAD_FAST               65 (box_x)
+           1926 LOAD_FAST               61 (chip_w)
+           1928 LOAD_CONST              60 (2)
+           1930 BINARY_TRUE_DIVIDE
+           1932 BINARY_ADD
+           1934 LOAD_CONST             116 (0.058)
+           1936 LOAD_GLOBAL             45 (_t)
+           1938 LOAD_FAST               46 (lbl)
+           1940 LOAD_DEREF               0 (lang)
+           1942 CALL_FUNCTION            2
+
+589        1944 LOAD_FAST               57 (ax2)
+           1946 LOAD_ATTR               22 (transAxes)
+           1948 LOAD_CONST             107 (9.5)
+
+590        1950 LOAD_CONST             117 ('white')
+           1952 LOAD_CONST              25 ('center')
+           1954 LOAD_CONST              25 ('center')
+           1956 LOAD_CONST              24 ('bold')
+
+588        1958 LOAD_CONST             118 (('transform', 'fontsize', 'color', 'ha', 'va', 'fontweight'))
+           1960 CALL_FUNCTION_KW         9
+           1962 POP_TOP
+           1964 EXTENDED_ARG             3
+           1966 JUMP_ABSOLUTE          909 (to 1818)
+
+593     >> 1968 LOAD_FAST               19 (fig)
+           1970 LOAD_METHOD             36 (add_subplot)
+           1972 LOAD_FAST               39 (gs)
+           1974 LOAD_CONST              60 (2)
+           1976 LOAD_FAST               40 (c_left)
+           1978 BUILD_TUPLE              2
+           1980 BINARY_SUBSCR
+           1982 CALL_METHOD              1
+           1984 STORE_FAST              66 (ax3)
+
+594        1986 LOAD_GLOBAL             37 (_panel)
+           1988 LOAD_FAST               66 (ax3)
+           1990 CALL_FUNCTION            1
+           1992 POP_TOP
+           1994 LOAD_FAST               66 (ax3)
+           1996 LOAD_METHOD             13 (axis)
+           1998 LOAD_CONST              12 ('off')
+           2000 CALL_METHOD              1
+           2002 POP_TOP
+
+595        2004 LOAD_GLOBAL             38 (_section_title)
+           2006 LOAD_FAST               66 (ax3)
+           2008 LOAD_CONST             119 ('Respiratory Disturbance Index (pAHI)')
+           2010 LOAD_CONST             120 (3)
+           2012 LOAD_CONST             121 (1.55)
+           2014 LOAD_DEREF               0 (lang)
+           2016 LOAD_CONST              71 (('y_frac', 'lang'))
+           2018 CALL_FUNCTION_KW         5
+           2020 POP_TOP
+
+597        2022 LOAD_FAST               17 (rdi_v)
+           2024 LOAD_CONST               0 (None)
+           2026 IS_OP                    1
+           2028 EXTENDED_ARG             4
+           2030 POP_JUMP_IF_FALSE     1031 (to 2062)
+
+598        2032 LOAD_FAST               66 (ax3)
+           2034 LOAD_METHOD             39 (inset_axes)
+           2036 BUILD_LIST               0
+           2038 LOAD_CONST             122 ((-0.15, -0.45, 1.3, 1.8))
+           2040 LIST_EXTEND              1
+           2042 CALL_METHOD              1
+           2044 STORE_FAST              67 (ax3g)
+
+599        2046 LOAD_GLOBAL             52 (_gauge)
+           2048 LOAD_FAST               67 (ax3g)
+           2050 LOAD_FAST               17 (rdi_v)
+           2052 LOAD_DEREF               0 (lang)
+           2054 LOAD_CONST              73 (('lang',))
+           2056 CALL_FUNCTION_KW         3
+           2058 POP_TOP
+           2060 JUMP_FORWARD            18 (to 2098)
+
+601     >> 2062 LOAD_FAST               66 (ax3)
+           2064 LOAD_ATTR               21 (text)
+           2066 LOAD_CONST              22 (0.5)
+           2068 LOAD_CONST             123 (0.48)
+           2070 LOAD_GLOBAL             45 (_t)
+           2072 LOAD_CONST             124 ('Not measured')
+           2074 LOAD_DEREF               0 (lang)
+           2076 CALL_FUNCTION            2
+
+602        2078 LOAD_FAST               66 (ax3)
+           2080 LOAD_ATTR               22 (transAxes)
+           2082 LOAD_CONST              25 ('center')
+
+603        2084 LOAD_CONST             125 (11)
+           2086 LOAD_GLOBAL             46 (TEXT_L)
+           2088 LOAD_CONST             126 ('italic')
+           2090 LOAD_CONST              25 ('center')
+
+601        2092 LOAD_CONST             127 (('transform', 'ha', 'fontsize', 'color', 'style', 'va'))
+           2094 CALL_FUNCTION_KW         9
+           2096 POP_TOP
+
+606     >> 2098 LOAD_FAST               19 (fig)
+           2100 LOAD_METHOD             36 (add_subplot)
+           2102 LOAD_FAST               39 (gs)
+           2104 LOAD_CONST              60 (2)
+           2106 LOAD_FAST               41 (c_right)
+           2108 BUILD_TUPLE              2
+           2110 BINARY_SUBSCR
+           2112 CALL_METHOD              1
+           2114 STORE_FAST              68 (ax4)
+
+607        2116 LOAD_GLOBAL             37 (_panel)
+           2118 LOAD_FAST               68 (ax4)
+           2120 CALL_FUNCTION            1
+           2122 POP_TOP
+           2124 LOAD_FAST               68 (ax4)
+           2126 LOAD_METHOD             13 (axis)
+           2128 LOAD_CONST              12 ('off')
+           2130 CALL_METHOD              1
+           2132 POP_TOP
+
+608        2134 LOAD_GLOBAL             38 (_section_title)
+           2136 LOAD_FAST               68 (ax4)
+           2138 LOAD_CONST             128 ('Additional Metrics')
+           2140 LOAD_CONST             129 (4)
+           2142 LOAD_CONST             121 (1.55)
+           2144 LOAD_DEREF               0 (lang)
+           2146 LOAD_CONST              71 (('y_frac', 'lang'))
+           2148 CALL_FUNCTION_KW         5
+           2150 POP_TOP
+
+610        2152 BUILD_LIST               0
+           2154 STORE_FAST              69 (rows)
+
+611        2156 LOAD_FAST                7 (spo2_stats)
+           2158 EXTENDED_ARG             4
+           2160 POP_JUMP_IF_FALSE     1129 (to 2258)
+
+612        2162 LOAD_FAST               69 (rows)
+
+613        2164 LOAD_CONST             130 ('SpO2 Average')
+           2166 LOAD_FAST                7 (spo2_stats)
+           2168 LOAD_METHOD             19 (get)
+           2170 LOAD_CONST             131 ('avg')
+           2172 LOAD_CONST               3 (0)
+           2174 CALL_METHOD              2
+           2176 LOAD_CONST             132 ('.1f')
+           2178 FORMAT_VALUE             4 (with format)
+           2180 LOAD_CONST             133 (' %')
+           2182 BUILD_STRING             2
+           2184 BUILD_TUPLE              2
+
+614        2186 LOAD_CONST             134 ('SpO2 Minimum')
+           2188 LOAD_FAST                7 (spo2_stats)
+           2190 LOAD_METHOD             19 (get)
+           2192 LOAD_CONST             135 ('min')
+           2194 LOAD_CONST               3 (0)
+           2196 CALL_METHOD              2
+           2198 LOAD_CONST             132 ('.1f')
+           2200 FORMAT_VALUE             4 (with format)
+           2202 LOAD_CONST             133 (' %')
+           2204 BUILD_STRING             2
+           2206 BUILD_TUPLE              2
+
+615        2208 LOAD_CONST             136 ('Time < 90%')
+           2210 LOAD_FAST                7 (spo2_stats)
+           2212 LOAD_METHOD             19 (get)
+           2214 LOAD_CONST             137 ('t_under90')
+           2216 LOAD_CONST               3 (0)
+           2218 CALL_METHOD              2
+           2220 LOAD_CONST             132 ('.1f')
+           2222 FORMAT_VALUE             4 (with format)
+           2224 LOAD_CONST             138 (' ')
+           2226 LOAD_DEREF               0 (lang)
+           2228 LOAD_CONST              18 ('he')
+           2230 COMPARE_OP               2 (==)
+           2232 EXTENDED_ARG             4
+           2234 POP_JUMP_IF_FALSE     1122 (to 2244)
+           2236 LOAD_GLOBAL             53 (get_display)
+           2238 LOAD_CONST             139 ('דקות')
+           2240 CALL_FUNCTION            1
+           2242 JUMP_FORWARD             1 (to 2246)
+        >> 2244 LOAD_CONST             135 ('min')
+        >> 2246 FORMAT_VALUE             0
+           2248 BUILD_STRING             3
+           2250 BUILD_TUPLE              2
+
+612        2252 BUILD_LIST               3
+           2254 INPLACE_ADD
+           2256 STORE_FAST              69 (rows)
+
+617     >> 2258 LOAD_FAST                8 (plm_metrics)
+           2260 EXTENDED_ARG             4
+           2262 POP_JUMP_IF_FALSE     1159 (to 2318)
+
+618        2264 LOAD_FAST                8 (plm_metrics)
+           2266 LOAD_METHOD             19 (get)
+           2268 LOAD_CONST             140 ('PLMI')
+           2270 CALL_METHOD              1
+           2272 EXTENDED_ARG             4
+           2274 JUMP_IF_TRUE_OR_POP   1142 (to 2284)
+           2276 LOAD_FAST                8 (plm_metrics)
+           2278 LOAD_METHOD             19 (get)
+           2280 LOAD_CONST             141 ('plmi')
+           2282 CALL_METHOD              1
+        >> 2284 STORE_FAST              70 (plmi)
+
+619        2286 LOAD_FAST               70 (plmi)
+           2288 LOAD_CONST               0 (None)
+           2290 IS_OP                    1
+           2292 EXTENDED_ARG             4
+           2294 POP_JUMP_IF_FALSE     1159 (to 2318)
+
+620        2296 LOAD_FAST               69 (rows)
+           2298 LOAD_METHOD             29 (append)
+           2300 LOAD_CONST             142 ('Limb Movements (PLMI)')
+           2302 LOAD_FAST               70 (plmi)
+           2304 LOAD_CONST             132 ('.1f')
+           2306 FORMAT_VALUE             4 (with format)
+           2308 LOAD_CONST             143 (' / hr')
+           2310 BUILD_STRING             2
+           2312 BUILD_TUPLE              2
+           2314 CALL_METHOD              1
+           2316 POP_TOP
+
+622     >> 2318 LOAD_FAST               69 (rows)
+           2320 EXTENDED_ARG             4
+           2322 POP_JUMP_IF_TRUE      1181 (to 2362)
+
+623        2324 LOAD_FAST               68 (ax4)
+           2326 LOAD_ATTR               21 (text)
+           2328 LOAD_CONST              22 (0.5)
+           2330 LOAD_CONST              22 (0.5)
+           2332 LOAD_GLOBAL             45 (_t)
+           2334 LOAD_CONST             144 ('No additional data')
+           2336 LOAD_DEREF               0 (lang)
+           2338 CALL_FUNCTION            2
+
+624        2340 LOAD_FAST               68 (ax4)
+           2342 LOAD_ATTR               22 (transAxes)
+           2344 LOAD_CONST              25 ('center')
+
+625        2346 LOAD_CONST              10 (10)
+           2348 LOAD_GLOBAL             46 (TEXT_L)
+           2350 LOAD_CONST             126 ('italic')
+           2352 LOAD_CONST              25 ('center')
+
+623        2354 LOAD_CONST             127 (('transform', 'ha', 'fontsize', 'color', 'style', 'va'))
+           2356 CALL_FUNCTION_KW         9
+           2358 POP_TOP
+           2360 JUMP_FORWARD           118 (to 2598)
+
+627     >> 2362 LOAD_CONST              66 (0.28)
+           2364 STORE_FAST              71 (step)
+
+628        2366 LOAD_GLOBAL             42 (enumerate)
+           2368 LOAD_FAST               69 (rows)
+           2370 CALL_FUNCTION            1
+           2372 GET_ITER
+        >> 2374 FOR_ITER               111 (to 2598)
+           2376 UNPACK_SEQUENCE          2
+           2378 STORE_FAST              45 (i)
+           2380 UNPACK_SEQUENCE          2
+           2382 STORE_FAST              56 (k)
+           2384 STORE_FAST              55 (v)
+
+629        2386 LOAD_CONST              58 (1.0)
+           2388 LOAD_FAST               45 (i)
+           2390 LOAD_FAST               71 (step)
+           2392 BINARY_MULTIPLY
+           2394 BINARY_SUBTRACT
+           2396 STORE_FAST              72 (y)
+
+630        2398 LOAD_FAST               45 (i)
+           2400 LOAD_CONST               3 (0)
+           2402 COMPARE_OP               4 (>)
+           2404 EXTENDED_ARG             4
+           2406 POP_JUMP_IF_FALSE     1227 (to 2454)
+
+631        2408 LOAD_FAST               68 (ax4)
+           2410 LOAD_ATTR               25 (plot)
+           2412 LOAD_CONST              63 (0.04)
+           2414 LOAD_CONST             145 (0.96)
+           2416 BUILD_LIST               2
+           2418 LOAD_FAST               72 (y)
+           2420 LOAD_FAST               71 (step)
+           2422 LOAD_CONST              22 (0.5)
+           2424 BINARY_MULTIPLY
+           2426 BINARY_ADD
+           2428 LOAD_FAST               72 (y)
+           2430 LOAD_FAST               71 (step)
+           2432 LOAD_CONST              22 (0.5)
+           2434 BINARY_MULTIPLY
+           2436 BINARY_ADD
+           2438 BUILD_LIST               2
+
+632        2440 LOAD_GLOBAL             34 (BORDER)
+           2442 LOAD_CONST              22 (0.5)
+           2444 LOAD_FAST               68 (ax4)
+           2446 LOAD_ATTR               22 (transAxes)
+
+631        2448 LOAD_CONST              32 (('color', 'lw', 'transform'))
+           2450 CALL_FUNCTION_KW         5
+           2452 POP_TOP
+
+635     >> 2454 LOAD_GLOBAL             43 (_x)
+           2456 LOAD_CONST             146 (0.06)
+           2458 LOAD_DEREF               0 (lang)
+           2460 CALL_FUNCTION            2
+           2462 STORE_FAST              73 (k_x)
+
+636        2464 LOAD_GLOBAL             43 (_x)
+           2466 LOAD_CONST             147 (0.94)
+           2468 LOAD_DEREF               0 (lang)
+           2470 CALL_FUNCTION            2
+           2472 STORE_FAST              74 (v_x)
+
+637        2474 LOAD_FAST               68 (ax4)
+           2476 LOAD_ATTR               21 (text)
+           2478 LOAD_FAST               73 (k_x)
+           2480 LOAD_FAST               72 (y)
+           2482 LOAD_GLOBAL             45 (_t)
+           2484 LOAD_FAST               56 (k)
+           2486 LOAD_DEREF               0 (lang)
+           2488 CALL_FUNCTION            2
+           2490 LOAD_FAST               68 (ax4)
+           2492 LOAD_ATTR               22 (transAxes)
+
+638        2494 LOAD_CONST              86 (12)
+           2496 LOAD_GLOBAL             33 (TEXT_M)
+           2498 LOAD_CONST              25 ('center')
+           2500 LOAD_GLOBAL             54 (_ha)
+           2502 LOAD_CONST             148 ('left')
+           2504 LOAD_DEREF               0 (lang)
+           2506 CALL_FUNCTION            2
+
+637        2508 LOAD_CONST             149 (('transform', 'fontsize', 'color', 'va', 'ha'))
+           2510 CALL_FUNCTION_KW         8
+           2512 POP_TOP
+
+640        2514 LOAD_FAST               55 (v)
+           2516 STORE_FAST              75 (val_txt)
+
+641        2518 LOAD_DEREF               0 (lang)
+           2520 LOAD_CONST              18 ('he')
+           2522 COMPARE_OP               2 (==)
+           2524 EXTENDED_ARG             4
+           2526 POP_JUMP_IF_FALSE     1279 (to 2558)
+           2528 LOAD_CONST             150 ('hr')
+           2530 LOAD_FAST               55 (v)
+           2532 CONTAINS_OP              0
+           2534 EXTENDED_ARG             4
+           2536 POP_JUMP_IF_FALSE     1279 (to 2558)
+
+642        2538 LOAD_FAST               75 (val_txt)
+           2540 LOAD_METHOD             55 (replace)
+           2542 LOAD_CONST             150 ('hr')
+           2544 LOAD_CONST             151 ('שעה')
+           2546 CALL_METHOD              2
+           2548 STORE_FAST              75 (val_txt)
+
+643        2550 LOAD_GLOBAL             53 (get_display)
+           2552 LOAD_FAST               75 (val_txt)
+           2554 CALL_FUNCTION            1
+           2556 STORE_FAST              75 (val_txt)
+
+645     >> 2558 LOAD_FAST               68 (ax4)
+           2560 LOAD_ATTR               21 (text)
+           2562 LOAD_FAST               74 (v_x)
+           2564 LOAD_FAST               72 (y)
+           2566 LOAD_FAST               75 (val_txt)
+           2568 LOAD_FAST               68 (ax4)
+           2570 LOAD_ATTR               22 (transAxes)
+
+646        2572 LOAD_CONST             152 (13.5)
+           2574 LOAD_GLOBAL             23 (TEXT_H)
+           2576 LOAD_GLOBAL             54 (_ha)
+           2578 LOAD_CONST             153 ('right')
+           2580 LOAD_DEREF               0 (lang)
+           2582 CALL_FUNCTION            2
+           2584 LOAD_CONST              25 ('center')
+
+647        2586 LOAD_CONST              24 ('bold')
+
+645        2588 LOAD_CONST             118 (('transform', 'fontsize', 'color', 'ha', 'va', 'fontweight'))
+           2590 CALL_FUNCTION_KW         9
+           2592 POP_TOP
+           2594 EXTENDED_ARG             4
+           2596 JUMP_ABSOLUTE         1187 (to 2374)
+
+650     >> 2598 LOAD_FAST               19 (fig)
+           2600 LOAD_METHOD             36 (add_subplot)
+           2602 LOAD_FAST               39 (gs)
+           2604 LOAD_CONST             120 (3)
+           2606 LOAD_CONST               0 (None)
+           2608 LOAD_CONST               0 (None)
+           2610 BUILD_SLICE              2
+           2612 BUILD_TUPLE              2
+           2614 BINARY_SUBSCR
+           2616 CALL_METHOD              1
+           2618 STORE_FAST              76 (ax5)
+
+651        2620 LOAD_GLOBAL             37 (_panel)
+           2622 LOAD_FAST               76 (ax5)
+           2624 CALL_FUNCTION            1
+           2626 POP_TOP
+           2628 LOAD_FAST               76 (ax5)
+           2630 LOAD_METHOD             13 (axis)
+           2632 LOAD_CONST              12 ('off')
+           2634 CALL_METHOD              1
+           2636 POP_TOP
+
+652        2638 LOAD_GLOBAL             38 (_section_title)
+           2640 LOAD_FAST               76 (ax5)
+           2642 LOAD_CONST             154 ('Clinical Statistics')
+           2644 LOAD_CONST              59 (5)
+           2646 LOAD_CONST              91 (0.95)
+           2648 LOAD_DEREF               0 (lang)
+           2650 LOAD_CONST              71 (('y_frac', 'lang'))
+           2652 CALL_FUNCTION_KW         5
+           2654 POP_TOP
+
+655        2656 LOAD_FAST               76 (ax5)
+           2658 LOAD_ATTR               21 (text)
+           2660 LOAD_GLOBAL             43 (_x)
+           2662 LOAD_CONST             155 (0.02)
+           2664 LOAD_DEREF               0 (lang)
+           2666 CALL_FUNCTION            2
+           2668 LOAD_CONST             114 (0.75)
+           2670 LOAD_GLOBAL             45 (_t)
+           2672 LOAD_CONST             156 ('Respiratory Indices')
+           2674 LOAD_DEREF               0 (lang)
+           2676 CALL_FUNCTION            2
+           2678 LOAD_FAST               76 (ax5)
+           2680 LOAD_ATTR               22 (transAxes)
+
+656        2682 LOAD_CONST              86 (12)
+           2684 LOAD_CONST              24 ('bold')
+           2686 LOAD_GLOBAL             23 (TEXT_H)
+           2688 LOAD_GLOBAL             54 (_ha)
+           2690 LOAD_CONST             148 ('left')
+           2692 LOAD_DEREF               0 (lang)
+           2694 CALL_FUNCTION            2
+
+655        2696 LOAD_CONST              98 (('transform', 'fontsize', 'fontweight', 'color', 'ha'))
+           2698 CALL_FUNCTION_KW         8
+           2700 POP_TOP
+
+658        2702 LOAD_FAST               11 (resp_stats)
+           2704 EXTENDED_ARG             5
+           2706 POP_JUMP_IF_TRUE      1395 (to 2790)
+
+659        2708 LOAD_FAST               17 (rdi_v)
+           2710 EXTENDED_ARG             5
+           2712 POP_JUMP_IF_FALSE     1359 (to 2718)
+           2714 LOAD_FAST               17 (rdi_v)
+           2716 JUMP_FORWARD             1 (to 2720)
+        >> 2718 LOAD_CONST             157 (0.0)
+        >> 2720 STORE_FAST              77 (r_val)
+
+661        2722 LOAD_FAST               77 (r_val)
+           2724 LOAD_FAST               77 (r_val)
+           2726 LOAD_CONST             158 (1.5)
+           2728 BINARY_MULTIPLY
+           2730 LOAD_FAST               77 (r_val)
+           2732 LOAD_CONST              61 (0.8)
+           2734 BINARY_MULTIPLY
+           2736 LOAD_CONST             159 (('all', 'rem', 'nrem'))
+           2738 BUILD_CONST_KEY_MAP      3
+
+662        2740 LOAD_FAST               77 (r_val)
+           2742 LOAD_CONST              61 (0.8)
+           2744 BINARY_MULTIPLY
+           2746 LOAD_FAST               77 (r_val)
+           2748 LOAD_CONST             160 (1.2)
+           2750 BINARY_MULTIPLY
+           2752 LOAD_FAST               77 (r_val)
+           2754 LOAD_CONST              93 (0.6)
+           2756 BINARY_MULTIPLY
+           2758 LOAD_CONST             159 (('all', 'rem', 'nrem'))
+           2760 BUILD_CONST_KEY_MAP      3
+
+663        2762 LOAD_FAST               77 (r_val)
+           2764 LOAD_CONST             161 (0.3)
+           2766 BINARY_MULTIPLY
+           2768 LOAD_FAST               77 (r_val)
+           2770 LOAD_CONST             162 (0.4)
+           2772 BINARY_MULTIPLY
+           2774 LOAD_FAST               77 (r_val)
+           2776 LOAD_CONST              92 (0.2)
+           2778 BINARY_MULTIPLY
+           2780 LOAD_CONST             159 (('all', 'rem', 'nrem'))
+           2782 BUILD_CONST_KEY_MAP      3
+
+660        2784 LOAD_CONST             163 (('pRDI', 'pAHI 3%', 'ODI 4%'))
+           2786 BUILD_CONST_KEY_MAP      3
+           2788 STORE_FAST              11 (resp_stats)
+
+666     >> 2790 LOAD_CONST             225 ((0.0,))
+           2792 LOAD_CONST             164 (<code object _safe_get at 0x000002B34DF49790, file "patient_report.py", line 666>)
+           2794 LOAD_CONST             165 ('_generate_single_report.<locals>._safe_get')
+           2796 MAKE_FUNCTION            1 (defaults)
+           2798 STORE_FAST              78 (_safe_get)
+
+673        2800 BUILD_LIST               0
+           2802 LOAD_CONST             166 (('Total Events', 'REM', 'NREM', 'All Night'))
+           2804 LIST_EXTEND              1
+
+674        2806 LOAD_CONST             167 ('pRDI')
+           2808 LOAD_FAST               78 (_safe_get)
+           2810 LOAD_FAST               11 (resp_stats)
+           2812 LOAD_CONST             167 ('pRDI')
+           2814 LOAD_CONST             168 ('rem')
+           2816 CALL_FUNCTION            3
+           2818 LOAD_CONST             132 ('.1f')
+           2820 FORMAT_VALUE             4 (with format)
+           2822 LOAD_FAST               78 (_safe_get)
+           2824 LOAD_FAST               11 (resp_stats)
+           2826 LOAD_CONST             167 ('pRDI')
+           2828 LOAD_CONST             169 ('nrem')
+           2830 CALL_FUNCTION            3
+           2832 LOAD_CONST             132 ('.1f')
+           2834 FORMAT_VALUE             4 (with format)
+           2836 LOAD_FAST               78 (_safe_get)
+           2838 LOAD_FAST               11 (resp_stats)
+           2840 LOAD_CONST             167 ('pRDI')
+           2842 LOAD_CONST             170 ('all')
+           2844 CALL_FUNCTION            3
+           2846 LOAD_CONST             132 ('.1f')
+           2848 FORMAT_VALUE             4 (with format)
+           2850 BUILD_LIST               4
+
+675        2852 LOAD_CONST             171 ('pAHI 3%')
+           2854 LOAD_FAST               78 (_safe_get)
+           2856 LOAD_FAST               11 (resp_stats)
+           2858 LOAD_CONST             171 ('pAHI 3%')
+           2860 LOAD_CONST             168 ('rem')
+           2862 CALL_FUNCTION            3
+           2864 LOAD_CONST             132 ('.1f')
+           2866 FORMAT_VALUE             4 (with format)
+           2868 LOAD_FAST               78 (_safe_get)
+           2870 LOAD_FAST               11 (resp_stats)
+           2872 LOAD_CONST             171 ('pAHI 3%')
+           2874 LOAD_CONST             169 ('nrem')
+           2876 CALL_FUNCTION            3
+           2878 LOAD_CONST             132 ('.1f')
+           2880 FORMAT_VALUE             4 (with format)
+           2882 LOAD_FAST               78 (_safe_get)
+           2884 LOAD_FAST               11 (resp_stats)
+           2886 LOAD_CONST             171 ('pAHI 3%')
+           2888 LOAD_CONST             170 ('all')
+           2890 CALL_FUNCTION            3
+           2892 LOAD_CONST             132 ('.1f')
+           2894 FORMAT_VALUE             4 (with format)
+           2896 BUILD_LIST               4
+
+676        2898 LOAD_CONST             172 ('ODI 4%')
+           2900 LOAD_FAST               78 (_safe_get)
+           2902 LOAD_FAST               11 (resp_stats)
+           2904 LOAD_CONST             172 ('ODI 4%')
+           2906 LOAD_CONST             168 ('rem')
+           2908 CALL_FUNCTION            3
+           2910 LOAD_CONST             132 ('.1f')
+           2912 FORMAT_VALUE             4 (with format)
+           2914 LOAD_FAST               78 (_safe_get)
+           2916 LOAD_FAST               11 (resp_stats)
+           2918 LOAD_CONST             172 ('ODI 4%')
+           2920 LOAD_CONST             169 ('nrem')
+           2922 CALL_FUNCTION            3
+           2924 LOAD_CONST             132 ('.1f')
+           2926 FORMAT_VALUE             4 (with format)
+           2928 LOAD_FAST               78 (_safe_get)
+           2930 LOAD_FAST               11 (resp_stats)
+           2932 LOAD_CONST             172 ('ODI 4%')
+           2934 LOAD_CONST             170 ('all')
+           2936 CALL_FUNCTION            3
+           2938 LOAD_CONST             132 ('.1f')
+           2940 FORMAT_VALUE             4 (with format)
+           2942 BUILD_LIST               4
+
+672        2944 BUILD_LIST               4
+           2946 STORE_FAST              79 (table_data)
+
+679        2948 LOAD_CONST             173 (0.65)
+           2950 STORE_FAST              80 (table_y)
+
+680        2952 BUILD_LIST               0
+           2954 LOAD_CONST             174 ((0.15, 0.08, 0.08, 0.1))
+           2956 LIST_EXTEND              1
+           2958 STORE_FAST              81 (col_w)
+
+681        2960 BUILD_LIST               0
+           2962 LOAD_CONST             175 ((0.01, 0.22, 0.33, 0.44))
+           2964 LIST_EXTEND              1
+           2966 STORE_FAST              82 (col_x)
+
+683        2968 LOAD_GLOBAL             42 (enumerate)
+           2970 LOAD_FAST               79 (table_data)
+           2972 CALL_FUNCTION            1
+           2974 GET_ITER
+        >> 2976 FOR_ITER               157 (to 3292)
+           2978 UNPACK_SEQUENCE          2
+           2980 STORE_FAST              83 (r_idx)
+           2982 STORE_FAST              84 (row)
+
+684        2984 LOAD_FAST               80 (table_y)
+           2986 LOAD_FAST               83 (r_idx)
+           2988 LOAD_CONST              83 (0.22)
+           2990 BINARY_MULTIPLY
+           2992 BINARY_SUBTRACT
+           2994 STORE_FAST              72 (y)
+
+685        2996 LOAD_FAST               83 (r_idx)
+           2998 LOAD_CONST               3 (0)
+           3000 COMPARE_OP               2 (==)
+           3002 STORE_FAST              85 (is_header)
+
+686        3004 LOAD_FAST               85 (is_header)
+           3006 EXTENDED_ARG             5
+           3008 POP_JUMP_IF_FALSE     1507 (to 3014)
+           3010 LOAD_CONST              24 ('bold')
+           3012 JUMP_FORWARD             1 (to 3016)
+        >> 3014 LOAD_CONST             176 ('normal')
+        >> 3016 STORE_FAST              86 (fw)
+
+687        3018 LOAD_FAST               85 (is_header)
+           3020 EXTENDED_ARG             5
+           3022 POP_JUMP_IF_FALSE     1514 (to 3028)
+           3024 LOAD_GLOBAL             23 (TEXT_H)
+           3026 JUMP_FORWARD             1 (to 3030)
+        >> 3028 LOAD_GLOBAL             33 (TEXT_M)
+        >> 3030 STORE_FAST              87 (color)
+
+689        3032 LOAD_FAST               83 (r_idx)
+           3034 LOAD_CONST               3 (0)
+           3036 COMPARE_OP               4 (>)
+           3038 EXTENDED_ARG             6
+           3040 POP_JUMP_IF_FALSE     1565 (to 3130)
+
+690        3042 LOAD_DEREF               0 (lang)
+           3044 LOAD_CONST              18 ('he')
+           3046 COMPARE_OP               2 (==)
+           3048 EXTENDED_ARG             6
+           3050 POP_JUMP_IF_FALSE     1546 (to 3092)
+
+691        3052 LOAD_FAST               76 (ax5)
+           3054 LOAD_ATTR               25 (plot)
+           3056 LOAD_CONST             177 (0.5800000000000001)
+           3058 LOAD_CONST             178 (0.98)
+           3060 BUILD_LIST               2
+           3062 LOAD_FAST               72 (y)
+           3064 LOAD_CONST             179 (0.11)
+           3066 BINARY_ADD
+           3068 LOAD_FAST               72 (y)
+           3070 LOAD_CONST             179 (0.11)
+           3072 BINARY_ADD
+           3074 BUILD_LIST               2
+           3076 LOAD_GLOBAL             34 (BORDER)
+           3078 LOAD_CONST              22 (0.5)
+           3080 LOAD_FAST               76 (ax5)
+           3082 LOAD_ATTR               22 (transAxes)
+           3084 LOAD_CONST              32 (('color', 'lw', 'transform'))
+           3086 CALL_FUNCTION_KW         5
+           3088 POP_TOP
+           3090 JUMP_FORWARD            19 (to 3130)
+
+693     >> 3092 LOAD_FAST               76 (ax5)
+           3094 LOAD_ATTR               25 (plot)
+           3096 LOAD_CONST             155 (0.02)
+           3098 LOAD_CONST             180 (0.42)
+           3100 BUILD_LIST               2
+           3102 LOAD_FAST               72 (y)
+           3104 LOAD_CONST             179 (0.11)
+           3106 BINARY_ADD
+           3108 LOAD_FAST               72 (y)
+           3110 LOAD_CONST             179 (0.11)
+           3112 BINARY_ADD
+           3114 BUILD_LIST               2
+           3116 LOAD_GLOBAL             34 (BORDER)
+           3118 LOAD_CONST              22 (0.5)
+           3120 LOAD_FAST               76 (ax5)
+           3122 LOAD_ATTR               22 (transAxes)
+           3124 LOAD_CONST              32 (('color', 'lw', 'transform'))
+           3126 CALL_FUNCTION_KW         5
+           3128 POP_TOP
+
+695     >> 3130 LOAD_GLOBAL             42 (enumerate)
+           3132 LOAD_FAST               84 (row)
+           3134 CALL_FUNCTION            1
+           3136 GET_ITER
+        >> 3138 FOR_ITER                74 (to 3288)
+           3140 UNPACK_SEQUENCE          2
+           3142 STORE_FAST              88 (c_idx)
+           3144 STORE_FAST              89 (text)
+
+696        3146 LOAD_FAST               88 (c_idx)
+           3148 LOAD_CONST               3 (0)
+           3150 COMPARE_OP               2 (==)
+           3152 EXTENDED_ARG             6
+           3154 POP_JUMP_IF_FALSE     1580 (to 3160)
+           3156 LOAD_CONST             148 ('left')
+           3158 JUMP_FORWARD             1 (to 3162)
+        >> 3160 LOAD_CONST             153 ('right')
+        >> 3162 STORE_FAST              90 (ha)
+
+697        3164 LOAD_FAST               88 (c_idx)
+           3166 LOAD_CONST               3 (0)
+           3168 COMPARE_OP               2 (==)
+           3170 EXTENDED_ARG             6
+           3172 POP_JUMP_IF_FALSE     1591 (to 3182)
+           3174 LOAD_FAST               82 (col_x)
+           3176 LOAD_FAST               88 (c_idx)
+           3178 BINARY_SUBSCR
+           3180 JUMP_FORWARD             7 (to 3196)
+        >> 3182 LOAD_FAST               82 (col_x)
+           3184 LOAD_FAST               88 (c_idx)
+           3186 BINARY_SUBSCR
+           3188 LOAD_FAST               81 (col_w)
+           3190 LOAD_FAST               88 (c_idx)
+           3192 BINARY_SUBSCR
+           3194 BINARY_ADD
+        >> 3196 STORE_FAST              91 (x)
+
+698        3198 LOAD_FAST               88 (c_idx)
+           3200 LOAD_CONST             120 (3)
+           3202 COMPARE_OP               2 (==)
+           3204 EXTENDED_ARG             6
+           3206 POP_JUMP_IF_FALSE     1609 (to 3218)
+           3208 LOAD_FAST               85 (is_header)
+           3210 EXTENDED_ARG             6
+           3212 POP_JUMP_IF_TRUE      1609 (to 3218)
+           3214 LOAD_CONST              24 ('bold')
+           3216 JUMP_FORWARD             1 (to 3220)
+        >> 3218 LOAD_FAST               86 (fw)
+        >> 3220 STORE_FAST              92 (cfw)
+
+700        3222 LOAD_FAST               85 (is_header)
+           3224 EXTENDED_ARG             6
+           3226 POP_JUMP_IF_FALSE     1619 (to 3238)
+           3228 LOAD_GLOBAL             45 (_t)
+           3230 LOAD_FAST               89 (text)
+           3232 LOAD_DEREF               0 (lang)
+           3234 CALL_FUNCTION            2
+           3236 JUMP_FORWARD             1 (to 3240)
+        >> 3238 LOAD_FAST               89 (text)
+        >> 3240 STORE_FAST              93 (txt)
+
+703        3242 LOAD_FAST               76 (ax5)
+           3244 LOAD_ATTR               21 (text)
+           3246 LOAD_GLOBAL             43 (_x)
+           3248 LOAD_FAST               91 (x)
+           3250 LOAD_DEREF               0 (lang)
+           3252 CALL_FUNCTION            2
+           3254 LOAD_FAST               72 (y)
+           3256 LOAD_FAST               93 (txt)
+           3258 LOAD_FAST               76 (ax5)
+           3260 LOAD_ATTR               22 (transAxes)
+
+704        3262 LOAD_CONST              97 (14)
+           3264 LOAD_FAST               92 (cfw)
+           3266 LOAD_FAST               87 (color)
+           3268 LOAD_GLOBAL             54 (_ha)
+           3270 LOAD_FAST               90 (ha)
+           3272 LOAD_DEREF               0 (lang)
+           3274 CALL_FUNCTION            2
+           3276 LOAD_CONST              25 ('center')
+
+703        3278 LOAD_CONST              87 (('transform', 'fontsize', 'fontweight', 'color', 'ha', 'va'))
+           3280 CALL_FUNCTION_KW         9
+           3282 POP_TOP
+           3284 EXTENDED_ARG             6
+           3286 JUMP_ABSOLUTE         1569 (to 3138)
+
+695     >> 3288 EXTENDED_ARG             5
+           3290 JUMP_ABSOLUTE         1488 (to 2976)
+
+707     >> 3292 LOAD_FAST               76 (ax5)
+           3294 LOAD_ATTR               25 (plot)
+           3296 LOAD_GLOBAL             43 (_x)
+           3298 LOAD_CONST             102 (0.52)
+           3300 LOAD_DEREF               0 (lang)
+           3302 CALL_FUNCTION            2
+           3304 LOAD_GLOBAL             43 (_x)
+           3306 LOAD_CONST             102 (0.52)
+           3308 LOAD_DEREF               0 (lang)
+           3310 CALL_FUNCTION            2
+           3312 BUILD_LIST               2
+           3314 LOAD_CONST             181 (-0.05)
+           3316 LOAD_CONST             114 (0.75)
+           3318 BUILD_LIST               2
+           3320 LOAD_GLOBAL             34 (BORDER)
+           3322 LOAD_CONST              61 (0.8)
+           3324 LOAD_FAST               76 (ax5)
+           3326 LOAD_ATTR               22 (transAxes)
+           3328 LOAD_CONST              32 (('color', 'lw', 'transform'))
+           3330 CALL_FUNCTION_KW         5
+           3332 POP_TOP
+
+710        3334 LOAD_FAST               76 (ax5)
+           3336 LOAD_ATTR               21 (text)
+           3338 LOAD_GLOBAL             43 (_x)
+           3340 LOAD_CONST              65 (0.55)
+           3342 LOAD_DEREF               0 (lang)
+           3344 CALL_FUNCTION            2
+           3346 LOAD_CONST             114 (0.75)
+           3348 LOAD_GLOBAL             45 (_t)
+           3350 LOAD_CONST             182 ('Body Position Statistics')
+           3352 LOAD_DEREF               0 (lang)
+           3354 CALL_FUNCTION            2
+           3356 LOAD_FAST               76 (ax5)
+           3358 LOAD_ATTR               22 (transAxes)
+
+711        3360 LOAD_CONST             125 (11)
+           3362 LOAD_CONST              24 ('bold')
+           3364 LOAD_GLOBAL             23 (TEXT_H)
+           3366 LOAD_GLOBAL             54 (_ha)
+           3368 LOAD_CONST             148 ('left')
+           3370 LOAD_DEREF               0 (lang)
+           3372 CALL_FUNCTION            2
+
+710        3374 LOAD_CONST              98 (('transform', 'fontsize', 'fontweight', 'color', 'ha'))
+           3376 CALL_FUNCTION_KW         8
+           3378 POP_TOP
+
+713        3380 LOAD_DEREF               2 (pos_stats)
+           3382 LOAD_CONST               0 (None)
+           3384 IS_OP                    0
+           3386 EXTENDED_ARG             6
+           3388 POP_JUMP_IF_FALSE     1702 (to 3404)
+
+714        3390 LOAD_CONST             183 (45)
+           3392 LOAD_CONST             184 (25)
+           3394 LOAD_CONST             103 (20)
+           3396 LOAD_CONST              10 (10)
+           3398 LOAD_CONST             185 (('Supine', 'Left', 'Right', 'Prone'))
+           3400 BUILD_CONST_KEY_MAP      4
+           3402 STORE_DEREF              2 (pos_stats)
+
+716     >> 3404 LOAD_GLOBAL             56 (list)
+           3406 LOAD_DEREF               2 (pos_stats)
+           3408 LOAD_METHOD             57 (keys)
+           3410 CALL_METHOD              0
+           3412 CALL_FUNCTION            1
+           3414 STORE_FAST              94 (pos_labels)
+
+717        3416 LOAD_CLOSURE             2 (pos_stats)
+           3418 BUILD_TUPLE              1
+           3420 LOAD_CONST             186 (<code object <listcomp> at 0x000002B34DF49840, file "patient_report.py", line 717>)
+           3422 LOAD_CONST             187 ('_generate_single_report.<locals>.<listcomp>')
+           3424 MAKE_FUNCTION            8 (closure)
+           3426 LOAD_FAST               94 (pos_labels)
+           3428 GET_ITER
+           3430 CALL_FUNCTION            1
+           3432 STORE_FAST              95 (pos_fracs)
+
+718        3434 BUILD_LIST               0
+           3436 LOAD_CONST             188 (('#A3C4F3', '#E58EAA', '#F9C784', '#D4C4E9'))
+           3438 LIST_EXTEND              1
+           3440 STORE_FAST              96 (pos_colors)
+
+720        3442 LOAD_DEREF               0 (lang)
+           3444 LOAD_CONST             189 ('en')
+           3446 COMPARE_OP               2 (==)
+           3448 EXTENDED_ARG             6
+           3450 POP_JUMP_IF_FALSE     1728 (to 3456)
+           3452 LOAD_CONST              65 (0.55)
+           3454 JUMP_FORWARD             1 (to 3458)
+        >> 3456 LOAD_CONST             110 (0.03)
+        >> 3458 STORE_FAST              97 (pie_x0)
+
+721        3460 LOAD_FAST               76 (ax5)
+           3462 LOAD_METHOD             39 (inset_axes)
+           3464 LOAD_FAST               97 (pie_x0)
+           3466 LOAD_CONST             190 (-0.25)
+           3468 LOAD_CONST             180 (0.42)
+           3470 LOAD_CONST              58 (1.0)
+           3472 BUILD_LIST               4
+           3474 CALL_METHOD              1
+           3476 STORE_FAST              98 (ax5_pie)
+
+724        3478 LOAD_CLOSURE             0 (lang)
+           3480 BUILD_TUPLE              1
+           3482 LOAD_CONST             191 (<code object <listcomp> at 0x000002B34DF498F0, file "patient_report.py", line 724>)
+           3484 LOAD_CONST             187 ('_generate_single_report.<locals>.<listcomp>')
+           3486 MAKE_FUNCTION            8 (closure)
+           3488 LOAD_FAST               94 (pos_labels)
+           3490 GET_ITER
+           3492 CALL_FUNCTION            1
+           3494 STORE_FAST              99 (disp_labels)
+
+725        3496 LOAD_FAST               98 (ax5_pie)
+           3498 LOAD_ATTR               58 (pie)
+           3500 LOAD_FAST               95 (pos_fracs)
+           3502 LOAD_FAST               99 (disp_labels)
+           3504 LOAD_FAST               96 (pos_colors)
+           3506 LOAD_CONST             192 (90)
+
+726        3508 LOAD_CONST             193 ('%1.0f%%')
+           3510 LOAD_CONST              93 (0.6)
+           3512 LOAD_CONST             194 (1.05)
+
+727        3514 LOAD_CONST              10 (10)
+           3516 LOAD_GLOBAL             23 (TEXT_H)
+           3518 LOAD_CONST             195 (('fontsize', 'color'))
+           3520 BUILD_CONST_KEY_MAP      2
+
+728        3522 LOAD_CONST             117 ('white')
+           3524 LOAD_CONST              29 (1)
+           3526 LOAD_CONST             196 (('edgecolor', 'linewidth'))
+           3528 BUILD_CONST_KEY_MAP      2
+
+725        3530 LOAD_CONST             197 (('labels', 'colors', 'startangle', 'autopct', 'pctdistance', 'labeldistance', 'textprops', 'wedgeprops'))
+           3532 CALL_FUNCTION_KW         9
+           3534 POP_TOP
+
+730        3536 LOAD_FAST               11 (resp_stats)
+           3538 LOAD_CONST             171 ('pAHI 3%')
+           3540 BINARY_SUBSCR
+           3542 LOAD_METHOD             19 (get)
+           3544 LOAD_CONST             198 ('supine')
+           3546 CALL_METHOD              1
+           3548 STORE_FAST             100 (sup_ahi)
+
+731        3550 LOAD_FAST              100 (sup_ahi)
+           3552 LOAD_CONST               0 (None)
+           3554 IS_OP                    0
+           3556 EXTENDED_ARG             6
+           3558 POP_JUMP_IF_FALSE     1788 (to 3576)
+
+732        3560 LOAD_FAST               11 (resp_stats)
+           3562 LOAD_CONST             171 ('pAHI 3%')
+           3564 BINARY_SUBSCR
+           3566 LOAD_CONST             170 ('all')
+           3568 BINARY_SUBSCR
+           3570 LOAD_CONST             158 (1.5)
+           3572 BINARY_MULTIPLY
+           3574 STORE_FAST             100 (sup_ahi)
+
+734     >> 3576 LOAD_FAST               11 (resp_stats)
+           3578 LOAD_CONST             171 ('pAHI 3%')
+           3580 BINARY_SUBSCR
+           3582 LOAD_METHOD             19 (get)
+           3584 LOAD_CONST             199 ('nsupine')
+           3586 CALL_METHOD              1
+           3588 STORE_FAST             101 (nsup_ahi)
+
+735        3590 LOAD_FAST              101 (nsup_ahi)
+           3592 LOAD_CONST               0 (None)
+           3594 IS_OP                    0
+           3596 EXTENDED_ARG             7
+           3598 POP_JUMP_IF_FALSE     1808 (to 3616)
+
+736        3600 LOAD_FAST               11 (resp_stats)
+           3602 LOAD_CONST             171 ('pAHI 3%')
+           3604 BINARY_SUBSCR
+           3606 LOAD_CONST             170 ('all')
+           3608 BINARY_SUBSCR
+           3610 LOAD_CONST              22 (0.5)
+           3612 BINARY_MULTIPLY
+           3614 STORE_FAST             101 (nsup_ahi)
+
+738     >> 3616 LOAD_DEREF               0 (lang)
+           3618 LOAD_CONST              18 ('he')
+           3620 COMPARE_OP               2 (==)
+           3622 EXTENDED_ARG             7
+           3624 POP_JUMP_IF_FALSE     1826 (to 3652)
+
+739        3626 LOAD_GLOBAL             53 (get_display)
+           3628 LOAD_CONST             200 ('לא גב: ')
+           3630 LOAD_FAST              101 (nsup_ahi)
+           3632 LOAD_CONST             132 ('.1f')
+           3634 FORMAT_VALUE             4 (with format)
+           3636 LOAD_CONST             201 ('   |   pAHI גב: ')
+           3638 LOAD_FAST              100 (sup_ahi)
+           3640 LOAD_CONST             132 ('.1f')
+           3642 FORMAT_VALUE             4 (with format)
+           3644 BUILD_STRING             4
+           3646 CALL_FUNCTION            1
+           3648 STORE_FAST             102 (bottom_str)
+           3650 JUMP_FORWARD            10 (to 3672)
+
+741     >> 3652 LOAD_CONST             202 ('Supine pAHI: ')
+           3654 LOAD_FAST              100 (sup_ahi)
+           3656 LOAD_CONST             132 ('.1f')
+           3658 FORMAT_VALUE             4 (with format)
+           3660 LOAD_CONST             203 ('   |   Non-Supine: ')
+           3662 LOAD_FAST              101 (nsup_ahi)
+           3664 LOAD_CONST             132 ('.1f')
+           3666 FORMAT_VALUE             4 (with format)
+           3668 BUILD_STRING             4
+           3670 STORE_FAST             102 (bottom_str)
+
+743     >> 3672 LOAD_FAST               76 (ax5)
+           3674 LOAD_ATTR               21 (text)
+           3676 LOAD_GLOBAL             43 (_x)
+           3678 LOAD_CONST             204 (0.76)
+           3680 LOAD_DEREF               0 (lang)
+           3682 CALL_FUNCTION            2
+           3684 LOAD_CONST             190 (-0.25)
+           3686 LOAD_FAST              102 (bottom_str)
+           3688 LOAD_FAST               76 (ax5)
+           3690 LOAD_ATTR               22 (transAxes)
+
+744        3692 LOAD_CONST              10 (10)
+           3694 LOAD_GLOBAL             23 (TEXT_H)
+           3696 LOAD_CONST              25 ('center')
+           3698 LOAD_CONST              25 ('center')
+           3700 LOAD_CONST              24 ('bold')
+
+743        3702 LOAD_CONST             118 (('transform', 'fontsize', 'color', 'ha', 'va', 'fontweight'))
+           3704 CALL_FUNCTION_KW         9
+           3706 POP_TOP
+
+747        3708 LOAD_FAST               19 (fig)
+           3710 LOAD_METHOD             36 (add_subplot)
+           3712 LOAD_FAST               39 (gs)
+           3714 LOAD_CONST             129 (4)
+           3716 LOAD_CONST               0 (None)
+           3718 LOAD_CONST               0 (None)
+           3720 BUILD_SLICE              2
+           3722 BUILD_TUPLE              2
+           3724 BINARY_SUBSCR
+           3726 CALL_METHOD              1
+           3728 STORE_FAST             103 (ax6)
+
+748        3730 LOAD_GLOBAL             37 (_panel)
+           3732 LOAD_FAST              103 (ax6)
+           3734 CALL_FUNCTION            1
+           3736 POP_TOP
+           3738 LOAD_FAST              103 (ax6)
+           3740 LOAD_METHOD             13 (axis)
+           3742 LOAD_CONST              12 ('off')
+           3744 CALL_METHOD              1
+           3746 POP_TOP
+
+749        3748 LOAD_GLOBAL             38 (_section_title)
+           3750 LOAD_FAST              103 (ax6)
+           3752 LOAD_CONST             205 ('Summary')
+           3754 LOAD_CONST             206 (6)
+           3756 LOAD_CONST             207 (0.93)
+           3758 LOAD_DEREF               0 (lang)
+           3760 LOAD_CONST              71 (('y_frac', 'lang'))
+           3762 CALL_FUNCTION_KW         5
+           3764 POP_TOP
+
+751        3766 LOAD_GLOBAL             59 (_bullets)
+           3768 LOAD_FAST               18 (st)
+           3770 LOAD_FAST               17 (rdi_v)
+           3772 LOAD_FAST                7 (spo2_stats)
+           3774 LOAD_DEREF               0 (lang)
+           3776 LOAD_CONST              73 (('lang',))
+           3778 CALL_FUNCTION_KW         4
+           3780 STORE_FAST             104 (blist)
+
+752        3782 LOAD_FAST               13 (notes)
+           3784 EXTENDED_ARG             7
+           3786 POP_JUMP_IF_FALSE     1915 (to 3830)
+
+753        3788 LOAD_DEREF               0 (lang)
+           3790 LOAD_CONST              18 ('he')
+           3792 COMPARE_OP               2 (==)
+           3794 EXTENDED_ARG             7
+           3796 POP_JUMP_IF_FALSE     1910 (to 3820)
+
+754        3798 LOAD_FAST              104 (blist)
+           3800 LOAD_METHOD             60 (extend)
+           3802 LOAD_CONST             208 (<code object <listcomp> at 0x000002B34DF499A0, file "patient_report.py", line 754>)
+           3804 LOAD_CONST             187 ('_generate_single_report.<locals>.<listcomp>')
+           3806 MAKE_FUNCTION            0
+           3808 LOAD_FAST               13 (notes)
+           3810 GET_ITER
+           3812 CALL_FUNCTION            1
+           3814 CALL_METHOD              1
+           3816 POP_TOP
+           3818 JUMP_FORWARD             5 (to 3830)
+
+756     >> 3820 LOAD_FAST              104 (blist)
+           3822 LOAD_METHOD             60 (extend)
+           3824 LOAD_FAST               13 (notes)
+           3826 CALL_METHOD              1
+           3828 POP_TOP
+
+758     >> 3830 LOAD_CONST             209 (0.185)
+           3832 STORE_FAST             105 (line_h)
+
+759        3834 LOAD_GLOBAL             42 (enumerate)
+           3836 LOAD_FAST              104 (blist)
+           3838 LOAD_CONST               0 (None)
+           3840 LOAD_CONST              59 (5)
+           3842 BUILD_SLICE              2
+           3844 BINARY_SUBSCR
+           3846 CALL_FUNCTION            1
+           3848 GET_ITER
+        >> 3850 FOR_ITER                56 (to 3964)
+           3852 UNPACK_SEQUENCE          2
+           3854 STORE_FAST              45 (i)
+           3856 STORE_FAST             106 (line)
+
+760        3858 LOAD_CONST             173 (0.65)
+           3860 LOAD_FAST               45 (i)
+           3862 LOAD_FAST              105 (line_h)
+           3864 BINARY_MULTIPLY
+           3866 BINARY_SUBTRACT
+           3868 STORE_FAST              72 (y)
+
+761        3870 LOAD_FAST              103 (ax6)
+           3872 LOAD_ATTR               25 (plot)
+           3874 LOAD_GLOBAL             43 (_x)
+           3876 LOAD_CONST             210 (0.012)
+           3878 LOAD_DEREF               0 (lang)
+           3880 CALL_FUNCTION            2
+           3882 LOAD_FAST               72 (y)
+           3884 LOAD_CONST             211 ('o')
+           3886 LOAD_GLOBAL             26 (ACCENT)
+           3888 LOAD_CONST             129 (4)
+
+762        3890 LOAD_FAST              103 (ax6)
+           3892 LOAD_ATTR               22 (transAxes)
+           3894 LOAD_CONST             212 (False)
+
+761        3896 LOAD_CONST             213 (('color', 'markersize', 'transform', 'clip_on'))
+           3898 CALL_FUNCTION_KW         7
+           3900 POP_TOP
+
+763        3902 LOAD_FAST              103 (ax6)
+           3904 LOAD_ATTR               21 (text)
+           3906 LOAD_GLOBAL             43 (_x)
+           3908 LOAD_CONST             110 (0.03)
+           3910 LOAD_DEREF               0 (lang)
+           3912 CALL_FUNCTION            2
+           3914 LOAD_FAST               72 (y)
+           3916 LOAD_FAST              106 (line)
+
+764        3918 LOAD_FAST              103 (ax6)
+           3920 LOAD_ATTR               22 (transAxes)
+           3922 LOAD_CONST             214 (13)
+
+765        3924 LOAD_GLOBAL             23 (TEXT_H)
+           3926 LOAD_CONST              25 ('center')
+           3928 LOAD_GLOBAL             54 (_ha)
+           3930 LOAD_CONST             148 ('left')
+           3932 LOAD_DEREF               0 (lang)
+           3934 CALL_FUNCTION            2
+
+766        3936 LOAD_DEREF               0 (lang)
+           3938 LOAD_CONST              18 ('he')
+           3940 COMPARE_OP               2 (==)
+           3942 EXTENDED_ARG             7
+           3944 POP_JUMP_IF_FALSE     1976 (to 3952)
+           3946 LOAD_GLOBAL             24 (_he_fp)
+           3948 CALL_FUNCTION            0
+           3950 JUMP_FORWARD             1 (to 3954)
+        >> 3952 LOAD_CONST               0 (None)
+
+763     >> 3954 LOAD_CONST              56 (('transform', 'fontsize', 'color', 'va', 'ha', 'fontproperties'))
+           3956 CALL_FUNCTION_KW         9
+           3958 POP_TOP
+           3960 EXTENDED_ARG             7
+           3962 JUMP_ABSOLUTE         1925 (to 3850)
+
+769     >> 3964 LOAD_FAST               19 (fig)
+           3966 LOAD_METHOD             11 (add_axes)
+           3968 BUILD_LIST               0
+           3970 LOAD_CONST             215 ((0.04, 0.1, 0.92, 0.032))
+           3972 LIST_EXTEND              1
+           3974 CALL_METHOD              1
+           3976 STORE_FAST             107 (ax_f)
+
+770        3978 LOAD_FAST              107 (ax_f)
+           3980 LOAD_METHOD             13 (axis)
+           3982 LOAD_CONST              12 ('off')
+           3984 CALL_METHOD              1
+           3986 POP_TOP
+
+771        3988 LOAD_FAST              107 (ax_f)
+           3990 LOAD_ATTR               25 (plot)
+           3992 LOAD_CONST               3 (0)
+           3994 LOAD_CONST              29 (1)
+           3996 BUILD_LIST               2
+           3998 LOAD_CONST             216 (0.9)
+           4000 LOAD_CONST             216 (0.9)
+           4002 BUILD_LIST               2
+           4004 LOAD_GLOBAL             34 (BORDER)
+           4006 LOAD_CONST              61 (0.8)
+           4008 LOAD_FAST              107 (ax_f)
+           4010 LOAD_ATTR               22 (transAxes)
+           4012 LOAD_CONST              32 (('color', 'lw', 'transform'))
+           4014 CALL_FUNCTION_KW         5
+           4016 POP_TOP
+
+773        4018 LOAD_CONST             217 ('This report is for informational purposes only. Please consult your physician for medical interpretation.')
+           4020 STORE_FAST             108 (footer_txt)
+
+774        4022 LOAD_DEREF               0 (lang)
+           4024 LOAD_CONST              18 ('he')
+           4026 COMPARE_OP               2 (==)
+           4028 EXTENDED_ARG             7
+           4030 POP_JUMP_IF_FALSE     2020 (to 4040)
+
+775        4032 LOAD_GLOBAL             53 (get_display)
+           4034 LOAD_CONST             218 ('דוח זה מיועד למטרות מידע בלבד. אנא התייעץ עם הרופא שלך לקבלת פירוש רפואי.')
+           4036 CALL_FUNCTION            1
+           4038 STORE_FAST             108 (footer_txt)
+
+777     >> 4040 LOAD_FAST              107 (ax_f)
+           4042 LOAD_ATTR               21 (text)
+           4044 LOAD_CONST              22 (0.5)
+           4046 LOAD_CONST              80 (0.25)
+           4048 LOAD_FAST              108 (footer_txt)
+           4050 LOAD_CONST              25 ('center')
+           4052 LOAD_CONST              25 ('center')
+           4054 LOAD_CONST             219 (6.5)
+
+778        4056 LOAD_GLOBAL             46 (TEXT_L)
+           4058 LOAD_FAST              107 (ax_f)
+           4060 LOAD_ATTR               22 (transAxes)
+           4062 LOAD_CONST             126 ('italic')
+
+779        4064 LOAD_DEREF               0 (lang)
+           4066 LOAD_CONST              18 ('he')
+           4068 COMPARE_OP               2 (==)
+           4070 EXTENDED_ARG             7
+           4072 POP_JUMP_IF_FALSE     2040 (to 4080)
+           4074 LOAD_GLOBAL             24 (_he_fp)
+           4076 CALL_FUNCTION            0
+           4078 JUMP_FORWARD             1 (to 4082)
+        >> 4080 LOAD_CONST               0 (None)
+
+777     >> 4082 LOAD_CONST             220 (('ha', 'va', 'fontsize', 'color', 'transform', 'style', 'fontproperties'))
+           4084 CALL_FUNCTION_KW        10
+           4086 POP_TOP
+
+782        4088 LOAD_CONST              34 ('_')
+           4090 LOAD_DEREF               0 (lang)
+           4092 FORMAT_VALUE             0
+           4094 BUILD_STRING             2
+           4096 STORE_FAST             109 (suffix)
+
+783        4098 LOAD_FAST                2 (outdir)
+           4100 LOAD_FAST                1 (subject_id)
+           4102 FORMAT_VALUE             0
+           4104 LOAD_CONST             221 ('_patient_report')
+           4106 LOAD_FAST              109 (suffix)
+           4108 FORMAT_VALUE             0
+           4110 LOAD_CONST             222 ('.png')
+           4112 BUILD_STRING             4
+           4114 BINARY_TRUE_DIVIDE
+           4116 STORE_FAST             110 (out)
+
+784        4118 LOAD_FAST               19 (fig)
+           4120 LOAD_ATTR               61 (savefig)
+           4122 LOAD_FAST              110 (out)
+           4124 LOAD_FAST               14 (dpi)
+           4126 LOAD_GLOBAL              3 (BG)
+           4128 LOAD_CONST             113 ('none')
+           4130 LOAD_CONST             223 (('dpi', 'facecolor', 'edgecolor'))
+           4132 CALL_FUNCTION_KW         4
+           4134 POP_TOP
+
+785        4136 LOAD_GLOBAL              1 (plt)
+           4138 LOAD_METHOD             62 (close)
+           4140 LOAD_FAST               19 (fig)
+           4142 CALL_METHOD              1
+           4144 POP_TOP
+
+786        4146 LOAD_GLOBAL             15 (print)
+           4148 LOAD_CONST             224 ('[PatientReport] Saved -> ')
+           4150 LOAD_FAST              110 (out)
+           4152 FORMAT_VALUE             0
+           4154 BUILD_STRING             2
+           4156 CALL_FUNCTION            1
+           4158 POP_TOP
+
+787        4160 LOAD_FAST              110 (out)
+           4162 RETURN_VALUE
+
+Disassembly of <code object _resource_path at 0x000002B34DF496E0, file "patient_report.py", line 412>:
+413           0 SETUP_FINALLY            5 (to 12)
+              2 LOAD_DEREF               1 (sys)
+              4 LOAD_ATTR                0 (_MEIPASS)
+              6 STORE_FAST               1 (base_path)
+              8 POP_BLOCK
+             10 JUMP_FORWARD            15 (to 42)
+
+414     >>   12 DUP_TOP
+             14 LOAD_GLOBAL              1 (Exception)
+             16 JUMP_IF_NOT_EXC_MATCH    20 (to 40)
+             18 POP_TOP
+             20 POP_TOP
+             22 POP_TOP
+             24 LOAD_DEREF               0 (os)
+             26 LOAD_ATTR                2 (path)
+             28 LOAD_METHOD              3 (abspath)
+             30 LOAD_CONST               1 ('.')
+             32 CALL_METHOD              1
+             34 STORE_FAST               1 (base_path)
+             36 POP_EXCEPT
+             38 JUMP_FORWARD             1 (to 42)
+        >>   40 RERAISE                  0
+
+415     >>   42 LOAD_DEREF               0 (os)
+             44 LOAD_ATTR                2 (path)
+             46 LOAD_METHOD              4 (join)
+             48 LOAD_FAST                1 (base_path)
+             50 LOAD_FAST                0 (relative_path)
+             52 CALL_METHOD              2
+             54 RETURN_VALUE
+
+Disassembly of <code object _safe_get at 0x000002B34DF49790, file "patient_report.py", line 666>:
+667           0 LOAD_GLOBAL              0 (isinstance)
+              2 LOAD_FAST                0 (stat_dict)
+              4 LOAD_GLOBAL              1 (dict)
+              6 CALL_FUNCTION            2
+              8 POP_JUMP_IF_TRUE         7 (to 14)
+             10 LOAD_FAST                3 (default)
+             12 RETURN_VALUE
+
+668     >>   14 LOAD_FAST                1 (main_key)
+             16 LOAD_FAST                0 (stat_dict)
+             18 CONTAINS_OP              1
+             20 POP_JUMP_IF_FALSE       13 (to 26)
+             22 LOAD_FAST                3 (default)
+             24 RETURN_VALUE
+
+669     >>   26 LOAD_GLOBAL              0 (isinstance)
+             28 LOAD_FAST                0 (stat_dict)
+             30 LOAD_FAST                1 (main_key)
+             32 BINARY_SUBSCR
+             34 LOAD_GLOBAL              1 (dict)
+             36 CALL_FUNCTION            2
+             38 POP_JUMP_IF_TRUE        22 (to 44)
+             40 LOAD_FAST                3 (default)
+             42 RETURN_VALUE
+
+670     >>   44 LOAD_FAST                0 (stat_dict)
+             46 LOAD_FAST                1 (main_key)
+             48 BINARY_SUBSCR
+             50 LOAD_METHOD              2 (get)
+             52 LOAD_FAST                2 (sub_key)
+             54 LOAD_FAST                3 (default)
+             56 CALL_METHOD              2
+             58 RETURN_VALUE
+
+Disassembly of <code object <listcomp> at 0x000002B34DF49840, file "patient_report.py", line 717>:
+717           0 BUILD_LIST               0
+              2 LOAD_FAST                0 (.0)
+        >>    4 FOR_ITER                 6 (to 18)
+              6 STORE_FAST               1 (k)
+              8 LOAD_DEREF               0 (pos_stats)
+             10 LOAD_FAST                1 (k)
+             12 BINARY_SUBSCR
+             14 LIST_APPEND              2
+             16 JUMP_ABSOLUTE            2 (to 4)
+        >>   18 RETURN_VALUE
+
+Disassembly of <code object <listcomp> at 0x000002B34DF498F0, file "patient_report.py", line 724>:
+724           0 BUILD_LIST               0
+              2 LOAD_FAST                0 (.0)
+        >>    4 FOR_ITER                 7 (to 20)
+              6 STORE_FAST               1 (l)
+              8 LOAD_GLOBAL              0 (_t)
+             10 LOAD_FAST                1 (l)
+             12 LOAD_DEREF               0 (lang)
+             14 CALL_FUNCTION            2
+             16 LIST_APPEND              2
+             18 JUMP_ABSOLUTE            2 (to 4)
+        >>   20 RETURN_VALUE
+
+Disassembly of <code object <listcomp> at 0x000002B34DF499A0, file "patient_report.py", line 754>:
+754           0 BUILD_LIST               0
+              2 LOAD_FAST                0 (.0)
+        >>    4 FOR_ITER                 6 (to 18)
+              6 STORE_FAST               1 (n)
+              8 LOAD_GLOBAL              0 (get_display)
+             10 LOAD_FAST                1 (n)
+             12 CALL_FUNCTION            1
+             14 LIST_APPEND              2
+             16 JUMP_ABSOLUTE            2 (to 4)
+        >>   18 RETURN_VALUE
+
+--- generate_patient_report ---
+792           0 LOAD_GLOBAL              0 (_generate_single_report)
+              2 LOAD_CONST               5 (())
+              4 BUILD_MAP                0
+              6 LOAD_FAST                0 (kwargs)
+              8 DICT_MERGE               1
+             10 LOAD_CONST               1 ('lang')
+             12 LOAD_CONST               2 ('en')
+             14 BUILD_MAP                1
+             16 DICT_MERGE               1
+             18 CALL_FUNCTION_EX         1
+             20 STORE_FAST               1 (out_en)
+
+793          22 LOAD_GLOBAL              0 (_generate_single_report)
+             24 LOAD_CONST               5 (())
+             26 BUILD_MAP                0
+             28 LOAD_FAST                0 (kwargs)
+             30 DICT_MERGE               1
+             32 LOAD_CONST               1 ('lang')
+             34 LOAD_CONST               3 ('he')
+             36 BUILD_MAP                1
+             38 DICT_MERGE               1
+             40 CALL_FUNCTION_EX         1
+             42 POP_TOP
+
+794          44 LOAD_FAST                1 (out_en)
+             46 RETURN_VALUE

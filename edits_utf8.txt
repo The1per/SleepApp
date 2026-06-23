@@ -1,0 +1,24 @@
+﻿
+--- TARGET CONTENT ---
+"def _generate_single_report(\n    *,\n    hypno_1hz_int: np.ndarray,\n    subject_id: str,\n    outdir: Path,\n    study_date: str | None = None,\n    subject_age: int | None = None,\n    sex: str | None = None,\n    spo2_stats: dict | None = None,\n    plm_metrics: dict | None = None,\n    rdi: float | None = None,\n    ahi: float | None = None,\n    resp_stats: dict | None = None,\n    pos_stats: dict | None = None,\n    notes: list[str] | None = None,\n    dpi: int = 180,\n    lang: str = \"en\",\n) -> Path:"
+
+--- REPLACEMENT CONTENT ---
+"def _generate_single_report(\n    *,\n    hypno_1hz_int: np.ndarray,\n    subject_id: str,\n    outdir: Path,\n    subject_name: str | None = None,\n    study_date: str | None = None,\n    subject_age: int | None = None,\n    sex: str | None = None,\n    spo2_stats: dict | None = None,\n    plm_metrics: dict | None = None,\n    rdi: float | None = None,\n    ahi: float | None = None,\n    resp_stats: dict | None = None,\n    pos_stats: dict | None = None,\n    notes: list[str] | None = None,\n    dpi: int = 180,\n    lang: str = \"en\",\n) -> Path:"
+
+--- TARGET CONTENT ---
+"    dpi: int = 180,\n    lang: str = \"en\",\n) -> Path:"
+
+--- REPLACEMENT CONTENT ---
+"    dpi: int = 180,\n    lang: str = \"en\",\n    **kwargs\n) -> Path:"
+
+--- TARGET CONTENT ---
+"    if resp_stats is None:\n        r_val = rdi_v if rdi_v else 0.0\n        resp_stats = {\n            \"pRDI\": {\"all\": r_val, \"rem\": r_val*1.5, \"nrem\": r_val*0.8},\n            \"pAHI 3%\": {\"all\": r_val*0.8, \"rem\": r_val*1.2, \"nrem\": r_val*0.6},\n            \"ODI 4%\": {\"all\": r_val*0.3, \"rem\": r_val*0.4, \"nrem\": r_val*0.2}\n        }\n        \n    table_data = [\n        [\"Total Events\", \"REM\", \"NREM\", \"All Night\"],\n        [\"pRDI\", f\"{resp_stats['pRDI']['rem']:.1f}\", f\"{resp_stats['pRDI']['nrem']:.1f}\", f\"{resp_stats['pRDI']['all']:.1f}\"],\n        [\"pAHI 3%\", f\"{resp_stats['pAHI 3%']['rem']:.1f}\", f\"{resp_stats['pAHI 3%']['nrem']:.1f}\", f\"{resp_stats['pAHI 3%']['all']:.1f}\"],\n        [\"ODI 4%\", f\"{resp_stats['ODI 4%']['rem']:.1f}\", f\"{resp_stats['ODI 4%']['nrem']:.1f}\", f\"{resp_stats['ODI 4%']['all']:.1f}\"]\n    ]"
+
+--- REPLACEMENT CONTENT ---
+"    if not resp_stats:\n        r_val = rdi_v if rdi_v else 0.0\n        resp_stats = {\n            \"pRDI\": {\"all\": r_val, \"rem\": r_val*1.5, \"nrem\": r_val*0.8},\n            \"pAHI 3%\": {\"all\": r_val*0.8, \"rem\": r_val*1.2, \"nrem\": r_val*0.6},\n            \"ODI 4%\": {\"all\": r_val*0.3, \"rem\": r_val*0.4, \"nrem\": r_val*0.2}\n        }\n        \n    def _safe_get(stat_dict, main_key, sub_key, default=0.0):\n        if not isinstance(stat_dict, dict): return default\n        if main_key not in stat_dict: return default\n        if not isinstance(stat_dict[main_key], dict): return default\n        return stat_dict[main_key].get(sub_key, default)\n        \n    table_data = [\n        [\"Total Events\", \"REM\", \"NREM\", \"All Night\"],\n        [\"pRDI\", f\"{_safe_get(resp_stats, 'pRDI', 'rem'):.1f}\", f\"{_safe_get(resp_stats, 'pRDI', 'nrem'):.1f}\", f\"{_safe_get(resp_stats, 'pRDI', 'all'):.1f}\"],\n        [\"pAHI 3%\", f\"{_safe_get(resp_stats, 'pAHI 3%', 'rem'):.1f}\", f\"{_safe_get(resp_stats, 'pAHI 3%', 'nrem'):.1f}\", f\"{_safe_get(resp_stats, 'pAHI 3%', 'all'):.1f}\"],\n        [\"ODI 4%\", f\"{_safe_get(resp_stats, 'ODI 4%', 'rem'):.1f}\", f\"{_safe_get(resp_stats, 'ODI 4%', 'nrem'):.1f}\", f\"{_safe_get(resp_stats, 'ODI 4%', 'all'):.1f}\"]\n    ]"
+
+--- TARGET CONTENT ---
+"def _t(text: str, lang: str) -> str:\n    if lang != \"he\":\n        return text\n    # Translate and apply BiDi visual reordering ONCE for LTR matplotlib rendering.\n    return _bidi(TRANSLATIONS.get(text, text))\n\ndef _x(val: float, lang: str) -> float:\n    return 1.0 - val if lang == \"he\" else val\n\ndef _ha(align, lang):\n    if lang == \"he\":\n        return \"right\" if align == \"left\" else (\"left\" if align == \"right\" else align)\n    return align"
+
+--- REPLACEMENT CONTENT ---
+"def _t(text: str, lang: str) -> str:\n    if lang != \"he\":\n        return text\n    return TRANSLATIONS.get(text, text)\n\ndef _x(val: float, lang: str) -> float:\n    return val\n\ndef _ha(align, lang):\n    return align"

@@ -1,0 +1,88 @@
+Sleep Study Report
+Patient Information
+First Name: Last Name: ID: BS005
+Birth Date: Age: Gender:
+Insurer: BMI:
+Sleep Study Information
+Study Date:
+Referring Physician Information
+First Name: Last Name: N/A N/A
+E-mail:Work Phone: Mobile Phone: Fax:Neck Circ.: Epworth:
+Address:
+5.4.84.4 / 4.2.1111 / 84 S/H/A Version: 26/05/2026Mobile Phone:
+Physician Name:
+Signature:Date:
+Rev.  Printed on:27/05/2026 26/05/2026,BS005 549Page 1 of 4
+Sleep Study Report
+Indices are calculated using technically valid sleep time of  5 hrs, 51 min. Central-Indices are calculated using technically valid sleep time 
+of  5  hrs, 32 min.Sleep Summary
+Start Study Time:
+End Study Time:
+Total Recording Time:
+Total Sleep Time
+% REM of Sleep Time:23:03:11
+5:56:37
+6 hrs, 53 min
+5 hrs, 55 min
+22.6
+Respiratory Indices
+Total Events REM NREM All Night
+pRDI:  87
+0.011.6 15.8 14.9Oxygen Saturation Statistics
+Mean: Minimum: Maximum: 96 93 99
+Mean of Desaturations Nadirs (%): 94
+Oxygen Desatur. %: >20 10-20 Total
+Events Number
+Total 4  0  0  4
+100.0 0.0 0.0 100.0
+Oxygen Saturation <90 <=88 <85 <80 <70
+Duration (minutes):
+Sleep %0.0 0.0 0.0 0.0 0.0
+0.0 0.0 0.0 0.0 0.0
+Pulse Rate Statistics during Sleep (BPM)
+Mean: Minimum: Maximum: 51 40 101
+pRDI is calculated using oxi desaturation ≥ 3%% CSR:4-9
+pAHIc 4%:  0 0.0 0.0 0.05 hrs, 51 min
+Hypoxic Burden (% x min)
+Area under 90% SpO2Desaturation area under SpO2 baselineTST Per hour
+0 015 3pAHI 3%: 16 3.9 2.4 2.7
+pAHI 4%: 4 2.3 0.2 0.7
+ODI 4%: 4 2.3 0.2 0.7
+pAHIc 3%:  0 0.0 0.0 0.0Indices are calculated using 
+technically valid sleep time of
+      5              15                    30   pAHI=2.7
+      |              |                     |
+* Reference values are according to AASM guidelines            Mild              Moderate                    Severe   |
+Rev.  Printed on:27/05/2026 26/05/2026,BS005 549Page 2 of 4
+Sleep Study Report
+PAT Respiratory Events
+Excluded 
+periodsOSA CSA other
+404652dB586470Snore / Body PositionSit
+Prone
+Left
+Right
+Supine
+N/A60708090100Oxygen Saturation / Pulse Rate (BPM) / PAT AmplitudeSpO2 (%)0200400600800100012001400PAT Amp30405060708090100110Pulse Rate (BPM)23:0323:3300:0300:3301:0301:3302:0302:3303:0303:3304:0304:3305:0305:33Wake / Sleep stages
+ L Sleep
+ D Sleep Wake
+ REM
+Rev.  Printed on:27/05/2026 26/05/2026,BS005 549Page 3 of 4
+Sleep Study ReportLeft ProneSupineBody Position Statistics
+Position Supine Prone Right Left Non-Supine
+Sleep (min)
+Sleep %225.9 62.0 0.0 68.0 130.0
+63.5 17.4 0.0 19.1 36.5
+19.4 8.8 N/A 5.3 7.0 pRDIODI 4%:pAHI 4%: 1.1 0.0 N/A 0.0 0.0
+1.1 0.0 N/A 0.0 0.0pAHI 3%: 4.3 0.0 N/A 0.0 0.0
+Snoring Statistics
+Snoring Level (dB) >40 >50 >60 >Threshold (45)
+Sleep (min)
+Sleep %48.7 2.2 0.9 3.4
+13.7 0.6 0.3 1.0Mean: 40 dB
+WakeSleepWake13.91%Sleep86.09%Total:100.00%                           Sleep Stages ChartREM LightDeepREM22.62%Light61.64%Deep15.74%Total:100.00%                             Sleep/Wake States Sleep Stages
+Sleep Latency (min):
+REM Latency (min):
+Number of Wakes:
+WASO (min): 4152516
+Rev.  Printed on:27/05/2026 26/05/2026,BS005 549Page 4 of 4

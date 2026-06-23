@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SleepDB Clinical Dashboard</title>
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e1b4b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism utility */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Header */
+        header {
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .patient-selector {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-family: 'Outfit';
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-container {
+            padding: 32px 40px;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* Section Titles */
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+        }
+
+        h2 i {
+            color: var(--accent-purple);
+        }
+
+        /* Metric Highlights */
+        .metric {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .metric-unit {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Specific Cards Layout */
+        .col-span-3 { grid-column: span 3; }
+        .col-span-4 { grid-column: span 4; }
+        .col-span-5 { grid-column: span 5; }
+        .col-span-6 { grid-column: span 6; }
+        .col-span-8 { grid-column: span 8; }
+        .col-span-12 { grid-column: span 12; }
+
+        /* Patient Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Biomarkers Flex */
+        .biomarkers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .bio-item {
+            background: rgba(0,0,0,0.2);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-cyan);
+        }
+        
+        .bio-item.red { border-left-color: var(--accent-red); }
+        .bio-item.purple { border-left-color: var(--accent-purple); }
+
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-badge.healthy {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: currentColor;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .col-span-3, .col-span-4, .col-span-5 { grid-column: span 6; }
+        }
+        @media (max-width: 800px) {
+            .col-span-6, .col-span-3, .col-span-4, .col-span-5 { grid-column: span 12; }
+            .biomarkers-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i>
+            SleepDB Analytics
+        </div>
+        <div>
+            <select class="patient-selector">
+                <option>Patient: YS5_20220814_122851</option>
+                <option>Patient: HG11_202307192230</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        
+        <!-- Demographics Card -->
+        <div class="glass-card col-span-3">
+            <h2><i class="fa-solid fa-user"></i> Patient Demographics</h2>
+            <div class="info-grid" style="margin-bottom: 20px;">
+                <div class="metric">
+                    <span class="metric-label">Age</span>
+                    <span class="metric-value">58 <span class="metric-unit">yrs</span></span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Sex</span>
+                    <span class="metric-value">Male</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">BMI</span>
+                    <span class="metric-value">28.4</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Study Date</span>
+                    <span class="metric-value" style="font-size: 18px; margin-top: 8px;">14 Aug 2022</span>
+                </div>
+            </div>
+            <div class="status-badge">
+                <div class="pulse-dot"></div> Severe OSA + RBD Suspected
+            </div>
+        </div>
+
+        <!-- Respiration & Cardiac (WatchPAT) -->
+        <div class="glass-card col-span-5">
+            <h2><i class="fa-solid fa-lungs"></i> Respiration & Cardiac Profile</h2>
+            <div class="biomarkers-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="metric">
+                    <span class="metric-label">pAHI</span>
+                    <span class="metric-value" style="color: var(--accent-red);">34.2</span>
+                    <span class="metric-unit">events/hr</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Min SpO2</span>
+                    <span class="metric-value" style="color: var(--accent-red);">81%</span>
+                    <span class="metric-unit">nadir</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Avg HR</span>
+                    <span class="metric-value">68</span>
+                    <span class="metric-unit">bpm</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">T90 (SpO2)</span>
+                    <span class="metric-value">12.5%</span>
+                    <span class="metric-unit">of sleep</span>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="height: 140px; margin-top: 20px;">
+                <canvas id="spo2Chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Sleep Architecture -->
+        <div class="glass-card col-span-4">
+            <h2><i class="fa-solid fa-bed"></i> Sleep Architecture</h2>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="chart-container" style="height: 180px; width: 180px;">
+                    <canvas id="stagesChart"></canvas>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="metric">
+                        <span class="metric-label">Total Sleep Time</span>
+                        <span class="metric-value" style="font-size: 20px;">342 <span class="metric-unit">min</span></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Sleep Efficiency</span>
+                        <span class="metric-value" style="font-size: 20px; color: var(--accent-green);">88%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced EEG Biomarkers -->
+        <div class="glass-card col-span-12">
+            <h2><i class="fa-solid fa-wave-square"></i> Advanced EEG Biomarkers (YASA / CAISR / RBDtector)</h2>
+            <div class="biomarkers-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="bio-item">
+                    <span class="metric-label">Spindle Density (C4)</span>
+                    <div class="metric-value">3.4 <span class="metric-unit">/min</span></div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Freq: 13.2 Hz | Amp: 22.1 µV</div>
+                </div>
+                <div class="bio-item purple">
+                    <span class="metric-label">Slow Wave Amp (F4)</span>
+                    <div class="metric-value">84.5 <span class="metric-unit">µV</span></div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Density: 4.1 /min | Slope: 289 µV/s</div>
+                </div>
+                <div class="bio-item red">
+                    <span class="metric-label">RBD Index (EMG-R)</span>
+                    <div class="metric-value">18.4 <span class="metric-unit">%</span></div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Threshold > 15% indicates RSWA</div>
+                </div>
+                <div class="bio-item red">
+                    <span class="metric-label">PLM Index (Legs)</span>
+                    <div class="metric-value">22.1 <span class="metric-unit">/hr</span></div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Detected during NREM sleep</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PSD Spectral Analysis -->
+        <div class="glass-card col-span-12">
+            <h2><i class="fa-solid fa-chart-line"></i> Power Spectral Density (Relative Power across NREM)</h2>
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="psdChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Chart.js Default styling for Dark Theme
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Outfit', sans-serif";
+
+        // 1. SpO2 Trend Chart
+        const spo2Ctx = document.getElementById('spo2Chart').getContext('2d');
+        const gradientRed = spo2Ctx.createLinearGradient(0, 0, 0, 140);
+        gradientRed.addColorStop(0, 'rgba(239, 68, 68, 0.5)');
+        gradientRed.addColorStop(1, 'rgba(239, 68, 68, 0.0)');
+
+        new Chart(spo2Ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => `Hr ${Math.floor(i/5)}`),
+                datasets: [{
+                    label: 'SpO2 %',
+                    data: [96, 95, 96, 88, 85, 82, 89, 94, 95, 96, 90, 84, 81, 88, 92, 95, 94, 96, 95, 92, 88, 86, 90, 95, 96, 97, 96, 95, 96, 95],
+                    borderColor: '#ef4444',
+                    backgroundColor: gradientRed,
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 70, max: 100, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { grid: { display: false }, ticks: { maxTicksLimit: 6 } }
+                }
+            }
+        });
+
+        // 2. Sleep Stages Doughnut Chart
+        const stagesCtx = document.getElementById('stagesChart').getContext('2d');
+        new Chart(stagesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Wake', 'N1', 'N2', 'N3', 'REM'],
+                datasets: [{
+                    data: [12, 8, 45, 15, 20],
+                    backgroundColor: [
+                        '#e2e8f0', // W
+                        '#06b6d4', // N1
+                        '#3b82f6', // N2
+                        '#8b5cf6', // N3
+                        '#ec4899'  // REM
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { position: 'right', labels: { boxWidth: 12, padding: 15 } }
+                }
+            }
+        });
+
+        // 3. PSD Spectral Analysis Chart (Radar or Bar)
+        const psdCtx = document.getElementById('psdChart').getContext('2d');
+        new Chart(psdCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Delta (0.5-4 Hz)', 'Theta (4-8 Hz)', 'Alpha (8-12 Hz)', 'Sigma (12-16 Hz)', 'Beta (16-30 Hz)', 'Gamma (30-40 Hz)'],
+                datasets: [
+                    {
+                        label: 'Frontal (F4)',
+                        data: [65.2, 18.1, 8.4, 5.2, 2.1, 1.0],
+                        backgroundColor: '#06b6d4',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Central (C4)',
+                        data: [58.1, 15.3, 10.2, 12.4, 3.1, 0.9],
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Occipital (O2)',
+                        data: [50.4, 12.1, 28.5, 6.2, 2.0, 0.8],
+                        backgroundColor: '#ec4899',
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        title: { display: true, text: 'Relative Power (%)', color: '#94a3b8' },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
