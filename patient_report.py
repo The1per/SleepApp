@@ -870,10 +870,8 @@ def _generate_single_report(
 
 def generate_patient_report(subject_name=None, **kwargs):
     """Generates both English and Hebrew reports, returns path to the English one."""
-    # For demo purposes, we will pass different names based on language
-    # But since the outer function takes one name, we'll just mock it inside
-    _generate_single_report(subject_name="ולאד ז'לזניאקוב", lang="he", **kwargs)
-    out_en = _generate_single_report(subject_name="Vlad Zheleznyakov", lang="en", **kwargs)
+    _generate_single_report(subject_name=subject_name, lang="he", **kwargs)
+    out_en = _generate_single_report(subject_name=subject_name, lang="en", **kwargs)
     return out_en
 
 if __name__ == "__main__":
