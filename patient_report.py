@@ -270,7 +270,7 @@ def _donut(ax, s: dict, lang="en"):
     colors = [STAGE_COLORS[l] for l in lbls]
     _, _, auts = ax.pie(
         vals, colors=colors,
-        autopct=lambda p: f"{p:.0f}%" if p > 5 else "",
+        autopct=lambda p: f"{p:.0f}%" if p > 0.5 else "",
         wedgeprops=dict(width=0.50, edgecolor="white", linewidth=1.8),
         startangle=90, pctdistance=0.75,
     )
