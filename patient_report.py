@@ -275,7 +275,19 @@ def _donut(ax, s: dict, lang="en"):
         startangle=90, pctdistance=0.75,
     )
     for at in auts:
-        at.set_color("white"); at.set_fontsize(11); at.set_fontweight("bold")
+        txt = at.get_text().replace('%', '')
+        if txt:
+            try:
+                p = float(txt)
+                if p >= 15: fs = 11
+                elif p >= 8: fs = 9
+                elif p >= 4: fs = 7
+                else: fs = 5
+            except ValueError:
+                fs = 11
+            at.set_fontsize(fs)
+        at.set_color("white")
+        at.set_fontweight("bold")
     ax.set_facecolor(PANEL)
 
 
